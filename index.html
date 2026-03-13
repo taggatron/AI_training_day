@@ -420,12 +420,8 @@
       const nextSlide = () => setSlideIndex((idx) => (idx + 1) % slides.length);
       const prevSlide = () => setSlideIndex((idx) => (idx - 1 + slides.length) % slides.length);
 
-      useEffect(() => {
-        const id = window.setInterval(() => {
-          setSlideIndex((idx) => (idx + 1) % slides.length);
-        }, 5000);
-        return () => window.clearInterval(id);
-      }, [slides.length]);
+      // Keep this slideshow manual-only for classroom pacing.
+      // Facilitators can move images when they are ready to poll.
 
       const loadScript = (src) => new Promise((resolve, reject) => {
         const existing = document.querySelector(`script[src="${src}"]`);
@@ -534,15 +530,19 @@
         const leftWrist = kp('left_wrist');
         const rightWrist = kp('right_wrist');
 
-        const conf = (point) => (point?.score ?? 0) > 0.35;
+        const conf = (point) => (point?.score ?? 0) > 0.25;
 
-        const leftUp = conf(leftShoulder) && conf(leftElbow) && conf(leftWrist)
-          && leftWrist.y < (leftShoulder.y - 20)
-          && leftElbow.y < (leftShoulder.y + 8);
+        const leftWristHigh = conf(leftShoulder) && conf(leftWrist)
+          && leftWrist.y < (leftShoulder.y + 12);
+        const leftElbowHigh = conf(leftShoulder) && conf(leftElbow)
+          && leftElbow.y < (leftShoulder.y - 6);
+        const leftUp = leftWristHigh || leftElbowHigh;
 
-        const rightUp = conf(rightShoulder) && conf(rightElbow) && conf(rightWrist)
-          && rightWrist.y < (rightShoulder.y - 20)
-          && rightElbow.y < (rightShoulder.y + 8);
+        const rightWristHigh = conf(rightShoulder) && conf(rightWrist)
+          && rightWrist.y < (rightShoulder.y + 12);
+        const rightElbowHigh = conf(rightShoulder) && conf(rightElbow)
+          && rightElbow.y < (rightShoulder.y - 6);
+        const rightUp = rightWristHigh || rightElbowHigh;
 
         return leftUp || rightUp;
       };
@@ -2103,12 +2103,12 @@
           render: () => <ScheduleSlide />
         },
         {
-          key: 'productivity-challenge',
-          render: () => <ProductivityChallengeSlide />
-        },
-        {
           key: 'ai-not-ai-live',
           render: () => <AINotAILiveSlide />
+        },
+        {
+          key: 'productivity-challenge',
+          render: () => <ProductivityChallengeSlide />
         },
         {
           key: 'frontier-firms',
