@@ -640,7 +640,7 @@
           animationRef.current = window.requestAnimationFrame(frame);
 
           if (busyRef.current) return;
-          const video = videoRef.current;
+          const video = videoRef.current || previewVideoRef.current;
           if (!video || video.readyState < 2 || !detectorRef.current) return;
 
           busyRef.current = true;
@@ -659,7 +659,9 @@
             const baseWidth = video.videoWidth || 640;
             const baseHeight = video.videoHeight || 360;
 
-            drawPoseOverlay(validPoses, baseWidth, baseHeight, canvasRef.current);
+            if (canvasRef.current) {
+              drawPoseOverlay(validPoses, baseWidth, baseHeight, canvasRef.current);
+            }
 
             if (previewVideoRef.current?.videoWidth && previewVideoRef.current?.videoHeight) {
               drawPoseOverlay(
@@ -717,10 +719,6 @@
           });
 
           streamRef.current = stream;
-          if (!videoRef.current) {
-            throw new Error('Video element not ready');
-          }
-
           await attachStreamToVideo(videoRef.current, stream);
           await attachStreamToVideo(previewVideoRef.current, stream);
 
@@ -745,12 +743,6 @@
       }, [cameraOn]);
 
       useEffect(() => {
-        if (showTrackingPanel) return;
-        if (cameraOn) setCameraOn(false);
-        stopVisionSession();
-      }, [showTrackingPanel]);
-
-      useEffect(() => {
         if (!cameraOn) return;
         if (!streamRef.current) return;
         if (slides[slideIndex]?.type !== 'webcam') return;
@@ -762,7 +754,6 @@
           setCameraOn(false);
           return;
         }
-        if (!showTrackingPanel) setShowTrackingPanel(true);
         setCameraOn(true);
       };
 
@@ -770,6 +761,8 @@
 
       return (
         <div className="mt-4 rounded-xl border border-slate-200 bg-slate-950 p-4 text-slate-100 flex-1 min-h-0 flex flex-col">
+          <video ref={videoRef} className="hidden" muted playsInline aria-hidden="true" />
+
           <div className="flex items-center justify-between gap-3">
             <p className="text-[11px] font-extrabold tracking-widest uppercase text-cyan-300">AI or Not AI + Hands Up Detector</p>
             <div className="flex items-center gap-3">
