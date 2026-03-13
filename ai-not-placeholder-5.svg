@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Placeholder AI or Not image 5">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#172554" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)" />
+  <rect x="70" y="70" width="1460" height="760" rx="28" fill="none" stroke="#f472b6" stroke-width="4" stroke-dasharray="16 12" />
+  <text x="800" y="420" fill="#f8fafc" font-size="72" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700">AI or Not Image 5</text>
+  <text x="800" y="500" fill="#c4b5fd" font-size="38" text-anchor="middle" font-family="Arial, sans-serif">Placeholder - replace with your own image</text>
+</svg>
