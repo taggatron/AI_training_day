@@ -393,10 +393,11 @@
     function AIVisionHandsUpPanel() {
       const slides = [
         { id: 'ai-1', label: 'AI', title: 'Web chatbot', src: './webchatbot.png' },
-        { id: 'ai-2', label: 'Not AI', title: 'Placeholder 2', src: './ai-not-placeholder-2.svg' },
-        { id: 'ai-3', label: 'AI', title: 'Placeholder 3', src: './ai-not-placeholder-3.svg' },
-        { id: 'ai-4', label: 'Not AI', title: 'Placeholder 4', src: './ai-not-placeholder-4.svg' },
-        { id: 'ai-5', label: 'AI', title: 'Placeholder 5', src: './ai-not-placeholder-5.svg' }
+        { id: 'ai-2', label: 'Not AI', title: 'Phishing warning email', src: './Gmail-phishing-warning-banner.png' },
+        { id: 'ai-3', label: 'AI', title: 'Sales analytics dashboard', src: './salesdashboard.png' },
+        { id: 'ai-4', label: 'Not AI', title: 'Supermarket self checkout', src: './supermarketselfcheckout.png' },
+        { id: 'ai-5', label: 'AI', title: 'Streaming recommendations', src: './Netflixrecommendations.png' },
+        { id: 'ai-6', label: 'Live AI', title: 'TensorFlow webcam joint mapping', type: 'webcam' }
       ];
 
       const [slideIndex, setSlideIndex] = useState(0);
@@ -408,6 +409,8 @@
 
       const videoRef = useRef(null);
       const canvasRef = useRef(null);
+      const previewVideoRef = useRef(null);
+      const previewCanvasRef = useRef(null);
       const detectorRef = useRef(null);
       const streamRef = useRef(null);
       const animationRef = useRef(null);
@@ -423,6 +426,59 @@
         }, 5000);
         return () => window.clearInterval(id);
       }, [slides.length]);
+
+      const loadScript = (src) => new Promise((resolve, reject) => {
+        const existing = document.querySelector(`script[src="${src}"]`);
+        if (existing) {
+          if (existing.dataset.loaded === 'true') {
+            resolve();
+            return;
+          }
+
+          existing.addEventListener('load', () => resolve(), { once: true });
+          existing.addEventListener('error', () => reject(new Error(`Failed to load ${src}`)), { once: true });
+          return;
+        }
+
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = true;
+        script.onload = () => {
+          script.dataset.loaded = 'true';
+          resolve();
+        };
+        script.onerror = () => reject(new Error(`Failed to load ${src}`));
+        document.head.appendChild(script);
+      });
+
+      const ensureVisionLibraries = async () => {
+        if (window.tf && window.poseDetection) return;
+
+        if (!window.__AI_VISION_LIBS_PROMISE__) {
+          window.__AI_VISION_LIBS_PROMISE__ = (async () => {
+            await loadScript('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.18.0/dist/tf.min.js');
+            await loadScript('https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection@2.1.3/dist/pose-detection.min.js');
+          })();
+        }
+
+        await window.__AI_VISION_LIBS_PROMISE__;
+
+        if (!window.tf || !window.poseDetection) {
+          throw new Error('TensorFlow or pose-detection failed to initialize');
+        }
+      };
+
+      const attachStreamToVideo = async (videoEl, stream) => {
+        if (!videoEl || !stream) return;
+        if (videoEl.srcObject !== stream) {
+          videoEl.srcObject = stream;
+        }
+        try {
+          await videoEl.play();
+        } catch {
+          // Ignore autoplay race conditions; user interaction on camera button usually resolves this.
+        }
+      };
 
       const stopVisionSession = () => {
         activeRef.current = false;
@@ -442,10 +498,20 @@
           videoRef.current.srcObject = null;
         }
 
+        if (previewVideoRef.current) {
+          previewVideoRef.current.srcObject = null;
+        }
+
         const canvas = canvasRef.current;
         const ctx = canvas ? canvas.getContext('2d') : null;
         if (ctx && canvas) {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        const previewCanvas = previewCanvasRef.current;
+        const previewCtx = previewCanvas ? previewCanvas.getContext('2d') : null;
+        if (previewCtx && previewCanvas) {
+          previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
         }
 
         setPeopleCount(0);
@@ -481,8 +547,7 @@
         return leftUp || rightUp;
       };
 
-      const drawPoseOverlay = (poses, width, height) => {
-        const canvas = canvasRef.current;
+      const drawPoseOverlay = (poses, width, height, canvas) => {
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
@@ -551,7 +616,21 @@
             setPeopleCount(validPoses.length);
             setHandsUpCount(raised);
 
-            drawPoseOverlay(validPoses, video.videoWidth || 640, video.videoHeight || 360);
+            const baseWidth = video.videoWidth || 640;
+            const baseHeight = video.videoHeight || 360;
+
+            drawPoseOverlay(validPoses, baseWidth, baseHeight, canvasRef.current);
+
+            if (previewVideoRef.current?.videoWidth && previewVideoRef.current?.videoHeight) {
+              drawPoseOverlay(
+                validPoses,
+                previewVideoRef.current.videoWidth,
+                previewVideoRef.current.videoHeight,
+                previewCanvasRef.current
+              );
+            } else {
+              drawPoseOverlay(validPoses, baseWidth, baseHeight, previewCanvasRef.current);
+            }
           } catch (error) {
             setVisionError(`Pose detection error: ${error?.message || 'unknown error'}`);
           } finally {
@@ -567,17 +646,13 @@
         setLoadingModel(true);
 
         try {
-          const [poseDetection, tf] = await Promise.all([
-            import('https://esm.sh/@tensorflow-models/pose-detection@2.1.3'),
-            import('https://esm.sh/@tensorflow/tfjs-core@4.18.0')
-          ]);
-
-          await import('https://esm.sh/@tensorflow/tfjs-backend-webgl@4.18.0');
+          await ensureVisionLibraries();
+          const tf = window.tf;
+          const poseDetection = window.poseDetection;
 
           try {
             await tf.setBackend('webgl');
           } catch {
-            await import('https://esm.sh/@tensorflow/tfjs-backend-cpu@4.18.0');
             await tf.setBackend('cpu');
           }
           await tf.ready();
@@ -606,8 +681,8 @@
             throw new Error('Video element not ready');
           }
 
-          videoRef.current.srcObject = stream;
-          await videoRef.current.play();
+          await attachStreamToVideo(videoRef.current, stream);
+          await attachStreamToVideo(previewVideoRef.current, stream);
 
           activeRef.current = true;
           runPoseLoop();
@@ -629,6 +704,13 @@
         startVisionSession();
       }, [cameraOn]);
 
+      useEffect(() => {
+        if (!cameraOn) return;
+        if (!streamRef.current) return;
+        if (slides[slideIndex]?.type !== 'webcam') return;
+        attachStreamToVideo(previewVideoRef.current, streamRef.current);
+      }, [slideIndex, cameraOn]);
+
       const activeSlide = slides[slideIndex];
 
       return (
@@ -641,7 +723,19 @@
           <div className="mt-3 grid grid-cols-1 xl:grid-cols-2 gap-4">
             <div className="rounded-xl border border-slate-700 bg-slate-900/80 overflow-hidden">
               <div className="relative aspect-video w-full bg-black">
-                <img src={activeSlide.src} alt={activeSlide.title} className="h-full w-full object-cover" />
+                {activeSlide.type === 'webcam' ? (
+                  <>
+                    <video ref={previewVideoRef} className="h-full w-full object-cover" muted playsInline />
+                    <canvas ref={previewCanvasRef} className="absolute inset-0 h-full w-full" />
+                    {!cameraOn && (
+                      <div className="absolute inset-0 grid place-items-center p-4 text-center bg-black/65">
+                        <p className="text-sm font-semibold text-slate-200">Start camera to show live TensorFlow joint mapping on this slide.</p>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <img src={activeSlide.src} alt={activeSlide.title} className="h-full w-full object-cover" />
+                )}
 
                 <div className="absolute left-3 top-3 rounded-md bg-black/70 border border-white/20 px-3 py-1 text-xs font-extrabold tracking-widest uppercase">
                   {activeSlide.label}
@@ -1054,8 +1148,6 @@
                   </div>
                 ))}
               </div>
-
-              <AIVisionHandsUpPanel />
             </div>
 
             <div className="mt-4">
@@ -1068,6 +1160,34 @@
                 ]}
               />
             </div>
+          </div>
+        </div>
+      );
+    }
+
+    function AINotAILiveSlide() {
+      return (
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+          {sectionBg()}
+          <div className="relative z-10 max-w-6xl mx-auto">
+            <header className="text-center">
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">AI or Not AI: Live Vision Slideshow</h2>
+              <p className="mt-3 text-slate-700 font-medium">Hands-up voting with live joint mapping and real-time people counting.</p>
+            </header>
+
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <SectionTimer label="Section Timebox" minutes={20} />
+              <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4">
+                <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">How to run this activity</p>
+                <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
+                  <li>Start camera and project the slideshow.</li>
+                  <li>Ask participants to raise hands if they think the current image is AI-generated.</li>
+                  <li>Use the live count as a quick class poll before revealing the answer.</li>
+                </ul>
+              </div>
+            </div>
+
+            <AIVisionHandsUpPanel />
           </div>
         </div>
       );
@@ -1985,6 +2105,10 @@
         {
           key: 'productivity-challenge',
           render: () => <ProductivityChallengeSlide />
+        },
+        {
+          key: 'ai-not-ai-live',
+          render: () => <AINotAILiveSlide />
         },
         {
           key: 'frontier-firms',
