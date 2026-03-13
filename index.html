@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI in Business — Web Presentation</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: {
+            'gradient-x': 'gradient-x 15s ease infinite',
+          },
+          keyframes: {
+            'gradient-x': {
+              '0%, 100%': {
+                'background-size': '200% 200%',
+                'background-position': 'left center'
+              },
+              '50%': {
+                'background-size': '200% 200%',
+                'background-position': 'right center'
+              },
+            },
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- Babel for JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Import Map for React & Modules -->
+  <script type="importmap">
+  {
+    "imports": {
+      "react": "https://esm.sh/react@18.2.0",
+      "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+      "lucide-react": "https://esm.sh/lucide-react@0.292.0"
+    }
+  }
+  </script>
+</head>
+
+<body class="bg-slate-950 text-slate-200">
+  <div id="root"></div>
+
+  <script type="text/babel" data-type="module">
+    import React, { useEffect, useRef, useState } from 'react';
+    import { createRoot } from 'react-dom/client';
+    import {
+      ArrowRight,
+      BarChart3,
+      Bot,
+      Brain,
+      Check,
+      ChevronLeft,
+      ChevronRight,
+      Clipboard,
+      Clock3,
+      Cpu,
+      ExternalLink,
+      Globe,
+      Layers,
+      MonitorPlay,
+      Play,
+      Sparkles,
+      Users,
+      Zap
+    } from 'lucide-react';
+
+    // Timeline content is based on your existing main.html, but with shorter descriptions.
+    const TIMELINE_ERAS = [
+      {
+        id: "era-1",
+        year: "1950 — 1956",
+        title: "Foundations of AI",
+        subtitle: "Turing + Dartmouth",
+        category: "Origins",
+        description: "Early ideas shaped the field: computation, learning, and machine intelligence.",
+        businessUse: {
+          kind: "text",
+          label: "Business use",
+          text: "Development of the modern PC (and all the associated software)."
+        },
+        image: "https://images.unsplash.com/photo-1555255707-c07966088b7b?auto=format&fit=crop&q=80&w=1000",
+        imageAlt: "Vintage computing abstract",
+        icon: <Brain className="w-6 h-6 text-cyan-400" />,
+        accent: "from-cyan-500 to-blue-500"
+      },
+      {
+        id: "era-2",
+        year: "1997",
+        title: "Machine Performance",
+        subtitle: "Deep Blue",
+        category: "Mastery",
+        description: "Machines surpass humans in narrow, well-defined tasks with enough compute.",
+        businessUse: {
+          kind: "text",
+          label: "Business use",
+          text: "Corporate confidence increased in using supercomputing and advanced algorithms for high-stakes decisions, such as financial modelling, logistics optimisation, risk analysis, and forecasting."
+        },
+        image: "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?auto=format&fit=crop&q=80&w=1000",
+        imageAlt: "Chess board close up",
+        icon: <Cpu className="w-6 h-6 text-blue-400" />,
+        accent: "from-blue-500 to-indigo-500"
+      },
+      {
+        id: "era-3",
+        year: "2012",
+        title: "Deep Learning",
+        subtitle: "AlexNet",
+        category: "Vision",
+        description: "Data + GPUs + neural nets unlock major leaps in perception and prediction.",
+        image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1000",
+        imageAlt: "AI vision abstract",
+        icon: <Layers className="w-6 h-6 text-purple-400" />,
+        accent: "from-indigo-500 to-purple-500"
+      },
+      {
+        id: "era-4",
+        year: "2016",
+        title: "Learning Systems",
+        subtitle: "AlphaGo",
+        category: "Strategy",
+        description: "Reinforcement learning shows systems that improve through feedback and simulation.",
+        image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&q=80&w=1000",
+        imageAlt: "Strategy game",
+        icon: <Zap className="w-6 h-6 text-fuchsia-400" />,
+        accent: "from-purple-500 to-fuchsia-500"
+      },
+      {
+        id: "era-5",
+        year: "2017",
+        title: "Transformers",
+        subtitle: "Attention",
+        category: "Language",
+        description: "Transformer models scale and generalize across many text tasks.",
+        image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1000",
+        imageAlt: "Data and language",
+        icon: <Globe className="w-6 h-6 text-pink-400" />,
+        accent: "from-fuchsia-500 to-pink-500"
+      },
+      {
+        id: "era-6",
+        year: "2022 — Present",
+        title: "Generative AI",
+        subtitle: "LLMs go mainstream",
+        category: "Creation",
+        description: "Text, code, and content generation becomes accessible across business functions.",
+        businessUse: {
+          kind: "future-slide",
+          label: "Business uses",
+          title: "Marketing copy • Code • Websites",
+          text: "Open Slide 3 to see practical examples of using AI for marketing and building.",
+          targetSlide: 2
+        },
+        image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1000",
+        imageAlt: "Generative AI",
+        icon: <Sparkles className="w-6 h-6 text-rose-400" />,
+        accent: "from-pink-500 to-rose-500"
+      },
+      {
+        id: "era-7",
+        year: "Next",
+        title: "Agents at Work",
+        subtitle: "Automation + copilots",
+        category: "Frontier",
+        description: "AI moves from answers to actions: workflows, tools, and human-in-the-loop decisioning.",
+        image: "./agentgif.gif",
+        imageAlt: "Agents at work (animated)",
+        icon: <Bot className="w-6 h-6 text-emerald-400" />,
+        accent: "from-emerald-400 to-teal-500"
+      },
+      {
+        id: "era-8",
+        year: "Future",
+        title: "Artificial General Intelligence",
+        subtitle: "General problem-solving",
+        category: "Speculation",
+        description: "If achieved, systems could flex across domains with minimal task-specific training.",
+        businessUse: {
+          kind: "future-slide",
+          label: "Activity preview",
+          title: "How will we use AI in the future?",
+          text: "Open the Hair Salon simulation activity (Slide 4).",
+          targetSlide: 3
+        },
+        image: "https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&q=80&w=1000",
+        imageAlt: "Abstract intelligence",
+        icon: <Brain className="w-6 h-6 text-amber-400" />,
+        accent: "from-amber-400 to-orange-500"
+      }
+    ];
+
+    const LEARNING_OUTCOMES = [
+      "Explain what modern AI is - and what it is not - using real examples from business and everyday life.",
+      "Use generative AI tools confidently to support common SME tasks such as emails, marketing copy, social posts, and basic web content.",
+      "Apply AI to productivity workflows, including summarising text, writing emails, and spreadsheet-based analysis.",
+      "Evaluate when to use AI tools - and when human judgement and expertise add more value.",
+      "Describe how AI systems work in simple terms, including neural networks, transformers, and embeddings.",
+      "Make informed and responsible decisions about AI use in the workplace, considering accuracy, bias, and oversight."
+    ];
+
+    const COURSE_SCHEDULE = [
+      ["09:00-09:20", "Welcome + AI-assisted introductions", "Demo + Discussion"],
+      ["09:20-09:50", "AI productivity challenge (emails, posts, copy)", "Hands-on"],
+      ["09:50-10:10", "AI vs Not AI voting", "Interactive"],
+      ["10:10-10:35", "Frontier Firms: Where AI fits in business", "Slide + Activity"],
+      ["10:35-11:20", "Comparing AI tools: ChatGPT, Gemini, Claude", "Prompting + Group Work"],
+      ["11:20-12:05", "AI for productivity: summary, rewrite, extract", "Demo + Tasks"],
+      ["12:05-12:45", "Lunch Break", "-"],
+      ["12:45-13:25", "How AI works + Timeline sorting activity", "Slides + Sorting Cards"],
+      ["13:25-14:00", "Exploring AI Agents (AgentGPT)", "Live demo + Task"],
+      ["14:00-14:40", "Human vs AI Hair Salon Business Simulator", "Group Game"],
+      ["14:40-15:10", "Networking & AI support session", "Free exploration + Support"],
+      ["15:10-15:30", "Reflections + Close", "Discussion"]
+    ];
+
+    const TIMELINE_SORT_EVENTS = [
+      "1956 - Dartmouth Conference",
+      "1997 - Deep Blue beats Kasparov",
+      "2012 - Deep Learning breakthrough (ImageNet)",
+      "2017 - Transformer model introduced",
+      "2020 - GPT-3",
+      "2022 - ChatGPT",
+      "2023-24 - Agent tools + multimodal boom"
+    ];
+
+    function sectionBg() {
+      return (
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -top-24 right-8 w-[540px] h-[540px] rounded-full bg-amber-300/45 blur-[120px]" />
+          <div className="absolute -bottom-28 left-10 w-[620px] h-[620px] rounded-full bg-cyan-400/35 blur-[120px]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-cyan-100/85 to-white/90" />
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10" />
+        </div>
+      );
+    }
+
+    function toClock(totalSeconds) {
+      const safe = Math.max(0, Math.floor(totalSeconds));
+      const mins = Math.floor(safe / 60);
+      const secs = safe % 60;
+      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function SectionTimer({ label, minutes = 20 }) {
+      const startingSeconds = Math.max(60, Math.floor(minutes * 60));
+      const [running, setRunning] = useState(false);
+      const [secondsLeft, setSecondsLeft] = useState(startingSeconds);
+
+      useEffect(() => {
+        if (!running) return;
+        const id = window.setInterval(() => {
+          setSecondsLeft((s) => {
+            if (s <= 1) {
+              setRunning(false);
+              return 0;
+            }
+            return s - 1;
+          });
+        }, 1000);
+        return () => window.clearInterval(id);
+      }, [running]);
+
+      return (
+        <div className="rounded-xl border border-slate-200 bg-white/80 px-4 py-3 backdrop-blur-md">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="inline-flex items-center gap-2">
+              <Clock3 className="w-4 h-4 text-fuchsia-700" />
+              <span className="text-xs font-extrabold tracking-widest uppercase text-slate-700">{label || 'Section Timer'}</span>
+            </div>
+            <div className="text-lg font-extrabold text-slate-950 tabular-nums">{toClock(secondsLeft)}</div>
+          </div>
+          <div className="mt-3 flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setRunning((v) => !v)}
+              className="inline-flex items-center justify-center px-3 py-2 rounded-lg bg-fuchsia-700 text-white text-xs font-extrabold tracking-widest uppercase hover:bg-fuchsia-800"
+            >
+              {running ? 'Pause' : 'Start'}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setRunning(false);
+                setSecondsLeft(startingSeconds);
+              }}
+              className="inline-flex items-center justify-center px-3 py-2 rounded-lg border border-slate-200 bg-white text-xs font-extrabold tracking-widest uppercase text-slate-800 hover:bg-slate-50"
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    function PromptActionButtons({ prompt, links = [] }) {
+      const copyPrompt = async () => {
+        try {
+          await navigator.clipboard.writeText(prompt);
+        } catch {
+          window.prompt('Copy prompt:', prompt);
+        }
+      };
+
+      return (
+        <div className="rounded-xl border border-slate-200 bg-white/80 p-4">
+          <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Try It Yourself</p>
+          <p className="mt-2 text-sm font-medium text-slate-800">{prompt}</p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={copyPrompt}
+              className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-900 text-white text-xs font-extrabold tracking-widest uppercase hover:bg-slate-800"
+            >
+              <Clipboard className="w-3 h-3" />
+              Copy Prompt
+            </button>
+            {links.map((item) => (
+              <a
+                key={item.label}
+                href={item.url}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 bg-white text-xs font-extrabold tracking-widest uppercase text-slate-900 hover:bg-slate-100"
+              >
+                {item.label}
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    function FacilitatorPanel({ title, points = [] }) {
+      return (
+        <div className="rounded-xl border border-amber-200 bg-amber-50/90 p-4">
+          <p className="text-[11px] font-extrabold tracking-widest uppercase text-amber-800">Facilitator</p>
+          <p className="mt-1 text-sm font-extrabold text-slate-950">{title}</p>
+          <ul className="mt-2 text-sm text-slate-700 list-disc pl-5 space-y-1">
+            {points.map((point) => <li key={point}>{point}</li>)}
+          </ul>
+        </div>
+      );
+    }
+
+    function DeckBackground() {
+      return (
+        <div className="fixed inset-0 z-0 pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-900/20 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-900/20 rounded-full blur-[120px]" />
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150"></div>
+        </div>
+      );
+    }
+
+    function SlideFrame({ children }) {
+      return (
+        <section className="relative z-10 h-screen w-full overflow-hidden">
+          <div className="h-full w-full overflow-y-auto">{children}</div>
+        </section>
+      );
+    }
+
+    function VideoPlaceholder() {
+      return (
+        <div className="relative w-full">
+          <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white/70 backdrop-blur-md shadow-2xl shadow-purple-900/10">
+            <div className="relative h-[min(32vh,360px)] w-full">
+              <video
+                className="h-full w-full object-cover"
+                src="./robotboss.mp4"
+                muted
+                playsInline
+                autoPlay
+                loop
+                preload="metadata"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent" />
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function JobImpactArrowSlider({
+      value,
+      onChange,
+      readOnly = false,
+      step = 5,
+      showNextLabels = true,
+      caption,
+    }) {
+      const containerRef = useRef(null);
+      const pointerDownRef = useRef(false);
+      const clampPercent = (n) => Math.max(0, Math.min(100, Math.round(Number(n) || 0)));
+      const v = clampPercent(value);
+
+      const base = 110;
+      const maxExtra = 220;
+      const offset = (v - 50) / 50; // -1..1
+      const extra = Math.round(Math.abs(offset) * maxExtra);
+      const leftWidth = offset < 0 ? base + extra : base;
+      const rightWidth = offset > 0 ? base + extra : base;
+
+      const leftNext = clampPercent(v - step);
+      const rightNext = clampPercent(v + step);
+
+      const setFromClientX = (clientX) => {
+        if (readOnly) return;
+        const el = containerRef.current;
+        if (!el) return;
+        const r = el.getBoundingClientRect();
+        const x = Math.min(Math.max(clientX - r.left, 0), r.width);
+        const center = r.width / 2;
+        const o = (x - center) / center;
+        const next = clampPercent(50 + (o * 50));
+        onChange?.(next);
+      };
+
+      const shaftClass = "h-1 rounded-full bg-gradient-to-r from-fuchsia-600 via-amber-400 to-cyan-500";
+
+      return (
+        <div className="w-full">
+          <div className="rounded-2xl border border-slate-200 bg-white/70 backdrop-blur-md px-5 py-4">
+            <div className="flex items-center justify-between text-xs font-extrabold tracking-widest uppercase text-slate-700">
+              <span className="text-rose-700">Job Destruction</span>
+              <span className="text-emerald-700">Job Creation</span>
+            </div>
+
+            <div className="mt-3 flex items-center justify-center">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-950/10 border border-slate-200">
+                <span className="text-[11px] font-extrabold tracking-widest uppercase text-slate-700">Current</span>
+                <span className="text-sm font-extrabold text-slate-950 tabular-nums">{v}%</span>
+              </div>
+            </div>
+
+            <div
+              ref={containerRef}
+              className={`mt-4 select-none ${readOnly ? '' : 'cursor-pointer'}`}
+              onClick={(e) => setFromClientX(e.clientX)}
+              onPointerDown={(e) => {
+                // Enable touch interactions (tap/drag to set).
+                if (readOnly) return;
+                pointerDownRef.current = true;
+                e.currentTarget.setPointerCapture?.(e.pointerId);
+                setFromClientX(e.clientX);
+              }}
+              onPointerUp={() => {
+                pointerDownRef.current = false;
+              }}
+              onPointerCancel={() => {
+                pointerDownRef.current = false;
+              }}
+              onPointerMove={(e) => {
+                if (readOnly) return;
+                if (!pointerDownRef.current) return;
+                setFromClientX(e.clientX);
+              }}
+              role={readOnly ? undefined : 'slider'}
+              aria-label={readOnly ? undefined : 'Job impact position'}
+              aria-valuemin={readOnly ? undefined : 0}
+              aria-valuemax={readOnly ? undefined : 100}
+              aria-valuenow={readOnly ? undefined : v}
+            >
+              <div className="relative h-14 flex items-center justify-center">
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center">
+                  <div className="relative" style={{ width: `${leftWidth}px`, transition: 'width 140ms ease-out' }}>
+                    {showNextLabels && !readOnly && (
+                      <div className="absolute left-0 -top-5 -translate-x-1 text-[10px] font-extrabold text-slate-700 tabular-nums">
+                        {leftNext}%
+                      </div>
+                    )}
+                    <div className={shaftClass} />
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1">
+                      <div className="w-0 h-0 border-y-[8px] border-y-transparent border-r-[12px] border-r-slate-900/80" />
+                    </div>
+                  </div>
+
+                  <div className="w-2 h-8 mx-2 rounded-full bg-slate-900/60" />
+
+                  <div className="relative" style={{ width: `${rightWidth}px`, transition: 'width 140ms ease-out' }}>
+                    {showNextLabels && !readOnly && (
+                      <div className="absolute right-0 -top-5 translate-x-1 text-[10px] font-extrabold text-slate-700 tabular-nums">
+                        {rightNext}%
+                      </div>
+                    )}
+                    <div className={shaftClass} />
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1">
+                      <div className="w-0 h-0 border-y-[8px] border-y-transparent border-l-[12px] border-l-slate-900/80" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {caption && (
+                <p className="text-center text-xs text-slate-600 mt-1">{caption}</p>
+              )}
+            </div>
+
+            {!readOnly && (
+              <div className="mt-4 flex items-center justify-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => onChange?.(leftNext)}
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-slate-200 bg-white/80 text-slate-950 font-extrabold tracking-widest uppercase text-xs hover:bg-white focus:outline-none focus:ring-4 focus:ring-purple-300/50"
+                  aria-label="Decrease"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  Left
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onChange?.(rightNext)}
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-slate-200 bg-white/80 text-slate-950 font-extrabold tracking-widest uppercase text-xs hover:bg-white focus:outline-none focus:ring-4 focus:ring-purple-300/50"
+                  aria-label="Increase"
+                >
+                  Right
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    function TitleSlide() {
+      return (
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 flex flex-col overflow-x-hidden">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute -top-24 right-8 w-[540px] h-[540px] rounded-full bg-amber-300/45 blur-[120px]" />
+            <div className="absolute -bottom-28 left-10 w-[620px] h-[620px] rounded-full bg-purple-400/45 blur-[120px]" />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-cyan-100/85 to-white/90" />
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10" />
+          </div>
+
+          <div className="relative z-10 flex-1 min-h-0 grid place-items-center text-center">
+            <div className="rounded-3xl border border-slate-200 bg-white/80 backdrop-blur-md p-8 md:p-12 shadow-2xl shadow-purple-900/10 max-w-5xl w-full">
+              <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-slate-950">
+                AI for Businesses - One Day Practical Training
+              </h1>
+
+              <p className="mt-6 text-lg md:text-2xl font-medium text-slate-700">
+                Work smarter, save time and feel confident using AI at work
+              </p>
+
+              <p className="mt-8 text-sm md:text-base font-extrabold tracking-widest uppercase text-slate-600">
+                Daniel Tagg
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function LearningOutcomesSlide() {
+      return (
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+          {sectionBg()}
+          <div className="relative z-10 max-w-6xl mx-auto">
+            <header className="text-center">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-white/60 backdrop-blur-md mb-6 shadow-lg shadow-purple-900/10">
+                <Users className="w-4 h-4 text-fuchsia-700" />
+                <span className="text-xs font-extrabold tracking-widest uppercase text-slate-700">Introductions</span>
+              </div>
+              <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-slate-950">Activity: AI-Assisted Introductions</h2>
+            </header>
+
+            <div className="mt-8 rounded-3xl border border-slate-200 bg-white/80 backdrop-blur-md p-6 md:p-8 shadow-2xl shadow-purple-900/10">
+              <p className="text-sm md:text-base font-extrabold text-slate-900">Tool: Microsoft Teams Copilot</p>
+
+              <p className="mt-4 text-sm md:text-base font-medium text-slate-800">Participants introduce themselves:</p>
+              <ul className="mt-2 text-sm md:text-base font-medium text-slate-700 list-disc pl-6 space-y-1">
+                <li>name</li>
+                <li>business/role</li>
+                <li>What they would like to gain from today</li>
+              </ul>
+
+              <p className="mt-5 text-sm md:text-base font-extrabold text-slate-900">Recording and transcription enabled.</p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function ScheduleSlide() {
+      return (
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+          {sectionBg()}
+          <div className="relative z-10 max-w-6xl mx-auto">
+            <header className="text-center">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-white/60 backdrop-blur-md mb-6 shadow-lg shadow-purple-900/10">
+                <Clock3 className="w-4 h-4 text-fuchsia-700" />
+                <span className="text-xs font-extrabold tracking-widest uppercase text-slate-700">Course Schedule</span>
+              </div>
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">09:00 - 15:30 Day Plan</h2>
+            </header>
+
+            <div className="mt-7 overflow-hidden rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-md">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-slate-950 text-slate-100">
+                  <tr>
+                    <th className="px-4 py-3 font-extrabold tracking-widest uppercase text-xs">Time</th>
+                    <th className="px-4 py-3 font-extrabold tracking-widest uppercase text-xs">Topic</th>
+                    <th className="px-4 py-3 font-extrabold tracking-widest uppercase text-xs">Format</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {COURSE_SCHEDULE.map(([time, topic, format]) => (
+                    <tr key={`${time}-${topic}`} className="odd:bg-white even:bg-slate-50/80 border-t border-slate-200">
+                      <td className="px-4 py-3 font-extrabold text-slate-900 whitespace-nowrap">{time}</td>
+                      <td className="px-4 py-3 font-medium text-slate-800">{topic}</td>
+                      <td className="px-4 py-3 font-semibold text-slate-700">{format}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function ProductivityChallengeSlide() {
+      const voteSamples = [
+        {
+          id: 's1',
+          text: 'Hi Sam, quick update: our order shipment has slipped by 48 hours due to supplier delays. Sorry for the inconvenience - I have added a 10% discount code for your next order.',
+          answer: 'Likely AI-assisted'
+        },
+        {
+          id: 's2',
+          text: 'Can we move Friday\'s meeting to 3pm? I need more time to clean up the draft numbers and I\'d rather share one clear update than two half-updates.',
+          answer: 'Likely human-written'
+        }
+      ];
+      const [votes, setVotes] = useState({});
+      const [revealed, setRevealed] = useState(false);
+
+      return (
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+          {sectionBg()}
+          <div className="relative z-10 max-w-6xl mx-auto">
+            <header className="text-center">
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">Morning Block: Introductions + Productivity Challenge</h2>
+              <p className="mt-3 text-slate-700 font-medium">09:00-10:10 | Welcome, task sprint, and AI vs Not AI voting.</p>
+            </header>
+
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <SectionTimer label="Section Timebox" minutes={70} />
+              <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4">
+                <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Participant Tasks</p>
+                <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
+                  <li>Write a polite delay email to a customer.</li>
+                  <li>Create a marketing post for a weekend promotion.</li>
+                  <li>Generate a homepage blurb for a local business.</li>
+                  <li>Vote: Is this AI-generated or human-written?</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <PromptActionButtons
+                prompt="Write a polite email to a customer explaining a 2-day delay, apologising clearly, and offering a discount code."
+                links={[
+                  { label: 'ChatGPT', url: 'https://chatgpt.com' },
+                  { label: 'Gemini', url: 'https://gemini.google.com' }
+                ]}
+              />
+              <PromptActionButtons
+                prompt="Create a short social media post promoting a student discount at a hair salon this Friday."
+                links={[
+                  { label: 'Claude', url: 'https://claude.ai' },
+                  { label: 'ChatGPT', url: 'https://chatgpt.com' }
+                ]}
+              />
+            </div>
+
+            <div className="mt-4 rounded-xl border border-slate-200 bg-white/80 p-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">AI vs Not AI Voting</p>
+                <button
+                  type="button"
+                  onClick={() => setRevealed((v) => !v)}
+                  className="px-3 py-2 rounded-lg border border-slate-200 bg-white text-xs font-extrabold tracking-widest uppercase text-slate-900 hover:bg-slate-100"
+                >
+                  {revealed ? 'Hide answers' : 'Reveal answers'}
+                </button>
+              </div>
+
+              <div className="mt-3 grid grid-cols-1 lg:grid-cols-2 gap-3">
+                {voteSamples.map((sample) => (
+                  <div key={sample.id} className="rounded-lg border border-slate-200 bg-white p-3">
+                    <p className="text-sm font-medium text-slate-800">{sample.text}</p>
+                    <div className="mt-3 flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setVotes((v) => ({ ...v, [sample.id]: 'AI' }))}
+                        className={`px-3 py-2 rounded-lg text-xs font-extrabold tracking-widest uppercase border ${votes[sample.id] === 'AI' ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-900 border-slate-200'}`}
+                      >
+                        AI
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setVotes((v) => ({ ...v, [sample.id]: 'Human' }))}
+                        className={`px-3 py-2 rounded-lg text-xs font-extrabold tracking-widest uppercase border ${votes[sample.id] === 'Human' ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-900 border-slate-200'}`}
+                      >
+                        Human
+                      </button>
+                    </div>
+                    {revealed && (
+                      <p className="mt-2 text-xs font-extrabold text-emerald-700">Answer: {sample.answer}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <FacilitatorPanel
+                title="Run as a fast challenge"
+                points={[
+                  'Ask each pair to complete all three tasks in under 20 minutes.',
+                  'Collect one AI output and one human-edited output for voting.',
+                  'Debrief what changed after human review.'
+                ]}
+              />
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function FrontierFirmsSlide() {
+      return (
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+          {sectionBg()}
+          <div className="relative z-10 max-w-6xl mx-auto">
+            <header className="text-center">
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">Frontier Firms: Where AI Fits in Business</h2>
+              <p className="mt-3 text-slate-700 font-medium">10:10-10:35 | Identify high-value, low-risk starting points.</p>
+            </header>
+
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <SectionTimer label="Section Timebox" minutes={25} />
+              <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3">
+                  <p className="text-xs font-extrabold uppercase tracking-widest text-emerald-800">Start Here</p>
+                  <p className="text-sm font-medium text-slate-800 mt-1">Repeatable writing, summaries, and internal research.</p>
+                </div>
+                <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
+                  <p className="text-xs font-extrabold uppercase tracking-widest text-amber-800">Use Caution</p>
+                  <p className="text-sm font-medium text-slate-800 mt-1">High-risk legal, clinical, and compliance-critical advice.</p>
+                </div>
+                <div className="rounded-lg border border-cyan-200 bg-cyan-50 p-3 md:col-span-2">
+                  <p className="text-xs font-extrabold uppercase tracking-widest text-cyan-800">Activity</p>
+                  <p className="text-sm font-medium text-slate-800 mt-1">Map one process from your business into: Assist, Automate, or Keep Human-led.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function ModelComparisonSlide() {
+      const corePrompt = 'Create a marketing plan for a student-targeted hair salon.';
+      return (
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+          {sectionBg()}
+          <div className="relative z-10 max-w-6xl mx-auto">
+            <header className="text-center">
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">Model Comparison Activity</h2>
+              <p className="mt-3 text-slate-700 font-medium">10:35-11:20 | Compare ChatGPT, Gemini, and Claude outputs.</p>
+            </header>
+
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <SectionTimer label="Section Timebox" minutes={45} />
+              <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4">
+                <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Required Prompt</p>
+                <p className="mt-2 text-base font-extrabold text-slate-950">{corePrompt}</p>
+                <p className="mt-2 text-sm font-medium text-slate-700">Score each output for clarity, practicality, and originality, then choose a "best first draft".</p>
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <PromptActionButtons
+                prompt={corePrompt}
+                links={[
+                  { label: 'ChatGPT', url: 'https://chatgpt.com' },
+                  { label: 'Gemini', url: 'https://gemini.google.com' },
+                  { label: 'Claude', url: 'https://claude.ai' }
+                ]}
+              />
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function ProductivityWorkflowsSlide() {
+      return (
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+          {sectionBg()}
+          <div className="relative z-10 max-w-6xl mx-auto">
+            <header className="text-center">
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">AI for Productivity Workflows</h2>
+              <p className="mt-3 text-slate-700 font-medium">11:20-12:05 | Summarise, rewrite, and extract actions from messy inputs.</p>
+            </header>
+
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <SectionTimer label="Section Timebox" minutes={45} />
+              <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4 grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div className="rounded-lg border border-fuchsia-200 bg-fuchsia-50 p-3">
+                  <p className="text-xs font-extrabold uppercase tracking-widest text-fuchsia-800">Summarise</p>
+                  <p className="mt-1 text-sm text-slate-700 font-medium">Turn long notes into a 5-line executive summary.</p>
+                </div>
+                <div className="rounded-lg border border-cyan-200 bg-cyan-50 p-3">
+                  <p className="text-xs font-extrabold uppercase tracking-widest text-cyan-800">Rewrite</p>
+                  <p className="mt-1 text-sm text-slate-700 font-medium">Convert technical writing into customer-friendly copy.</p>
+                </div>
+                <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
+                  <p className="text-xs font-extrabold uppercase tracking-widest text-amber-800">Extract</p>
+                  <p className="mt-1 text-sm text-slate-700 font-medium">Pull out action items, owners, and deadlines.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function LunchBreakSlide() {
+      return (
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+          {sectionBg()}
+          <div className="relative z-10 max-w-5xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-white/60 backdrop-blur-md mb-6 shadow-lg shadow-purple-900/10">
+              <Clock3 className="w-4 h-4 text-fuchsia-700" />
+              <span className="text-xs font-extrabold tracking-widest uppercase text-slate-700">12:05-12:45</span>
+            </div>
+
+            <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-950">Lunch Break</h2>
+            <p className="mt-3 text-slate-700 font-medium">Take 40 minutes. Return ready for "How AI works" and the timeline sorting activity.</p>
+
+            <div className="mt-6 max-w-md mx-auto">
+              <SectionTimer label="Lunch Countdown" minutes={40} />
+            </div>
+
+            <div className="mt-6 rounded-xl border border-slate-200 bg-white/80 p-4 text-left">
+              <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Optional during break</p>
+              <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
+                <li>Ask AI to summarise one real email thread you have this week.</li>
+                <li>Save one useful prompt to reuse in your own business context.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function HowAIWorksSlide() {
+      return (
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+          {sectionBg()}
+          <div className="relative z-10 max-w-6xl mx-auto">
+            <header className="text-center">
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">How AI Works (Without the Math Overload)</h2>
+              <p className="mt-3 text-slate-700 font-medium">12:45-13:05 | Neural networks, transformers, and embeddings in plain language.</p>
+            </header>
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <SectionTimer label="Section Timebox" minutes={20} />
+              <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4 grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div className="rounded-lg border border-slate-200 bg-white p-3">
+                  <p className="text-xs font-extrabold tracking-widest uppercase text-slate-700">Neural Networks</p>
+                  <p className="mt-1 text-sm text-slate-700 font-medium">Pattern detectors trained on examples.</p>
+                </div>
+                <div className="rounded-lg border border-slate-200 bg-white p-3">
+                  <p className="text-xs font-extrabold tracking-widest uppercase text-slate-700">Transformers</p>
+                  <p className="mt-1 text-sm text-slate-700 font-medium">Language models that learn context with attention.</p>
+                </div>
+                <div className="rounded-lg border border-slate-200 bg-white p-3">
+                  <p className="text-xs font-extrabold tracking-widest uppercase text-slate-700">Embeddings</p>
+                  <p className="mt-1 text-sm text-slate-700 font-medium">Numerical vectors that represent meaning and similarity.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function TimelineSortingSlide() {
+      const shuffled = () => [...TIMELINE_SORT_EVENTS].sort(() => Math.random() - 0.5);
+      const [items, setItems] = useState(shuffled);
+      const [dragging, setDragging] = useState(null);
+      const correctOrder = TIMELINE_SORT_EVENTS;
+      const solved = items.every((item, idx) => item === correctOrder[idx]);
+
+      const moveItem = (from, to) => {
+        if (from == null || to == null || from === to) return;
+        setItems((curr) => {
+          const next = [...curr];
+          const [pick] = next.splice(from, 1);
+          next.splice(to, 0, pick);
+          return next;
+        });
+      };
+
+      return (
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+          {sectionBg()}
+          <div className="relative z-10 max-w-6xl mx-auto">
+            <header className="text-center">
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">How AI Works + Timeline Sorting Activity</h2>
+              <p className="mt-3 text-slate-700 font-medium">12:45-13:25 | Quick concept explainer followed by card sorting.</p>
+            </header>
+
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <SectionTimer label="Section Timebox" minutes={40} />
+              <div className="lg:col-span-2 space-y-4">
+                <div className="rounded-xl border border-slate-200 bg-white/80 p-4 grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div className="rounded-lg border border-slate-200 bg-white p-3">
+                    <p className="text-xs font-extrabold tracking-widest uppercase text-slate-700">Neural Networks</p>
+                    <p className="mt-1 text-sm text-slate-700 font-medium">Pattern detectors trained with many examples.</p>
+                  </div>
+                  <div className="rounded-lg border border-slate-200 bg-white p-3">
+                    <p className="text-xs font-extrabold tracking-widest uppercase text-slate-700">Transformers</p>
+                    <p className="mt-1 text-sm text-slate-700 font-medium">Attention helps models keep track of context.</p>
+                  </div>
+                  <div className="rounded-lg border border-slate-200 bg-white p-3">
+                    <p className="text-xs font-extrabold tracking-widest uppercase text-slate-700">Embeddings</p>
+                    <p className="mt-1 text-sm text-slate-700 font-medium">Vectors that represent meaning and similarity.</p>
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-slate-200 bg-white/80 p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-medium text-slate-700">Use drag-and-drop or retry shuffle.</p>
+                  <button
+                    type="button"
+                    onClick={() => setItems(shuffled())}
+                    className="px-3 py-2 rounded-lg border border-slate-200 bg-white text-xs font-extrabold tracking-widest uppercase text-slate-900 hover:bg-slate-100"
+                  >
+                    Shuffle
+                  </button>
+                </div>
+                <div className="mt-3 space-y-2">
+                  {items.map((item, idx) => (
+                    <div
+                      key={item}
+                      draggable
+                      onDragStart={() => setDragging(idx)}
+                      onDragOver={(e) => e.preventDefault()}
+                      onDrop={() => {
+                        moveItem(dragging, idx);
+                        setDragging(null);
+                      }}
+                      className="cursor-move rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800"
+                    >
+                      {idx + 1}. {item}
+                    </div>
+                  ))}
+                </div>
+                <div className={`mt-3 text-sm font-extrabold ${solved ? 'text-emerald-700' : 'text-slate-600'}`}>
+                  {solved ? 'Correct order complete.' : 'Not in order yet.'}
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function AgentsSlide() {
+      return (
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+          {sectionBg()}
+          <div className="relative z-10 max-w-6xl mx-auto">
+            <header className="text-center">
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">Exploring AI Agents</h2>
+              <p className="mt-3 text-slate-700 font-medium">13:25-14:00 | AgentGPT demo and practical task.</p>
+            </header>
+
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <SectionTimer label="Section Timebox" minutes={35} />
+              <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4">
+                <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Task</p>
+                <p className="mt-2 text-sm font-medium text-slate-700">Build a simple agent workflow for: "Create a 7-day promotion plan, then convert it into a checklist and email draft."</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <a href="https://agentgpt.reworkd.ai" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-900 text-white text-xs font-extrabold tracking-widest uppercase hover:bg-slate-800">Open AgentGPT <ExternalLink className="w-3 h-3" /></a>
+                  <a href="https://chatgpt.com" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 bg-white text-xs font-extrabold tracking-widest uppercase text-slate-900 hover:bg-slate-100">Open ChatGPT <ExternalLink className="w-3 h-3" /></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function NetworkingSupportSlide() {
+      return (
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+          {sectionBg()}
+          <div className="relative z-10 max-w-6xl mx-auto">
+            <header className="text-center">
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">Networking and AI Support Session</h2>
+              <p className="mt-3 text-slate-700 font-medium">14:40-15:10 | Open support, troubleshooting, and guided exploration.</p>
+            </header>
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <SectionTimer label="Section Timebox" minutes={30} />
+              <div className="lg:col-span-2 space-y-4">
+                <div className="rounded-xl border border-slate-200 bg-white/80 p-4">
+                  <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Support Stations</p>
+                  <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
+                    <li>Prompt clinic: improve weak prompts into reusable templates.</li>
+                    <li>Workflow clinic: map one process from your business to an AI-assisted flow.</li>
+                    <li>Risk clinic: review accuracy, bias, and approval checkpoints.</li>
+                  </ul>
+                </div>
+                <FacilitatorPanel
+                  title="If groups finish early"
+                  points={[
+                    'Ask teams to design one new AI use case for next month.',
+                    'Require a human review step and success metric for each use case.',
+                    'Invite quick peer feedback between groups.'
+                  ]}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function OptionalTimelineEnrichmentSlide() {
+      return (
+        <div className="relative min-h-screen w-full overflow-hidden">
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-950/80 border border-slate-700 backdrop-blur-md">
+            <span className="text-xs font-extrabold tracking-widest uppercase text-slate-300">Optional Enrichment</span>
+            <span className="text-xs font-extrabold tracking-widest uppercase text-cyan-300">Timeline Visual Recap</span>
+          </div>
+          <TimelineSlide />
+        </div>
+      );
+    }
+
+    function OptionalEvidenceEnrichmentSlide() {
+      return (
+        <div className="relative min-h-screen w-full overflow-hidden">
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-950/80 border border-slate-700 backdrop-blur-md">
+            <span className="text-xs font-extrabold tracking-widest uppercase text-slate-300">Optional Enrichment</span>
+            <span className="text-xs font-extrabold tracking-widest uppercase text-cyan-300">Evidence Visual Recap</span>
+          </div>
+          <EvidenceSlide />
+        </div>
+      );
+    }
+
+    function TimelineSlide({ onJumpToSlide }) {
+      const [activeId, setActiveId] = useState(null);
+
+      return (
+        <div className="min-h-screen text-slate-200 font-sans selection:bg-purple-500 selection:text-white pb-24 overflow-x-hidden">
+          <header className="pt-16 pb-10 px-6 text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/80 border border-slate-700/50 backdrop-blur-md mb-6 shadow-lg shadow-purple-900/10">
+              <MonitorPlay className="w-4 h-4 text-purple-400" />
+              <span className="text-xs font-medium tracking-widest uppercase text-slate-400">Timeline</span>
+            </div>
+
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+              How capability becomes <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 animate-gradient-x">business leverage</span>
+            </h2>
+
+            <p className="max-w-3xl mx-auto text-base md:text-lg text-slate-400 leading-relaxed font-medium">
+              A journey through key AI milestones, from foundational research to transformative business applications.
+            </p>
+          </header>
+
+          <main className="container mx-auto px-4 md:px-6 max-w-5xl relative">
+            <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-slate-800 transform md:-translate-x-1/2">
+              <div className="absolute inset-0 bg-gradient-to-b from-blue-500 via-purple-500 to-pink-500 opacity-50 blur-sm"></div>
+            </div>
+
+            <div className="space-y-20">
+              {TIMELINE_ERAS.map((era, index) => {
+                const isEven = index % 2 === 0;
+                const isHovered = activeId === era.id;
+                const hideConnectorLine = era.id === 'era-3' || era.id === 'era-4' || era.id === 'era-5';
+                const showBusinessUse = isHovered && !!era.businessUse;
+                const showBusinessText = showBusinessUse && era.businessUse?.kind === 'text';
+                const showBusinessFuture = showBusinessUse && era.businessUse?.kind === 'future-slide';
+                const businessOnLeft = isEven; // Card is on the right when isEven=true (row-reverse), so show business callout on the left.
+                const businessWrapClass = businessOnLeft ? 'right-full mr-6' : 'left-full ml-6';
+                const businessRowClass = businessOnLeft ? 'flex-row-reverse' : '';
+                const targetSlide = era.businessUse?.targetSlide;
+                const resolvedTargetSlide = typeof targetSlide === 'number' ? targetSlide : 2;
+                const resolvedTargetLabel = `Slide ${resolvedTargetSlide + 1}`;
+
+                return (
+                  <div
+                    key={era.id}
+                    className={`relative flex flex-col md:flex-row items-center gap-8 ${isEven ? 'md:flex-row-reverse' : ''}`}
+                    onMouseEnter={() => setActiveId(era.id)}
+                    onMouseLeave={() => setActiveId(null)}
+                  >
+                    <div className="absolute left-8 md:left-1/2 w-12 h-12 -ml-6 md:-ml-6 flex items-center justify-center z-20">
+                      <div className={`w-4 h-4 rounded-full transition-all duration-500 ${isHovered ? `bg-white scale-150 shadow-[0_0_20px_rgba(255,255,255,0.8)]` : 'bg-slate-950 border-2 border-slate-600'}`}></div>
+                      {!hideConnectorLine && (
+                        <div className={`hidden md:block absolute top-1/2 h-0.5 w-24 -z-10 bg-slate-700 transition-all duration-500 ${isEven ? 'right-6' : 'left-6'} ${isHovered ? 'w-32 bg-slate-500' : ''}`} />
+                      )}
+
+                      {(showBusinessText || showBusinessFuture) && (
+                        <div className={`hidden md:block absolute top-1/2 -translate-y-1/2 ${businessWrapClass} z-30`}>
+                          <div className={`flex items-center gap-3 ${businessRowClass}`}>
+                            <div className="h-0.5 w-20 bg-slate-500/60" />
+
+                            {showBusinessText && (
+                              <div className="max-w-[22rem] rounded-xl border border-amber-200 bg-amber-200/95 text-slate-900 px-4 py-3 shadow-xl shadow-amber-500/10">
+                                <div className="text-[10px] font-extrabold tracking-widest uppercase text-amber-900/80">{era.businessUse.label || 'Business use'}</div>
+                                <div className="text-sm font-semibold leading-snug mt-1">{era.businessUse.text}</div>
+                              </div>
+                            )}
+
+                            {showBusinessFuture && (
+                              <button
+                                type="button"
+                                onClick={() => onJumpToSlide && onJumpToSlide(resolvedTargetSlide)}
+                                className="text-left max-w-[22rem] rounded-xl border border-cyan-200 bg-cyan-100/90 text-slate-950 px-4 py-3 shadow-xl shadow-cyan-500/10 hover:bg-cyan-100 focus:outline-none focus:ring-2 focus:ring-cyan-300"
+                                aria-label="Open the future activity slide"
+                              >
+                                <div className="text-[10px] font-extrabold tracking-widest uppercase text-cyan-900/70">{era.businessUse.label || 'Activity preview'}</div>
+                                <div className="text-sm font-extrabold leading-snug mt-1">{era.businessUse.title}</div>
+                                <div className="text-sm font-medium leading-snug mt-1 text-slate-800">{era.businessUse.text}</div>
+                                <div className="mt-2 inline-flex items-center gap-2 text-xs font-extrabold tracking-widest uppercase text-cyan-900">
+                                  Open {resolvedTargetLabel} <ArrowRight className="w-3 h-3" />
+                                </div>
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="w-full md:w-1/2 pl-20 md:pl-0">
+                      <div className={`group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/40 backdrop-blur-md transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-900/20 ${isEven ? 'md:mr-12 text-left' : 'md:ml-12 text-left'}`}>
+                        <div className={`absolute inset-0 bg-gradient-to-br ${era.accent} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
+
+                        <div className="relative h-40 overflow-hidden">
+                          <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent z-10"></div>
+                          <img
+                            src={era.image}
+                            alt={era.imageAlt}
+                            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-in-out grayscale group-hover:grayscale-0"
+                          />
+                          <div className="absolute top-4 left-4 z-20">
+                            <span className="px-3 py-1 text-[10px] font-bold tracking-widest uppercase rounded-full bg-slate-950/80 border border-slate-700 text-white backdrop-blur-md">
+                              {era.category}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="p-6 md:p-8 relative z-20">
+                          <div className="flex items-center gap-3 mb-3">
+                            <span className={`text-sm font-bold bg-gradient-to-r ${era.accent} bg-clip-text text-transparent`}>{era.year}</span>
+                            <div className="h-px flex-grow bg-slate-800"></div>
+                            <div className="p-1.5 rounded-lg bg-slate-800/50 text-slate-300">{era.icon}</div>
+                          </div>
+
+                          <h3 className="text-2xl font-bold text-white mb-1 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-slate-400 transition-all">
+                            {era.title}
+                          </h3>
+                          <p className="text-slate-400 text-sm font-medium mb-4 italic">{era.subtitle}</p>
+
+                          <p className="text-slate-400 leading-relaxed text-sm border-l-2 border-slate-800 pl-4 group-hover:border-slate-600 transition-colors">
+                            {era.description}
+                          </p>
+
+                          <div className="mt-6 flex items-center text-xs font-semibold text-slate-500 uppercase tracking-wider group-hover:text-slate-300 transition-colors">
+                            Connect to Business <ArrowRight className="w-3 h-3 ml-2 transform group-hover:translate-x-1 transition-transform" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="hidden md:block w-1/2"></div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="mt-20 text-center">
+              <div className="inline-block p-4 rounded-full border border-slate-800 bg-slate-900/50 backdrop-blur-xl">
+                <p className="text-slate-500 text-sm">Next: map these capabilities to your workflows and KPIs.</p>
+              </div>
+            </div>
+          </main>
+        </div>
+      );
+    }
+
+    function GenAISlide() {
+      return (
+        <div className="relative h-screen w-full px-4 md:px-6 py-8 md:py-10 flex flex-col overflow-hidden">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute -top-24 right-8 w-[540px] h-[540px] rounded-full bg-amber-300/45 blur-[120px]" />
+            <div className="absolute -bottom-28 left-10 w-[620px] h-[620px] rounded-full bg-purple-400/45 blur-[120px]" />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-cyan-100/85 to-white/90" />
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10" />
+          </div>
+
+          <header className="relative z-10 text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-white/60 backdrop-blur-md mb-6 shadow-lg shadow-purple-900/10">
+              <MonitorPlay className="w-4 h-4 text-purple-700" />
+              <span className="text-xs font-extrabold tracking-widest uppercase text-slate-700">Generative AI</span>
+            </div>
+
+            <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-slate-950">
+              Using AI to write copy, code, <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-800 via-fuchsia-700 to-cyan-600 animate-gradient-x">and build websites</span>
+            </h2>
+
+            <p className="max-w-4xl mx-auto text-base md:text-lg text-slate-700 leading-relaxed mt-4 font-medium">
+              Teams use generative AI to move faster: brainstorm, draft, iterate, and ship.
+            </p>
+          </header>
+
+          <div className="relative z-10 mt-6 max-w-5xl mx-auto w-full flex-1 min-h-0 flex flex-col">
+            <div className="rounded-2xl border border-slate-200 bg-white/70 backdrop-blur-md p-5 md:p-6">
+              <p className="text-slate-700 text-xs font-extrabold tracking-widest uppercase">Generative AI in Business</p>
+              <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div className="rounded-xl border border-fuchsia-200 bg-fuchsia-50/70 p-4">
+                  <div className="text-[10px] font-extrabold tracking-widest uppercase text-fuchsia-900/70">Marketing</div>
+                  <div className="mt-1 text-sm font-extrabold text-slate-950">Write copy</div>
+                  <div className="mt-1 text-sm font-medium text-slate-700">Ads, landing pages, emails, social posts — faster iterations.</div>
+                </div>
+                <div className="rounded-xl border border-cyan-200 bg-cyan-50/70 p-4">
+                  <div className="text-[10px] font-extrabold tracking-widest uppercase text-cyan-900/70">Engineering</div>
+                  <div className="mt-1 text-sm font-extrabold text-slate-950">Generate code</div>
+                  <div className="mt-1 text-sm font-medium text-slate-700">Scaffolds, tests, refactors, data transforms, small tools.</div>
+                </div>
+                <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-4">
+                  <div className="text-[10px] font-extrabold tracking-widest uppercase text-amber-900/70">Web</div>
+                  <div className="mt-1 text-sm font-extrabold text-slate-950">Create websites</div>
+                  <div className="mt-1 text-sm font-medium text-slate-700">Prototype pages, generate UI, and iterate on content + layout.</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 text-center">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-slate-200 backdrop-blur-md">
+                <span className="text-xs font-extrabold tracking-widest uppercase text-slate-700">Next:</span>
+                <span className="text-xs font-extrabold tracking-widest uppercase text-slate-900">Student Activity on Slide 4</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function FutureSlide() {
+      // TODO: Replace with your Google Gemini Canvas app URL.
+      const GEMINI_CANVAS_APP_URL = "https://gemini.google.com/share/4a2e574d6464";
+      const GEMINI_QR_SRC = encodeURI("./gemini_link_qr.png");
+      const [qrOpen, setQrOpen] = useState(false);
+
+      const handleCopyLink = async () => {
+        try {
+          await navigator.clipboard.writeText(GEMINI_CANVAS_APP_URL);
+        } catch {
+          window.prompt('Copy this link:', GEMINI_CANVAS_APP_URL);
+        }
+      };
+
+      return (
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 flex flex-col overflow-x-hidden">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute -top-24 right-8 w-[540px] h-[540px] rounded-full bg-amber-300/45 blur-[120px]" />
+            <div className="absolute -bottom-28 left-10 w-[620px] h-[620px] rounded-full bg-purple-400/45 blur-[120px]" />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-cyan-100/85 to-white/90" />
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10" />
+          </div>
+
+          <header className="relative z-10 text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-white/60 backdrop-blur-md mb-6 shadow-lg shadow-purple-900/10">
+              <MonitorPlay className="w-4 h-4 text-purple-700" />
+              <span className="text-xs font-extrabold tracking-widest uppercase text-slate-700">Group Game</span>
+            </div>
+
+            <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-slate-950">
+              Human vs AI <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-800 via-fuchsia-700 to-cyan-600 animate-gradient-x">Hair Salon Business Simulator</span>
+            </h2>
+
+            <p className="max-w-4xl mx-auto text-base md:text-lg text-slate-700 leading-relaxed mt-4 font-medium">
+              14:00-14:40 | Two teams compete using either AI-assisted decisions or human-only judgement.
+            </p>
+          </header>
+
+          <div className="relative z-10 mt-6 max-w-5xl mx-auto w-full flex-1 min-h-0 flex flex-col">
+            <SectionTimer label="Section Timebox" minutes={40} />
+
+            <div className="rounded-2xl border border-slate-200 bg-white/70 backdrop-blur-md p-5 md:p-6">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                <div>
+                  <p className="text-slate-700 text-xs font-extrabold tracking-widest uppercase">Student Activity</p>
+                  <p className="text-slate-950 font-extrabold mt-1">Compete against an AI bot in a simulated hair salon business.</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setQrOpen(true)}
+                  className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white/70 hover:bg-white focus:outline-none focus:ring-4 focus:ring-purple-300/50 p-2 self-start md:self-auto"
+                  aria-label="Open QR code"
+                  title="Click to enlarge"
+                >
+                  <img
+                    src={GEMINI_QR_SRC}
+                    alt="QR code for the Gemini Canvas link"
+                    className="w-20 h-20 md:w-24 md:h-24 object-contain"
+                    loading="lazy"
+                  />
+                </button>
+              </div>
+            </div>
+
+            {qrOpen && (
+              <div
+                className="fixed inset-0 z-[200] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
+                role="dialog"
+                aria-modal="true"
+                aria-label="QR code"
+                onClick={() => setQrOpen(false)}
+              >
+                <div
+                  className="max-w-lg w-full rounded-2xl border border-white/20 bg-slate-950/80 p-4 md:p-5 shadow-2xl"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="text-slate-100 font-extrabold tracking-tight">Scan to open</div>
+                    <button
+                      type="button"
+                      className="px-3 py-2 rounded-xl border border-white/20 bg-white/10 text-white font-extrabold text-xs hover:bg-white/15"
+                      onClick={() => setQrOpen(false)}
+                    >
+                      Close
+                    </button>
+                  </div>
+
+                  <div className="mt-4 rounded-xl bg-white/95 p-4 grid place-items-center">
+                    <img
+                      src={GEMINI_QR_SRC}
+                      alt="QR code"
+                      className="w-full max-w-sm h-auto object-contain"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className="mt-4 flex-1 min-h-0">
+              <div className="h-full w-full overflow-hidden rounded-2xl border border-slate-200 bg-white/60 backdrop-blur-md grid grid-rows-[auto,1fr]">
+                <div className="px-6 pt-5 text-center">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-slate-200 backdrop-blur-md">
+                    <Play className="w-4 h-4 text-purple-700" />
+                    <span className="text-xs font-extrabold tracking-widest uppercase text-slate-700">Launch Activity</span>
+                  </div>
+
+                  <p className="text-slate-950 font-extrabold text-lg mt-4">Open the Gemini Canvas simulation</p>
+                </div>
+
+                <div className="p-5 md:p-6">
+                  <a
+                    href={GEMINI_CANVAS_APP_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group block h-full w-full rounded-xl border border-slate-200 bg-white/70 overflow-hidden hover:bg-white focus:outline-none focus:ring-4 focus:ring-purple-300/50"
+                    aria-label="Open the Gemini Canvas simulation in a new tab"
+                  >
+                    <div className="h-10 border-b border-slate-200 bg-white/80 flex items-center justify-between px-4">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-full bg-red-400/80" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-amber-400/80" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-green-400/80" />
+                      </div>
+                      <div className="text-[11px] font-extrabold tracking-widest uppercase text-slate-500">Gemini Canvas</div>
+                      <div className="text-[11px] font-extrabold tracking-widest uppercase text-purple-700 group-hover:text-purple-800 inline-flex items-center gap-2">
+                        Open <ArrowRight className="w-4 h-4" />
+                      </div>
+                    </div>
+
+                    <div className="h-[calc(100%-2.5rem)] grid place-items-center px-6 text-center bg-gradient-to-br from-white via-cyan-50 to-white">
+                      <div className="max-w-2xl">
+                        <p className="text-slate-950 font-extrabold text-base">Click to open the simulation</p>
+                        <p className="text-slate-700 text-sm mt-2 font-medium">
+                          Run the salon, make decisions, and see how an AI competitor responds.
+                        </p>
+                        <div className="mt-4 text-xs font-medium text-slate-600 break-all">
+                          {GEMINI_CANVAS_APP_URL}
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+
+                  <div className="mt-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
+                    <button
+                      type="button"
+                      onClick={handleCopyLink}
+                      className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-slate-200 bg-white/70 text-slate-950 font-extrabold tracking-widest uppercase text-xs hover:bg-white"
+                    >
+                      Copy link
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function EvidenceSlide() {
+      const GDPVAL_CHART_SRC = encodeURI("./GDPval win rate_ performance on economically valuable tasks.png");
+      const [showResearch, setShowResearch] = useState(true);
+
+      return (
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 flex flex-col overflow-x-hidden">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute -top-24 right-8 w-[540px] h-[540px] rounded-full bg-amber-300/45 blur-[120px]" />
+            <div className="absolute -bottom-28 left-10 w-[620px] h-[620px] rounded-full bg-purple-400/45 blur-[120px]" />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-cyan-100/85 to-white/90" />
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10" />
+          </div>
+
+          <header className="relative z-10 text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-white/60 backdrop-blur-md mb-6 shadow-lg shadow-purple-900/10">
+              <BarChart3 className="w-4 h-4 text-purple-700" />
+              <span className="text-xs font-extrabold tracking-widest uppercase text-slate-700">Evidence</span>
+            </div>
+
+            <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-slate-950">
+              Evidence: AI performance on <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-800 via-fuchsia-700 to-cyan-600 animate-gradient-x">economically valuable tasks</span>
+            </h2>
+
+            <p className="max-w-4xl mx-auto text-base md:text-lg text-slate-700 leading-relaxed mt-4 font-medium">
+              GDPval is a blind-evaluation approach that compares model outputs against expert work on business-relevant tasks.
+            </p>
+          </header>
+
+          <div className="relative z-10 mt-6 max-w-5xl mx-auto w-full">
+            <div className="rounded-2xl border border-slate-200 bg-white/70 backdrop-blur-md p-5 md:p-6">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                <div>
+                  <p className="text-slate-950 font-extrabold mt-1">GDPval (early results)</p>
+                  <p className="text-slate-700 text-sm mt-1 font-medium">
+                    Use this as the “why now” slide: quality is rising fast, so learning to work with AI creates an advantage.
+                  </p>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+                  <button
+                    type="button"
+                    onClick={() => setShowResearch((v) => !v)}
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-purple-700 text-white font-extrabold tracking-widest uppercase text-xs hover:bg-purple-800"
+                    aria-expanded={showResearch}
+                  >
+                    {showResearch ? "Hide details" : "Show details"}
+                  </button>
+                  <a
+                    href="https://openai.com/index/gdpval/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-slate-200 bg-white/70 text-slate-950 font-extrabold tracking-widest uppercase text-xs hover:bg-white"
+                  >
+                    Read source <ArrowRight className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+
+              <div className="mt-5 overflow-hidden rounded-xl border border-slate-200 bg-white">
+                <img
+                  src={GDPVAL_CHART_SRC}
+                  alt="GDPval win rate performance on economically valuable tasks"
+                  className="w-full h-auto object-contain"
+                  loading="lazy"
+                />
+              </div>
+
+              {showResearch && (
+                <div className="mt-5 grid gap-3">
+                  <div className="rounded-xl border border-slate-200 bg-white/70 p-4">
+                    <p className="text-slate-950 font-extrabold">What this means for business</p>
+                    <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
+                      <li>Higher output quality reduces rework and review time.</li>
+                      <li>More tasks become “AI-assisted” instead of “manual”.</li>
+                      <li>Teams that measure impact (time saved, quality, cost) can scale the wins.</li>
+                    </ul>
+                  </div>
+
+                  <div className="rounded-xl border border-slate-200 bg-white/70 p-4">
+                    <p className="text-slate-950 font-extrabold">How GDPval is measured</p>
+                    <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
+                      <li>Blind comparisons: judges don’t know which output is AI vs expert.</li>
+                      <li>Business-relevant tasks (writing, analysis, planning, communication).</li>
+                      <li>Reported as wins / ties / losses to reduce bias.</li>
+                    </ul>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function SummarySlide() {
+      return (
+        <div className="relative h-screen w-full px-4 md:px-6 py-8 md:py-10 flex flex-col overflow-hidden">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute -top-24 right-8 w-[540px] h-[540px] rounded-full bg-amber-300/45 blur-[120px]" />
+            <div className="absolute -bottom-28 left-10 w-[620px] h-[620px] rounded-full bg-purple-400/45 blur-[120px]" />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-cyan-100/85 to-white/90" />
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10" />
+          </div>
+
+          <div className="relative z-10 flex-1 min-h-0 grid place-items-center">
+            <div className="w-full max-w-5xl mx-auto">
+              <SectionTimer label="15:10-15:30 Reflections + Close" minutes={20} />
+
+              <div className="rounded-3xl border border-slate-200 bg-white/75 backdrop-blur-md p-8 md:p-12 shadow-2xl shadow-purple-900/10">
+                <div className="text-center">
+                  <p className="text-slate-700 text-xs font-extrabold tracking-widest uppercase">Final Thought</p>
+                  <h2 className="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950 leading-tight">
+                    “AI won’t take your future job,
+                    <br />
+                    but someone using AI might.”
+                  </h2>
+                  <p className="mt-6 text-slate-700 text-base md:text-lg font-medium">
+                    The advantage goes to teams who learn, adapt, and build with AI.
+                  </p>
+                </div>
+              </div>
+
+              {/* Before vs After interactive slider */}
+              <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="rounded-2xl border border-slate-200 bg-white/70 backdrop-blur-md p-5 md:p-6">
+                  <p className="text-slate-700 text-xs font-extrabold tracking-widest uppercase">Before</p>
+                  <p className="text-slate-950 font-extrabold mt-1">Your starting position</p>
+                  <div className="mt-4">
+                    <JobImpactArrowSlider
+                      value={window.__JOB_IMPACT_BEFORE__ ?? 50}
+                      readOnly
+                      showNextLabels={false}
+                    />
+                  </div>
+                </div>
+
+                <div className="rounded-2xl border border-slate-200 bg-white/70 backdrop-blur-md p-5 md:p-6">
+                  <p className="text-slate-700 text-xs font-extrabold tracking-widest uppercase">After</p>
+                  <p className="text-slate-950 font-extrabold mt-1">Your position now</p>
+                  <div className="mt-4">
+                    <JobImpactArrowSlider
+                      value={window.__JOB_IMPACT_AFTER__ ?? (window.__JOB_IMPACT_BEFORE__ ?? 50)}
+                      onChange={(next) => {
+                        if (typeof window.__SET_JOB_IMPACT_AFTER__ === 'function') {
+                          window.__SET_JOB_IMPACT_AFTER__(next);
+                        }
+                      }}
+                      caption="Adjust to reflect how you feel now"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 text-center">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-slate-200 backdrop-blur-md">
+                  <span className="text-xs font-extrabold tracking-widest uppercase text-slate-700">Takeaway:</span>
+                  <span className="text-xs font-extrabold tracking-widest uppercase text-slate-900">Start small • Measure impact • Scale responsibly</span>
+                </div>
+              </div>
+
+              <div className="mt-4 rounded-xl border border-slate-200 bg-white/80 p-4">
+                <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Reflection Prompts</p>
+                <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
+                  <li>What task from today can you apply next week?</li>
+                  <li>Where do you need a human approval checkpoint?</li>
+                  <li>What metric will prove your AI workflow is working?</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function DeckNav({ slide, setSlide, total }) {
+      return (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-20">
+          <div className="flex items-center gap-3 px-3 py-2 rounded-full bg-slate-950/70 border border-slate-800 backdrop-blur-md shadow-lg shadow-purple-900/10">
+            <button
+              className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-slate-900/60 hover:bg-slate-900 border border-slate-800 text-slate-200 disabled:opacity-40 disabled:hover:bg-slate-900/60"
+              onClick={() => setSlide((s) => Math.max(0, s - 1))}
+              disabled={slide === 0}
+              aria-label="Previous slide"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              <span className="text-xs font-semibold tracking-widest uppercase">Back</span>
+            </button>
+
+            <div className="px-3 text-xs font-semibold tracking-widest uppercase text-slate-400">
+              Slide {slide + 1} / {total}
+            </div>
+
+            <button
+              className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-slate-900/60 hover:bg-slate-900 border border-slate-800 text-slate-200 disabled:opacity-40 disabled:hover:bg-slate-900/60"
+              onClick={() => setSlide((s) => Math.min(total - 1, s + 1))}
+              disabled={slide === total - 1}
+              aria-label="Next slide"
+            >
+              <span className="text-xs font-semibold tracking-widest uppercase">Next</span>
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    function AIPresentation() {
+      const [slide, setSlide] = useState(0);
+      const slideDefs = [
+        {
+          key: 'title',
+          render: () => <TitleSlide jobImpactBefore={jobImpactBefore} setJobImpactBefore={setJobImpactBefore} />
+        },
+        {
+          key: 'learning-outcomes',
+          render: () => <LearningOutcomesSlide />
+        },
+        {
+          key: 'schedule',
+          render: () => <ScheduleSlide />
+        },
+        {
+          key: 'productivity-challenge',
+          render: () => <ProductivityChallengeSlide />
+        },
+        {
+          key: 'frontier-firms',
+          render: () => <FrontierFirmsSlide />
+        },
+        {
+          key: 'model-comparison',
+          render: () => <ModelComparisonSlide />
+        },
+        {
+          key: 'productivity-workflows',
+          render: () => <ProductivityWorkflowsSlide />
+        },
+        {
+          key: 'lunch-break',
+          render: () => <LunchBreakSlide />
+        },
+        {
+          key: 'timeline-sorting',
+          render: () => <TimelineSortingSlide />
+        },
+        {
+          key: 'agents',
+          render: () => <AgentsSlide />
+        },
+        {
+          key: 'salon-sim',
+          render: () => <FutureSlide />
+        },
+        {
+          key: 'networking-support',
+          render: () => <NetworkingSupportSlide />
+        },
+        {
+          key: 'summary',
+          render: () => <SummarySlide />
+        },
+        {
+          key: 'optional-timeline-enrichment',
+          render: () => <OptionalTimelineEnrichmentSlide />
+        },
+        {
+          key: 'optional-evidence-enrichment',
+          render: () => <OptionalEvidenceEnrichmentSlide />
+        }
+      ];
+      const total = slideDefs.length;
+
+      const clampPercent = (n) => {
+        const v = Math.round(Number(n) || 0);
+        return Math.max(0, Math.min(100, v));
+      };
+
+      const [jobImpactBefore, setJobImpactBefore] = useState(() => {
+        try {
+          const raw = localStorage.getItem('jobImpactBefore');
+          return raw == null ? 50 : clampPercent(raw);
+        } catch {
+          return 50;
+        }
+      });
+
+      const [jobImpactAfter, setJobImpactAfter] = useState(() => {
+        try {
+          const raw = localStorage.getItem('jobImpactAfter');
+          return raw == null ? null : clampPercent(raw);
+        } catch {
+          return null;
+        }
+      });
+
+      useEffect(() => {
+        try { localStorage.setItem('jobImpactBefore', String(jobImpactBefore)); } catch {}
+      }, [jobImpactBefore]);
+
+      useEffect(() => {
+        if (jobImpactAfter == null) return;
+        try { localStorage.setItem('jobImpactAfter', String(jobImpactAfter)); } catch {}
+      }, [jobImpactAfter]);
+
+      // Bridge values into SummarySlide without rewiring the whole deck structure.
+      // (SummarySlide is rendered conditionally; this keeps it simple.)
+      window.__JOB_IMPACT_BEFORE__ = jobImpactBefore;
+      window.__JOB_IMPACT_AFTER__ = jobImpactAfter;
+      window.__SET_JOB_IMPACT_AFTER__ = (n) => setJobImpactAfter(clampPercent(n));
+
+      useEffect(() => {
+        const onKeyDown = (e) => {
+          if (e.key === 'ArrowRight' || e.key === 'PageDown') setSlide((s) => Math.min(total - 1, s + 1));
+          if (e.key === 'ArrowLeft' || e.key === 'PageUp') setSlide((s) => Math.max(0, s - 1));
+          if (e.key === 'Home') setSlide(0);
+          if (e.key === 'End') setSlide(total - 1);
+        };
+        window.addEventListener('keydown', onKeyDown);
+        return () => window.removeEventListener('keydown', onKeyDown);
+      }, [total]);
+
+      const currentSlideDef = slideDefs[slide];
+
+      return (
+        <div className="bg-slate-950 text-slate-200 font-sans selection:bg-purple-500 selection:text-white">
+          <DeckBackground />
+
+          <div className="relative z-10">
+            {currentSlideDef && (
+              <SlideFrame>
+                {currentSlideDef.render()}
+              </SlideFrame>
+            )}
+          </div>
+
+          <DeckNav slide={slide} setSlide={setSlide} total={total} />
+        </div>
+      );
+    }
+
+    const root = createRoot(document.getElementById('root'));
+    root.render(<AIPresentation />);
+  </script>
+</body>
+</html>
