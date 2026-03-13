@@ -44,6 +44,30 @@
     }
   }
   </script>
+
+  <style>
+    :root {
+      --deck-nav-reserve: clamp(84px, 11vh, 124px);
+    }
+
+    .deck-slide-viewport {
+      height: calc(100vh - var(--deck-nav-reserve));
+    }
+
+    @supports (height: 100dvh) {
+      .deck-slide-viewport {
+        height: calc(100dvh - var(--deck-nav-reserve));
+      }
+    }
+
+    .deck-slide-viewport .min-h-screen {
+      min-height: 100% !important;
+    }
+
+    .deck-slide-viewport .h-screen {
+      height: 100% !important;
+    }
+  </style>
 </head>
 
 <body class="bg-slate-950 text-slate-200">
@@ -363,7 +387,7 @@
 
     function SlideFrame({ children }) {
       return (
-        <section className="relative z-10 h-screen w-full overflow-hidden">
+        <section className="deck-slide-viewport relative z-10 w-full overflow-hidden">
           <div className="h-full w-full overflow-y-auto">{children}</div>
         </section>
       );
@@ -714,15 +738,15 @@
       const activeSlide = slides[slideIndex];
 
       return (
-        <div className="mt-4 rounded-xl border border-slate-200 bg-slate-950 p-4 text-slate-100">
+        <div className="mt-4 rounded-xl border border-slate-200 bg-slate-950 p-4 text-slate-100 flex-1 min-h-0 flex flex-col">
           <div className="flex items-center justify-between gap-3">
             <p className="text-[11px] font-extrabold tracking-widest uppercase text-cyan-300">AI or Not AI + Hands Up Detector</p>
             <div className="text-[11px] font-extrabold tracking-widest uppercase text-slate-300">Open-source pose model: MoveNet</div>
           </div>
 
-          <div className="mt-3 grid grid-cols-1 xl:grid-cols-2 gap-4">
-            <div className="rounded-xl border border-slate-700 bg-slate-900/80 overflow-hidden">
-              <div className="relative aspect-video w-full bg-black">
+          <div className="mt-3 grid grid-cols-1 xl:grid-cols-2 gap-4 flex-1 min-h-0">
+            <div className="rounded-xl border border-slate-700 bg-slate-900/80 overflow-hidden flex flex-col min-h-0">
+              <div className="relative w-full bg-black flex-1 min-h-[280px]">
                 {activeSlide.type === 'webcam' ? (
                   <>
                     <video ref={previewVideoRef} className="h-full w-full object-cover" muted playsInline />
@@ -773,7 +797,7 @@
               </div>
             </div>
 
-            <div className="rounded-xl border border-slate-700 bg-slate-900/80 p-3">
+            <div className="rounded-xl border border-slate-700 bg-slate-900/80 p-3 flex flex-col min-h-0">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-300">Camera joint tracking</p>
                 <button
@@ -786,7 +810,7 @@
                 </button>
               </div>
 
-              <div className="mt-3 rounded-lg overflow-hidden border border-slate-700 bg-black relative aspect-video">
+              <div className="mt-3 rounded-lg overflow-hidden border border-slate-700 bg-black relative flex-1 min-h-[280px]">
                 <video ref={videoRef} className="h-full w-full object-cover" muted playsInline />
                 <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
                 {!cameraOn && (
@@ -1167,9 +1191,9 @@
 
     function AINotAILiveSlide() {
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
           {sectionBg()}
-          <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">AI or Not AI: Live Vision Slideshow</h2>
               <p className="mt-3 text-slate-700 font-medium">Hands-up voting with live joint mapping and real-time people counting.</p>
