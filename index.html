@@ -429,7 +429,7 @@
       );
     }
 
-    function AIVisionHandsUpPanel() {
+    function AIVisionHandsUpPanel({ onCountsChange }) {
       const slides = [
         { id: 'ai-1', label: 'AI', title: 'Web chatbot', src: './webchatbot.png' },
         { id: 'ai-2', label: 'Not AI', title: 'Phishing warning email', src: './Gmail-phishing-warning-banner.png' },
@@ -559,6 +559,10 @@
           stopVisionSession();
         };
       }, []);
+
+      useEffect(() => {
+        onCountsChange?.({ peopleCount, handsUpCount });
+      }, [peopleCount, handsUpCount, onCountsChange]);
 
       const isHandsRaised = (pose) => {
         const kp = (name) => pose.keypoints?.find((point) => point.name === name || point.part === name);
@@ -760,16 +764,16 @@
       const activeSlide = slides[slideIndex];
 
       return (
-        <div className="mt-4 rounded-xl border border-slate-200 bg-slate-950 p-4 text-slate-100 flex-1 min-h-0 flex flex-col">
+        <div className="mt-3 rounded-xl border border-slate-200 bg-slate-950 p-3 md:p-4 text-slate-100 flex-1 min-h-0 flex flex-col w-full min-w-0 overflow-hidden">
           <video ref={videoRef} className="hidden" muted playsInline aria-hidden="true" />
 
-          <div className="flex items-center justify-between gap-3">
-            <p className="text-[11px] font-extrabold tracking-widest uppercase text-cyan-300">AI or Not AI + Hands Up Detector</p>
-            <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-2 md:gap-3 min-w-0">
+            <p className="text-[11px] font-extrabold tracking-widest uppercase text-cyan-300 min-w-0">AI or Not AI + Hands Up Detector</p>
+            <div className="flex items-center gap-2 md:gap-3 max-w-full flex-wrap justify-end">
               <button
                 type="button"
                 onClick={() => setShowTrackingPanel((v) => !v)}
-                className="px-3 py-2 rounded-lg border border-cyan-700 bg-cyan-950/40 text-cyan-200 text-xs font-extrabold tracking-widest uppercase hover:bg-cyan-900/60"
+                className="px-3 py-2 rounded-lg border border-cyan-700 bg-cyan-950/40 text-cyan-200 text-[11px] md:text-xs font-extrabold tracking-widest uppercase hover:bg-cyan-900/60 whitespace-nowrap"
               >
                 {showTrackingPanel ? 'Hide tracking panel' : 'Show tracking panel'}
               </button>
@@ -777,16 +781,16 @@
                 type="button"
                 onClick={handleCameraButton}
                 disabled={loadingModel}
-                className="px-3 py-2 rounded-lg bg-cyan-500 text-slate-950 text-xs font-extrabold tracking-widest uppercase hover:bg-cyan-400 disabled:opacity-60"
+                className="px-3 py-2 rounded-lg bg-cyan-500 text-slate-950 text-[11px] md:text-xs font-extrabold tracking-widest uppercase hover:bg-cyan-400 disabled:opacity-60 whitespace-nowrap"
               >
                 {cameraOn ? 'Stop camera' : (loadingModel ? 'Loading model...' : 'Start camera')}
               </button>
             </div>
           </div>
 
-          <div className={`mt-3 grid grid-cols-1 ${showTrackingPanel ? 'xl:grid-cols-2' : ''} gap-4 flex-1 min-h-0`}>
-            <div className="rounded-xl border border-slate-700 bg-slate-900/80 overflow-hidden flex flex-col min-h-0">
-              <div className="relative w-full bg-black flex-1 min-h-[280px]">
+          <div className={`mt-3 grid grid-cols-1 ${showTrackingPanel ? 'xl:grid-cols-2' : ''} gap-3 md:gap-4 flex-1 min-h-0 w-full min-w-0`}>
+            <div className="rounded-xl border border-slate-700 bg-slate-900/80 overflow-hidden flex flex-col min-h-0 w-full min-w-0">
+              <div className="relative w-full bg-black flex-1 min-h-[200px] md:min-h-[240px] overflow-hidden">
                 {activeSlide.type === 'webcam' ? (
                   <>
                     <video ref={previewVideoRef} className="h-full w-full object-cover" muted playsInline />
@@ -803,12 +807,6 @@
 
                 <div className="absolute left-3 top-3 rounded-md bg-black/70 border border-white/20 px-3 py-1 text-xs font-extrabold tracking-widest uppercase">
                   {activeSlide.label}
-                </div>
-
-                <div className="absolute right-3 top-3 rounded-lg bg-cyan-500/90 text-slate-950 px-3 py-2 min-w-[120px] text-center shadow-lg shadow-cyan-900/60">
-                  <p className="text-[10px] font-extrabold tracking-widest uppercase">Hands Raised</p>
-                  <p className="text-3xl leading-none font-black">{handsUpCount}</p>
-                  <p className="text-[10px] font-extrabold tracking-widest uppercase mt-1">of {peopleCount} people</p>
                 </div>
 
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-4 py-3">
@@ -838,12 +836,12 @@
             </div>
 
             {showTrackingPanel && (
-              <div className="rounded-xl border border-slate-700 bg-slate-900/80 p-3 flex flex-col min-h-0">
+              <div className="rounded-xl border border-slate-700 bg-slate-900/80 p-3 flex flex-col min-h-0 w-full min-w-0 overflow-hidden">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-300">Camera joint tracking</p>
                 </div>
 
-                <div className="mt-3 rounded-lg overflow-hidden border border-slate-700 bg-black relative flex-1 min-h-[280px]">
+                <div className="mt-3 rounded-lg overflow-hidden border border-slate-700 bg-black relative flex-1 min-h-[200px] md:min-h-[240px]">
                   <video ref={videoRef} className="h-full w-full object-cover" muted playsInline />
                   <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
                   {!cameraOn && (
@@ -1224,16 +1222,26 @@
     }
 
     function AINotAILiveSlide() {
+      const [liveCounts, setLiveCounts] = useState({ peopleCount: 0, handsUpCount: 0 });
+
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-6 md:py-8 overflow-hidden flex flex-col">
           {sectionBg()}
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
-            <header className="text-center">
-              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">AI or Not AI: Live Vision Slideshow</h2>
-              <p className="mt-3 text-slate-700 font-medium">Hands-up voting with live joint mapping and real-time people counting.</p>
+            <header className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 md:gap-4">
+              <div className="text-center lg:text-left">
+                <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">AI or Not AI: Live Vision Slideshow</h2>
+                <p className="mt-3 text-slate-700 font-medium">Hands-up voting with live joint mapping and real-time people counting.</p>
+              </div>
+
+              <div className="self-center lg:self-auto rounded-xl bg-cyan-500/90 text-slate-950 px-4 py-3 min-w-[148px] text-center shadow-lg shadow-cyan-900/30 border border-cyan-600/40">
+                <p className="text-[10px] font-extrabold tracking-widest uppercase">Hands Raised</p>
+                <p className="text-3xl leading-none font-black">{liveCounts.handsUpCount}</p>
+                <p className="text-[10px] font-extrabold tracking-widest uppercase mt-1">of {liveCounts.peopleCount} people</p>
+              </div>
             </header>
 
-            <AIVisionHandsUpPanel />
+            <AIVisionHandsUpPanel onCountsChange={setLiveCounts} />
           </div>
         </div>
       );
