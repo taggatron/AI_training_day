@@ -46,17 +46,13 @@
   </script>
 
   <style>
-    :root {
-      --deck-nav-reserve: clamp(84px, 11vh, 124px);
-    }
-
     .deck-slide-viewport {
-      height: calc(100vh - var(--deck-nav-reserve));
+      height: 100vh;
     }
 
     @supports (height: 100dvh) {
       .deck-slide-viewport {
-        height: calc(100dvh - var(--deck-nav-reserve));
+        height: 100dvh;
       }
     }
 
@@ -72,10 +68,17 @@
       background: linear-gradient(135deg, #f8fbff 0%, #dff3ff 52%, #f7fbff 100%);
     }
 
+    .non-timeline-slide > .relative,
+    .non-timeline-slide > .relative > .relative.z-10,
+    .non-timeline-slide .relative.z-10.max-w-6xl,
+    .non-timeline-slide .relative.z-10.max-w-5xl {
+      max-height: 80svh;
+    }
+
     @media (min-width: 1024px) {
       .ai-live-panel-fit {
-        height: 100%;
-        max-height: 100%;
+        height: 90dvh;
+        max-height: 90dvh;
       }
 
       .ai-live-panel-fit .ai-live-media {
@@ -418,7 +421,7 @@
     function SlideFrame({ children, allowScroll = false, useLightGradient = true }) {
       return (
         <section className={`deck-slide-viewport relative z-10 w-full overflow-hidden ${useLightGradient ? 'deck-light-bg' : ''}`}>
-          <div className={`h-full w-full ${allowScroll ? 'overflow-y-auto' : 'overflow-y-auto lg:overflow-hidden'}`}>{children}</div>
+          <div className={`h-full w-full ${allowScroll ? 'timeline-slide-host overflow-y-auto' : 'non-timeline-slide overflow-y-auto lg:overflow-hidden'}`}>{children}</div>
         </section>
       );
     }
@@ -779,7 +782,7 @@
       const activeSlide = slides[slideIndex];
 
       return (
-        <div className="ai-live-panel-fit mt-0 rounded-xl border border-slate-200 bg-slate-950 p-2 md:p-3 text-slate-100 flex-1 min-h-0 h-full max-h-full flex flex-col w-full min-w-0 overflow-hidden">
+        <div className="ai-live-panel-fit mt-0 rounded-xl border border-slate-200 bg-slate-950 p-2 md:p-3 text-slate-100 flex-1 min-h-0 h-full max-h-[75svh] flex flex-col w-full min-w-0 overflow-hidden">
           <video ref={videoRef} className="hidden" muted playsInline aria-hidden="true" />
 
           <div className="flex flex-wrap items-center justify-between gap-2 md:gap-3 min-w-0">
@@ -1090,7 +1093,7 @@
 
     function ScheduleSlide() {
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col max-h-[75svh]">
           {sectionBg()}
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col overflow-hidden">
             <header className="text-center">
@@ -1256,7 +1259,7 @@
               </div>
             </header>
 
-            <div className="mt-2 overflow-hidden rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-md flex-1 min-h-0">
+            <div className="mt-2 overflow-hidden rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-md flex-1 min-h-0 max-h-[75svh]">
               <AIVisionHandsUpPanel onCountsChange={setLiveCounts} />
             </div>
           </div>
