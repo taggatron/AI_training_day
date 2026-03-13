@@ -1175,18 +1175,6 @@
               <p className="mt-3 text-slate-700 font-medium">Hands-up voting with live joint mapping and real-time people counting.</p>
             </header>
 
-            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
-              <SectionTimer label="Section Timebox" minutes={20} />
-              <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4">
-                <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">How to run this activity</p>
-                <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
-                  <li>Start camera and project the slideshow.</li>
-                  <li>Ask participants to raise hands if they think the current image is AI-generated.</li>
-                  <li>Use the live count as a quick class poll before revealing the answer.</li>
-                </ul>
-              </div>
-            </div>
-
             <AIVisionHandsUpPanel />
           </div>
         </div>
@@ -2127,6 +2115,10 @@
           render: () => <LunchBreakSlide />
         },
         {
+          key: 'optional-timeline-enrichment',
+          render: () => <OptionalTimelineEnrichmentSlide />
+        },
+        {
           key: 'timeline-sorting',
           render: () => <TimelineSortingSlide />
         },
@@ -2145,10 +2137,6 @@
         {
           key: 'summary',
           render: () => <SummarySlide />
-        },
-        {
-          key: 'optional-timeline-enrichment',
-          render: () => <OptionalTimelineEnrichmentSlide />
         },
         {
           key: 'optional-evidence-enrichment',
