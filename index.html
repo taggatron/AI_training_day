@@ -140,6 +140,11 @@
         subtitle: "AlexNet",
         category: "Vision",
         description: "Data + GPUs + neural nets unlock major leaps in perception and prediction.",
+        businessUse: {
+          kind: "text",
+          label: "Business uses",
+          text: "Factory quality checks • Retail shelf monitoring • Insurance photo triage • Medical image pre-screening"
+        },
         image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1000",
         imageAlt: "AI vision abstract",
         icon: <Layers className="w-6 h-6 text-purple-400" />,
@@ -152,6 +157,11 @@
         subtitle: "AlphaGo",
         category: "Strategy",
         description: "Reinforcement learning shows systems that improve through feedback and simulation.",
+        businessUse: {
+          kind: "text",
+          label: "Business uses",
+          text: "Route and fleet optimization • Warehouse robot pathing • Ad bidding optimization • Dynamic pricing updates"
+        },
         image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&q=80&w=1000",
         imageAlt: "Strategy game",
         icon: <Zap className="w-6 h-6 text-fuchsia-400" />,
@@ -195,6 +205,11 @@
         subtitle: "Automation + copilots",
         category: "Frontier",
         description: "AI moves from answers to actions: workflows, tools, and human-in-the-loop decisioning.",
+        businessUse: {
+          kind: "text",
+          label: "Business uses",
+          text: "Support ticket triage • Follow-up drafting and sending • CRM updates • KPI packs with human escalation"
+        },
         image: "./agentgif.gif",
         imageAlt: "Agents at work (animated)",
         icon: <Bot className="w-6 h-6 text-emerald-400" />,
@@ -426,6 +441,7 @@
 
       const [slideIndex, setSlideIndex] = useState(0);
       const [cameraOn, setCameraOn] = useState(false);
+      const [showTrackingPanel, setShowTrackingPanel] = useState(false);
       const [loadingModel, setLoadingModel] = useState(false);
       const [visionError, setVisionError] = useState('');
       const [peopleCount, setPeopleCount] = useState(0);
@@ -729,11 +745,26 @@
       }, [cameraOn]);
 
       useEffect(() => {
+        if (showTrackingPanel) return;
+        if (cameraOn) setCameraOn(false);
+        stopVisionSession();
+      }, [showTrackingPanel]);
+
+      useEffect(() => {
         if (!cameraOn) return;
         if (!streamRef.current) return;
         if (slides[slideIndex]?.type !== 'webcam') return;
         attachStreamToVideo(previewVideoRef.current, streamRef.current);
       }, [slideIndex, cameraOn]);
+
+      const handleCameraButton = () => {
+        if (cameraOn) {
+          setCameraOn(false);
+          return;
+        }
+        if (!showTrackingPanel) setShowTrackingPanel(true);
+        setCameraOn(true);
+      };
 
       const activeSlide = slides[slideIndex];
 
@@ -741,10 +772,26 @@
         <div className="mt-4 rounded-xl border border-slate-200 bg-slate-950 p-4 text-slate-100 flex-1 min-h-0 flex flex-col">
           <div className="flex items-center justify-between gap-3">
             <p className="text-[11px] font-extrabold tracking-widest uppercase text-cyan-300">AI or Not AI + Hands Up Detector</p>
-            <div className="text-[11px] font-extrabold tracking-widest uppercase text-slate-300">Open-source pose model: MoveNet</div>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setShowTrackingPanel((v) => !v)}
+                className="px-3 py-2 rounded-lg border border-cyan-700 bg-cyan-950/40 text-cyan-200 text-xs font-extrabold tracking-widest uppercase hover:bg-cyan-900/60"
+              >
+                {showTrackingPanel ? 'Hide tracking panel' : 'Show tracking panel'}
+              </button>
+              <button
+                type="button"
+                onClick={handleCameraButton}
+                disabled={loadingModel}
+                className="px-3 py-2 rounded-lg bg-cyan-500 text-slate-950 text-xs font-extrabold tracking-widest uppercase hover:bg-cyan-400 disabled:opacity-60"
+              >
+                {cameraOn ? 'Stop camera' : (loadingModel ? 'Loading model...' : 'Start camera')}
+              </button>
+            </div>
           </div>
 
-          <div className="mt-3 grid grid-cols-1 xl:grid-cols-2 gap-4 flex-1 min-h-0">
+          <div className={`mt-3 grid grid-cols-1 ${showTrackingPanel ? 'xl:grid-cols-2' : ''} gap-4 flex-1 min-h-0`}>
             <div className="rounded-xl border border-slate-700 bg-slate-900/80 overflow-hidden flex flex-col min-h-0">
               <div className="relative w-full bg-black flex-1 min-h-[280px]">
                 {activeSlide.type === 'webcam' ? (
@@ -797,44 +844,38 @@
               </div>
             </div>
 
-            <div className="rounded-xl border border-slate-700 bg-slate-900/80 p-3 flex flex-col min-h-0">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-300">Camera joint tracking</p>
-                <button
-                  type="button"
-                  onClick={() => setCameraOn((v) => !v)}
-                  disabled={loadingModel}
-                  className="px-3 py-2 rounded-lg bg-cyan-500 text-slate-950 text-xs font-extrabold tracking-widest uppercase hover:bg-cyan-400 disabled:opacity-60"
-                >
-                  {cameraOn ? 'Stop camera' : (loadingModel ? 'Loading model...' : 'Start camera')}
-                </button>
-              </div>
+            {showTrackingPanel && (
+              <div className="rounded-xl border border-slate-700 bg-slate-900/80 p-3 flex flex-col min-h-0">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-300">Camera joint tracking</p>
+                </div>
 
-              <div className="mt-3 rounded-lg overflow-hidden border border-slate-700 bg-black relative flex-1 min-h-[280px]">
-                <video ref={videoRef} className="h-full w-full object-cover" muted playsInline />
-                <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
-                {!cameraOn && (
-                  <div className="absolute inset-0 grid place-items-center p-4 text-center">
-                    <p className="text-sm font-semibold text-slate-300">Enable camera to detect body joints and count raised hands in real-time.</p>
-                  </div>
+                <div className="mt-3 rounded-lg overflow-hidden border border-slate-700 bg-black relative flex-1 min-h-[280px]">
+                  <video ref={videoRef} className="h-full w-full object-cover" muted playsInline />
+                  <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+                  {!cameraOn && (
+                    <div className="absolute inset-0 grid place-items-center p-4 text-center">
+                      <p className="text-sm font-semibold text-slate-300">Enable camera to detect body joints and count raised hands in real-time.</p>
+                    </div>
+                  )}
+                </div>
+
+                {visionError && (
+                  <p className="mt-3 text-sm font-semibold text-rose-300">{visionError}</p>
                 )}
-              </div>
 
-              {visionError && (
-                <p className="mt-3 text-sm font-semibold text-rose-300">{visionError}</p>
-              )}
-
-              <div className="mt-3 grid grid-cols-2 gap-3">
-                <div className="rounded-lg border border-slate-700 bg-slate-800/80 p-3 text-center">
-                  <p className="text-[10px] font-extrabold tracking-widest uppercase text-slate-400">People detected</p>
-                  <p className="text-2xl font-black text-white mt-1">{peopleCount}</p>
-                </div>
-                <div className="rounded-lg border border-cyan-700 bg-cyan-950/50 p-3 text-center">
-                  <p className="text-[10px] font-extrabold tracking-widest uppercase text-cyan-300">Hands raised</p>
-                  <p className="text-2xl font-black text-cyan-200 mt-1">{handsUpCount}</p>
+                <div className="mt-3 grid grid-cols-2 gap-3">
+                  <div className="rounded-lg border border-slate-700 bg-slate-800/80 p-3 text-center">
+                    <p className="text-[10px] font-extrabold tracking-widest uppercase text-slate-400">People detected</p>
+                    <p className="text-2xl font-black text-white mt-1">{peopleCount}</p>
+                  </div>
+                  <div className="rounded-lg border border-cyan-700 bg-cyan-950/50 p-3 text-center">
+                    <p className="text-[10px] font-extrabold tracking-widest uppercase text-cyan-300">Hands raised</p>
+                    <p className="text-2xl font-black text-cyan-200 mt-1">{handsUpCount}</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       );
@@ -1013,9 +1054,9 @@
 
     function LearningOutcomesSlide() {
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
           {sectionBg()}
-          <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-white/60 backdrop-blur-md mb-6 shadow-lg shadow-purple-900/10">
                 <Users className="w-4 h-4 text-fuchsia-700" />
@@ -1024,7 +1065,7 @@
               <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-slate-950">Activity: AI-Assisted Introductions</h2>
             </header>
 
-            <div className="mt-8 rounded-3xl border border-slate-200 bg-white/80 backdrop-blur-md p-6 md:p-8 shadow-2xl shadow-purple-900/10">
+            <div className="mt-8 rounded-3xl border border-slate-200 bg-white/80 backdrop-blur-md p-6 md:p-8 shadow-2xl shadow-purple-900/10 flex-1 min-h-0">
               <p className="text-sm md:text-base font-extrabold text-slate-900">Tool: Microsoft Teams Copilot</p>
 
               <p className="mt-4 text-sm md:text-base font-medium text-slate-800">Participants introduce themselves:</p>
@@ -1043,9 +1084,9 @@
 
     function ScheduleSlide() {
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
           {sectionBg()}
-          <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-white/60 backdrop-blur-md mb-6 shadow-lg shadow-purple-900/10">
                 <Clock3 className="w-4 h-4 text-fuchsia-700" />
@@ -1054,7 +1095,7 @@
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">09:00 - 15:30 Day Plan</h2>
             </header>
 
-            <div className="mt-7 overflow-hidden rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-md">
+            <div className="mt-7 overflow-hidden rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-md flex-1 min-h-0">
               <table className="w-full text-left text-sm">
                 <thead className="bg-slate-950 text-slate-100">
                   <tr>
@@ -1096,15 +1137,15 @@
       const [revealed, setRevealed] = useState(false);
 
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
           {sectionBg()}
-          <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">Morning Block: Introductions + Productivity Challenge</h2>
               <p className="mt-3 text-slate-700 font-medium">09:00-10:10 | Welcome, task sprint, and AI vs Not AI voting.</p>
             </header>
 
-            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0">
               <SectionTimer label="Section Timebox" minutes={70} />
               <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4">
                 <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Participant Tasks</p>
@@ -1207,15 +1248,15 @@
 
     function FrontierFirmsSlide() {
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
           {sectionBg()}
-          <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">Frontier Firms: Where AI Fits in Business</h2>
               <p className="mt-3 text-slate-700 font-medium">10:10-10:35 | Identify high-value, low-risk starting points.</p>
             </header>
 
-            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0">
               <SectionTimer label="Section Timebox" minutes={25} />
               <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4 grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3">
@@ -1240,15 +1281,15 @@
     function ModelComparisonSlide() {
       const corePrompt = 'Create a marketing plan for a student-targeted hair salon.';
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
           {sectionBg()}
-          <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">Model Comparison Activity</h2>
               <p className="mt-3 text-slate-700 font-medium">10:35-11:20 | Compare ChatGPT, Gemini, and Claude outputs.</p>
             </header>
 
-            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0">
               <SectionTimer label="Section Timebox" minutes={45} />
               <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4">
                 <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Required Prompt</p>
@@ -1274,15 +1315,15 @@
 
     function ProductivityWorkflowsSlide() {
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
           {sectionBg()}
-          <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">AI for Productivity Workflows</h2>
               <p className="mt-3 text-slate-700 font-medium">11:20-12:05 | Summarise, rewrite, and extract actions from messy inputs.</p>
             </header>
 
-            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0">
               <SectionTimer label="Section Timebox" minutes={45} />
               <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4 grid grid-cols-1 md:grid-cols-3 gap-3">
                 <div className="rounded-lg border border-fuchsia-200 bg-fuchsia-50 p-3">
@@ -1306,9 +1347,9 @@
 
     function LunchBreakSlide() {
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
           {sectionBg()}
-          <div className="relative z-10 max-w-5xl mx-auto text-center">
+          <div className="relative z-10 max-w-5xl mx-auto text-center w-full flex-1 min-h-0 flex flex-col">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-white/60 backdrop-blur-md mb-6 shadow-lg shadow-purple-900/10">
               <Clock3 className="w-4 h-4 text-fuchsia-700" />
               <span className="text-xs font-extrabold tracking-widest uppercase text-slate-700">12:05-12:45</span>
@@ -1317,7 +1358,7 @@
             <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-950">Lunch Break</h2>
             <p className="mt-3 text-slate-700 font-medium">Take 40 minutes. Return ready for "How AI works" and the timeline sorting activity.</p>
 
-            <div className="mt-6 max-w-md mx-auto">
+            <div className="mt-6 max-w-md mx-auto w-full">
               <SectionTimer label="Lunch Countdown" minutes={40} />
             </div>
 
@@ -1335,14 +1376,14 @@
 
     function HowAIWorksSlide() {
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
           {sectionBg()}
-          <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">How AI Works (Without the Math Overload)</h2>
               <p className="mt-3 text-slate-700 font-medium">12:45-13:05 | Neural networks, transformers, and embeddings in plain language.</p>
             </header>
-            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0">
               <SectionTimer label="Section Timebox" minutes={20} />
               <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4 grid grid-cols-1 md:grid-cols-3 gap-3">
                 <div className="rounded-lg border border-slate-200 bg-white p-3">
@@ -1449,15 +1490,15 @@
 
     function AgentsSlide() {
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
           {sectionBg()}
-          <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">Exploring AI Agents</h2>
               <p className="mt-3 text-slate-700 font-medium">13:25-14:00 | AgentGPT demo and practical task.</p>
             </header>
 
-            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0">
               <SectionTimer label="Section Timebox" minutes={35} />
               <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4">
                 <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Task</p>
@@ -1475,14 +1516,14 @@
 
     function NetworkingSupportSlide() {
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
           {sectionBg()}
-          <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">Networking and AI Support Session</h2>
               <p className="mt-3 text-slate-700 font-medium">14:40-15:10 | Open support, troubleshooting, and guided exploration.</p>
             </header>
-            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0">
               <SectionTimer label="Section Timebox" minutes={30} />
               <div className="lg:col-span-2 space-y-4">
                 <div className="rounded-xl border border-slate-200 bg-white/80 p-4">
@@ -1511,10 +1552,6 @@
     function OptionalTimelineEnrichmentSlide() {
       return (
         <div className="relative min-h-screen w-full overflow-hidden">
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-950/80 border border-slate-700 backdrop-blur-md">
-            <span className="text-xs font-extrabold tracking-widest uppercase text-slate-300">Optional Enrichment</span>
-            <span className="text-xs font-extrabold tracking-widest uppercase text-cyan-300">Timeline Visual Recap</span>
-          </div>
           <TimelineSlide />
         </div>
       );
@@ -1922,8 +1959,8 @@
             </p>
           </header>
 
-          <div className="relative z-10 mt-6 max-w-5xl mx-auto w-full">
-            <div className="rounded-2xl border border-slate-200 bg-white/70 backdrop-blur-md p-5 md:p-6">
+          <div className="relative z-10 mt-6 max-w-5xl mx-auto w-full flex-1 min-h-0">
+            <div className="rounded-2xl border border-slate-200 bg-white/70 backdrop-blur-md p-5 md:p-6 h-full overflow-auto">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                 <div>
                   <p className="text-slate-950 font-extrabold mt-1">GDPval (early results)</p>
