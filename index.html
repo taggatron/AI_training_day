@@ -67,6 +67,21 @@
     .deck-slide-viewport .h-screen {
       height: 100% !important;
     }
+
+    .deck-light-bg {
+      background: linear-gradient(135deg, #f8fbff 0%, #dff3ff 52%, #f7fbff 100%);
+    }
+
+    @media (min-width: 1024px) {
+      .ai-live-panel-fit {
+        height: 100%;
+        max-height: 100%;
+      }
+
+      .ai-live-panel-fit .ai-live-media {
+        min-height: clamp(110px, 17vh, 170px);
+      }
+    }
   </style>
 </head>
 
@@ -400,10 +415,10 @@
       );
     }
 
-    function SlideFrame({ children }) {
+    function SlideFrame({ children, allowScroll = false, useLightGradient = true }) {
       return (
-        <section className="deck-slide-viewport relative z-10 w-full overflow-hidden">
-          <div className="h-full w-full overflow-y-auto">{children}</div>
+        <section className={`deck-slide-viewport relative z-10 w-full overflow-hidden ${useLightGradient ? 'deck-light-bg' : ''}`}>
+          <div className={`h-full w-full ${allowScroll ? 'overflow-y-auto' : 'overflow-y-auto lg:overflow-hidden'}`}>{children}</div>
         </section>
       );
     }
@@ -431,10 +446,10 @@
 
     function AIVisionHandsUpPanel({ onCountsChange }) {
       const slides = [
-        { id: 'ai-1', label: 'AI', title: 'Web chatbot', src: './webchatbot.png' },
-        { id: 'ai-2', label: 'Not AI', title: 'Phishing warning email', src: './Gmail-phishing-warning-banner.png' },
+        { id: 'ai-1', label: 'AI', title: 'Turing Tutor', src: './TuringTutor.png' },
+        { id: 'ai-2', label: 'Not AI', title: 'Supermarket self checkout', src: './supermarketselfcheckout.png' },
         { id: 'ai-3', label: 'AI', title: 'Sales analytics dashboard', src: './salesdashboard.png' },
-        { id: 'ai-4', label: 'Not AI', title: 'Supermarket self checkout', src: './supermarketselfcheckout.png' },
+        { id: 'ai-4', label: 'Not AI', title: 'Phishing warning email', src: './Gmail-phishing-warning-banner.png' },
         { id: 'ai-5', label: 'AI', title: 'Streaming recommendations', src: './Netflixrecommendations.png' },
         { id: 'ai-6', label: 'Live AI', title: 'TensorFlow webcam joint mapping', type: 'webcam' }
       ];
@@ -764,7 +779,7 @@
       const activeSlide = slides[slideIndex];
 
       return (
-        <div className="mt-3 rounded-xl border border-slate-200 bg-slate-950 p-3 md:p-4 text-slate-100 flex-1 min-h-0 flex flex-col w-full min-w-0 overflow-hidden">
+        <div className="ai-live-panel-fit mt-0 rounded-xl border border-slate-200 bg-slate-950 p-2 md:p-3 text-slate-100 flex-1 min-h-0 h-full max-h-full flex flex-col w-full min-w-0 overflow-hidden">
           <video ref={videoRef} className="hidden" muted playsInline aria-hidden="true" />
 
           <div className="flex flex-wrap items-center justify-between gap-2 md:gap-3 min-w-0">
@@ -788,12 +803,12 @@
             </div>
           </div>
 
-          <div className={`mt-3 grid grid-cols-1 ${showTrackingPanel ? 'xl:grid-cols-2' : ''} gap-3 md:gap-4 flex-1 min-h-0 w-full min-w-0`}>
+          <div className={`mt-2 grid grid-cols-1 ${showTrackingPanel ? 'xl:grid-cols-2' : ''} gap-2 md:gap-3 flex-1 min-h-0 w-full min-w-0`}>
             <div className="rounded-xl border border-slate-700 bg-slate-900/80 overflow-hidden flex flex-col min-h-0 w-full min-w-0">
-              <div className="relative w-full bg-black flex-1 min-h-[200px] md:min-h-[240px] overflow-hidden">
+              <div className="ai-live-media relative w-full bg-black flex-1 min-h-[120px] md:min-h-[150px] overflow-hidden">
                 {activeSlide.type === 'webcam' ? (
                   <>
-                    <video ref={previewVideoRef} className="h-full w-full object-cover" muted playsInline />
+                    <video ref={previewVideoRef} className="h-full w-full object-contain" muted playsInline />
                     <canvas ref={previewCanvasRef} className="absolute inset-0 h-full w-full" />
                     {!cameraOn && (
                       <div className="absolute inset-0 grid place-items-center p-4 text-center bg-black/65">
@@ -802,7 +817,7 @@
                     )}
                   </>
                 ) : (
-                  <img src={activeSlide.src} alt={activeSlide.title} className="h-full w-full object-cover" />
+                  <img src={activeSlide.src} alt={activeSlide.title} className="h-full w-full object-contain" />
                 )}
 
                 <div className="absolute left-3 top-3 rounded-md bg-black/70 border border-white/20 px-3 py-1 text-xs font-extrabold tracking-widest uppercase">
@@ -841,8 +856,8 @@
                   <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-300">Camera joint tracking</p>
                 </div>
 
-                <div className="mt-3 rounded-lg overflow-hidden border border-slate-700 bg-black relative flex-1 min-h-[200px] md:min-h-[240px]">
-                  <video ref={videoRef} className="h-full w-full object-cover" muted playsInline />
+                <div className="ai-live-media mt-2 rounded-lg overflow-hidden border border-slate-700 bg-black relative flex-1 min-h-[120px] md:min-h-[150px]">
+                  <video ref={videoRef} className="h-full w-full object-contain" muted playsInline />
                   <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
                   {!cameraOn && (
                     <div className="absolute inset-0 grid place-items-center p-4 text-center">
@@ -1047,7 +1062,7 @@
       return (
         <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
           {sectionBg()}
-          <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
+          <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col overflow-hidden">
             <header className="text-center">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-white/60 backdrop-blur-md mb-6 shadow-lg shadow-purple-900/10">
                 <Users className="w-4 h-4 text-fuchsia-700" />
@@ -1077,7 +1092,7 @@
       return (
         <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
           {sectionBg()}
-          <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
+          <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col overflow-hidden">
             <header className="text-center">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-white/60 backdrop-blur-md mb-6 shadow-lg shadow-purple-900/10">
                 <Clock3 className="w-4 h-4 text-fuchsia-700" />
@@ -1225,13 +1240,13 @@
       const [liveCounts, setLiveCounts] = useState({ peopleCount: 0, handsUpCount: 0 });
 
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-6 md:py-8 overflow-hidden flex flex-col">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-4 md:py-5 lg:py-3 overflow-hidden flex flex-col">
           {sectionBg()}
-          <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
-            <header className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 md:gap-4">
+          <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col overflow-hidden">
+            <header className="shrink-0 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2 md:gap-3">
               <div className="text-center lg:text-left">
-                <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">AI or Not AI: Live Vision Slideshow</h2>
-                <p className="mt-3 text-slate-700 font-medium">Hands-up voting with live joint mapping and real-time people counting.</p>
+                <h2 className="text-3xl md:text-4xl lg:text-[2.6rem] font-extrabold tracking-tight text-slate-950 leading-tight">AI or Not AI: Live Vision Slideshow</h2>
+                <p className="mt-2 text-slate-700 font-medium">Hands-up voting with live joint mapping and real-time people counting.</p>
               </div>
 
               <div className="self-center lg:self-auto rounded-xl bg-cyan-500/90 text-slate-950 px-4 py-3 min-w-[148px] text-center shadow-lg shadow-cyan-900/30 border border-cyan-600/40">
@@ -1241,7 +1256,9 @@
               </div>
             </header>
 
-            <AIVisionHandsUpPanel onCountsChange={setLiveCounts} />
+            <div className="mt-2 overflow-hidden rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-md flex-1 min-h-0">
+              <AIVisionHandsUpPanel onCountsChange={setLiveCounts} />
+            </div>
           </div>
         </div>
       );
@@ -2257,6 +2274,7 @@
       }, [total]);
 
       const currentSlideDef = slideDefs[slide];
+      const isTimelineSlide = currentSlideDef?.key === 'optional-timeline-enrichment';
 
       return (
         <div className="bg-slate-950 text-slate-200 font-sans selection:bg-purple-500 selection:text-white">
@@ -2264,7 +2282,7 @@
 
           <div className="relative z-10">
             {currentSlideDef && (
-              <SlideFrame>
+              <SlideFrame allowScroll={isTimelineSlide} useLightGradient={!isTimelineSlide}>
                 {currentSlideDef.render()}
               </SlideFrame>
             )}
