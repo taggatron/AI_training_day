@@ -1075,16 +1075,23 @@
             </header>
 
             <div className="mt-8 rounded-3xl border border-slate-200 bg-white/80 backdrop-blur-md p-6 md:p-8 shadow-2xl shadow-purple-900/10 flex-1 min-h-0">
-              <p className="text-sm md:text-base font-extrabold text-slate-900">Tool: Microsoft Teams Copilot</p>
+              <div className="flex items-center gap-3">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Microsoft_Office_Teams_%282018%E2%80%93present%29.svg"
+                  alt="Microsoft Teams logo"
+                  className="h-9 w-9 md:h-10 md:w-10 object-contain"
+                />
+                <p className="text-base md:text-lg font-extrabold text-slate-900">Tool: Microsoft Teams Copilot</p>
+              </div>
 
-              <p className="mt-4 text-sm md:text-base font-medium text-slate-800">Participants introduce themselves:</p>
-              <ul className="mt-2 text-sm md:text-base font-medium text-slate-700 list-disc pl-6 space-y-1">
+              <p className="mt-5 text-base md:text-lg font-medium text-slate-800">Participants introduce themselves:</p>
+              <ul className="mt-2 text-base md:text-lg font-medium text-slate-700 list-disc pl-6 space-y-1">
                 <li>name</li>
                 <li>business/role</li>
                 <li>What they would like to gain from today</li>
               </ul>
 
-              <p className="mt-5 text-sm md:text-base font-extrabold text-slate-900">Recording and transcription enabled.</p>
+              <p className="mt-6 text-base md:text-lg font-extrabold text-slate-900">Recording and transcription enabled.</p>
             </div>
           </div>
         </div>
@@ -1130,31 +1137,16 @@
     }
 
     function ProductivityChallengeSlide() {
-      const voteSamples = [
-        {
-          id: 's1',
-          text: 'Hi Sam, quick update: our order shipment has slipped by 48 hours due to supplier delays. Sorry for the inconvenience - I have added a 10% discount code for your next order.',
-          answer: 'Likely AI-assisted'
-        },
-        {
-          id: 's2',
-          text: 'Can we move Friday\'s meeting to 3pm? I need more time to clean up the draft numbers and I\'d rather share one clear update than two half-updates.',
-          answer: 'Likely human-written'
-        }
-      ];
-      const [votes, setVotes] = useState({});
-      const [revealed, setRevealed] = useState(false);
-
       return (
         <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
           {sectionBg()}
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
-              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">Morning Block: Introductions + Productivity Challenge</h2>
-              <p className="mt-3 text-slate-700 font-medium">09:00-10:10 | Welcome, task sprint, and AI vs Not AI voting.</p>
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">Morning Block: AI Skill Check and Productivity Challenge</h2>
+              <p className="mt-3 text-slate-700 font-medium">09:00-10:10 | Welcome, task sprint, and practical AI writing activities.</p>
             </header>
 
-            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0">
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
               <SectionTimer label="Section Timebox" minutes={70} />
               <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4">
                 <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Participant Tasks</p>
@@ -1162,7 +1154,7 @@
                   <li>Write a polite delay email to a customer.</li>
                   <li>Create a marketing post for a weekend promotion.</li>
                   <li>Generate a homepage blurb for a local business.</li>
-                  <li>Vote: Is this AI-generated or human-written?</li>
+                  <li>Refine one output using your own business tone and context.</li>
                 </ul>
               </div>
             </div>
@@ -1184,52 +1176,12 @@
               />
             </div>
 
-            <div className="mt-4 rounded-xl border border-slate-200 bg-white/80 p-4">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">AI vs Not AI Voting</p>
-                <button
-                  type="button"
-                  onClick={() => setRevealed((v) => !v)}
-                  className="px-3 py-2 rounded-lg border border-slate-200 bg-white text-xs font-extrabold tracking-widest uppercase text-slate-900 hover:bg-slate-100"
-                >
-                  {revealed ? 'Hide answers' : 'Reveal answers'}
-                </button>
-              </div>
-
-              <div className="mt-3 grid grid-cols-1 lg:grid-cols-2 gap-3">
-                {voteSamples.map((sample) => (
-                  <div key={sample.id} className="rounded-lg border border-slate-200 bg-white p-3">
-                    <p className="text-sm font-medium text-slate-800">{sample.text}</p>
-                    <div className="mt-3 flex gap-2">
-                      <button
-                        type="button"
-                        onClick={() => setVotes((v) => ({ ...v, [sample.id]: 'AI' }))}
-                        className={`px-3 py-2 rounded-lg text-xs font-extrabold tracking-widest uppercase border ${votes[sample.id] === 'AI' ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-900 border-slate-200'}`}
-                      >
-                        AI
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setVotes((v) => ({ ...v, [sample.id]: 'Human' }))}
-                        className={`px-3 py-2 rounded-lg text-xs font-extrabold tracking-widest uppercase border ${votes[sample.id] === 'Human' ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-900 border-slate-200'}`}
-                      >
-                        Human
-                      </button>
-                    </div>
-                    {revealed && (
-                      <p className="mt-2 text-xs font-extrabold text-emerald-700">Answer: {sample.answer}</p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
             <div className="mt-4">
               <FacilitatorPanel
                 title="Run as a fast challenge"
                 points={[
                   'Ask each pair to complete all three tasks in under 20 minutes.',
-                  'Collect one AI output and one human-edited output for voting.',
+                  'Collect one AI output and one human-edited output for discussion.',
                   'Debrief what changed after human review.'
                 ]}
               />
