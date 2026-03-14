@@ -77,8 +77,8 @@
 
     @media (min-width: 1024px) {
       .ai-live-panel-fit {
-        height: 100dvh;
-        max-height: 100dvh;
+        height: 95dvh;
+        max-height: 95dvh;
       }
 
       .ai-live-panel-fit .ai-live-media {
@@ -808,7 +808,7 @@
 
           <div className={`mt-2 grid grid-cols-1 ${showTrackingPanel ? 'xl:grid-cols-2' : ''} gap-2 md:gap-3 flex-1 min-h-0 w-full min-w-0`}>
             <div className="rounded-xl border border-slate-700 bg-slate-900/80 overflow-hidden flex flex-col min-h-0 w-full min-w-0">
-              <div className="ai-live-media relative w-full bg-black flex-1 min-h-[120px] md:min-h-[150px] overflow-hidden">
+              <div className="ai-live-media relative w-full bg-black flex-1 min-h-[120px] md:min-h-[150px] max-h-[50svh] overflow-hidden">
                 {activeSlide.type === 'webcam' ? (
                   <>
                     <video ref={previewVideoRef} className="h-full w-full object-contain" muted playsInline />
@@ -1243,10 +1243,16 @@
       const [liveCounts, setLiveCounts] = useState({ peopleCount: 0, handsUpCount: 0 });
 
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-4 md:py-5 lg:py-3 overflow-hidden flex flex-col">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-hidden flex flex-col">
           {sectionBg()}
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col overflow-hidden">
-            <header className="shrink-0 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2 md:gap-3">
+            <header className="shrink-0 flex flex-col gap-4 md:gap-5">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-white/60 backdrop-blur-md shadow-lg shadow-purple-900/10 self-start">
+                <MonitorPlay className="w-4 h-4 text-fuchsia-700" />
+                <span className="text-xs font-extrabold tracking-widest uppercase text-slate-700">AI or Not AI</span>
+              </div>
+
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2 md:gap-3">
               <div className="text-center lg:text-left">
                 <h2 className="text-3xl md:text-4xl lg:text-[2.6rem] font-extrabold tracking-tight text-slate-950 leading-tight">AI or Not AI: Live Vision Slideshow</h2>
                 <p className="mt-2 text-slate-700 font-medium">Hands-up voting with live joint mapping and real-time people counting.</p>
@@ -1257,9 +1263,10 @@
                 <p className="text-3xl leading-none font-black">{liveCounts.handsUpCount}</p>
                 <p className="text-[10px] font-extrabold tracking-widest uppercase mt-1">of {liveCounts.peopleCount} people</p>
               </div>
+              </div>
             </header>
 
-            <div className="mt-2 overflow-hidden rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-md flex-1 min-h-0 max-h-[75svh]">
+            <div className="mt-4 overflow-hidden rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-md flex-1 min-h-0 max-h-[75svh]">
               <AIVisionHandsUpPanel onCountsChange={setLiveCounts} />
             </div>
           </div>
