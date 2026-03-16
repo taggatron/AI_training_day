@@ -4,5 +4,8 @@
   "private": true,
   "scripts": {
     "start": "npx --yes serve -l 8080 ."
+  },
+  "dependencies": {
+    "firebase": "^12.10.0"
   }
 }

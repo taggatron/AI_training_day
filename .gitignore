@@ -11,7 +11,24 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Dependencies
+node_modules/
+
 # Environment overrides
 .env
 .env.*
 !.env.example
+
+# Firebase
+firebaseconnection.js
+.firebase/
+.runtimeconfig.json
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+database-debug.log*
+storage-debug.log*
+*firebase*service-account*.json
+
+# Temporary Office lock files
+~$*.docx
