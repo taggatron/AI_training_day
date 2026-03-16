@@ -23,7 +23,7 @@ const db = getDatabase(app);
 // --- GEMINI API SETUP ---
 const GEMINI_API_KEY =
   (typeof window !== 'undefined' && (window.GEMINI_API_KEY || localStorage.getItem('GEMINI_API_KEY'))) ||
-  "AIzaSyAwJHbjewrtZ6MTDjcavKoxfvzKJYSRTfE";
+  "AIzaSyDTR67BtnTurCtG-lWAHXlED_KyXj86JKs";
 
 // --- STYLES ---
 const styles = `
@@ -122,7 +122,7 @@ export default function LuxeSalonGame() {
       style: { name: "Premium Style", price: 120, unlocked: false, basePrice: 120 }
     },
     staff: [{
-      id: Date.now(), name: "You", skill: 5, speed: 5, energy: 100, state: 'IDLE', currentTask: null
+      id: Date.now(), name: "You", skill: 5, speed: 5, energy: 100, state: 'IDLE', currentTask: null, pendingTraining: false
     }],
     customers: [],
     stations: 3,
@@ -387,7 +387,8 @@ export default function LuxeSalonGame() {
           speed: clampStat(3),
           energy: 100,
           state: 'IDLE',
-          currentTask: null
+          currentTask: null,
+          pendingTraining: false
         });
         await botLogEvent('HIRE_STAFF', 'Hired Stylist', state.money);
       },
@@ -1031,12 +1032,29 @@ export default function LuxeSalonGame() {
             state.money += chargedPrice;
             state.reputation += (staff.skill / 5);
             staff.energy -= 10;
-            staff.state = 'IDLE';
-            staff.currentTask = null;
+
+            if (staff.pendingTraining) {
+              staff.pendingTraining = false;
+              staff.state = 'TRAINING';
+              staff.currentTask = { progress: 0, totalTime: 300 };
+              notify(`${staff.name} started queued training.`, 'neutral');
+            } else {
+              staff.state = 'IDLE';
+              staff.currentTask = null;
+            }
+
             showFloatingText(staff.id, `+$${chargedPrice}`, 'money');
             syncNeeded = true;
           }
         } else if (staff.state === 'IDLE') {
+          if (staff.pendingTraining) {
+            staff.pendingTraining = false;
+            staff.state = 'TRAINING';
+            staff.currentTask = { progress: 0, totalTime: 300 };
+            notify(`${staff.name} started queued training.`, 'neutral');
+            return;
+          }
+
           if (staff.energy < 100) staff.energy += 0.05;
 
           if (state.customers.length > 0 && staff.energy > 20) {
@@ -1064,6 +1082,7 @@ export default function LuxeSalonGame() {
           if (staff.currentTask.progress >= staff.currentTask.totalTime) {
             staff.skill = clampStat(staff.skill + 1);
             staff.speed = clampStat(staff.speed + 1);
+            staff.pendingTraining = false;
             staff.state = 'IDLE';
             staff.currentTask = null;
             notify(`${staff.name} finished training!`, 'good');
@@ -1110,7 +1129,8 @@ export default function LuxeSalonGame() {
           speed: clampStat(3),
           energy: 100,
           state: 'IDLE',
-          currentTask: null
+          currentTask: null,
+          pendingTraining: false
         });
         notify("Hired Stylist!", "good");
         logEvent("HIRE_STAFF", "Hired Stylist", -200);
@@ -1178,13 +1198,29 @@ export default function LuxeSalonGame() {
       if (roomStatus === 'ended') return;
       const s = gameStateRef.current;
       const staff = s.staff.find(st => st.id === id);
-      if (staff && staff.state === 'IDLE' && s.money >= 150) {
-        s.money -= 150;
+      if (!staff) return;
+
+      if (staff.state === 'TRAINING' || staff.pendingTraining) {
+        return notify(`${staff.name} already has training active/queued.`, 'neutral');
+      }
+
+      if (s.money < 150) {
+        notify("Need $150", "bad");
+        return;
+      }
+
+      s.money -= 150;
+
+      if (staff.state === 'WORKING') {
+        staff.pendingTraining = true;
+        notify(`Training queued for ${staff.name}.`, 'neutral');
+        logEvent("QUEUE_TRAIN", `Queued training for ${staff.name}`, -150);
+      } else {
+        staff.pendingTraining = false;
         staff.state = 'TRAINING';
         staff.currentTask = { progress: 0, totalTime: 300 };
+        notify(`${staff.name} started training.`, 'good');
         logEvent("TRAIN", `Trained ${staff.name}`, -150);
-      } else if (s.money < 150) {
-        notify("Need $150", "bad");
       }
     },
 
@@ -1327,6 +1363,23 @@ export default function LuxeSalonGame() {
         <path d="M18 52c3-5 8-8 14-8s11 3 14 8" stroke="rgba(255,255,255,0.22)" strokeWidth="2" fill="none" />
       </svg>
     );
+  };
+
+  const renderDoubleAsteriskBold = (text) => {
+    if (!text) return null;
+    const normalized = String(text).replace(/\\\*\\\*/g, '**');
+    const parts = normalized.split(/(\*\*[\s\S]+?\*\*)/g);
+    return parts.map((part, idx) => {
+      const isBold = part.startsWith('**') && part.endsWith('**') && part.length > 4;
+      if (isBold) {
+        return (
+          <strong key={`b-${idx}`} className="font-extrabold text-white">
+            {part.slice(2, -2)}
+          </strong>
+        );
+      }
+      return <span key={`t-${idx}`}>{part}</span>;
+    });
   };
 
   // --- VIEW: PLAYER ANALYTICS ---
@@ -1759,7 +1812,7 @@ export default function LuxeSalonGame() {
                           {hostAnalysisOpen?.[pid] && (
                             <div className="mt-3 whitespace-pre-wrap text-sm text-zinc-200 leading-relaxed">
                               {pData?.analytics?.strategySummary?.text
-                                ? pData.analytics.strategySummary.text
+                                ? renderDoubleAsteriskBold(pData.analytics.strategySummary.text)
                                 : 'No analysis saved yet. Click Regenerate to create it.'}
                             </div>
                           )}
@@ -1929,7 +1982,9 @@ export default function LuxeSalonGame() {
                         </span>
                       </div>
 
-                      <div className="text-[10px] text-zinc-400 font-mono">{s.state}</div>
+                      <div className="text-[10px] text-zinc-400 font-mono">
+                        {s.state}{s.pendingTraining ? ' • TRAIN QUEUED' : ''}
+                      </div>
 
                       <div className="mt-1 flex items-center gap-3 text-[10px] text-zinc-300">
                         <span className="flex items-center gap-1">
@@ -1947,8 +2002,11 @@ export default function LuxeSalonGame() {
                     <button
                       onClick={() => actions.train(s.id)}
                       className="text-xs bg-blue-900/50 px-3 py-2 rounded text-blue-200 border border-blue-800 font-bold touch-manipulation shrink-0"
-                      disabled={s.state !== 'IDLE'}
-                      title={s.state !== 'IDLE' ? 'Must be IDLE to train' : 'Train (+1 skill, +1 speed)'}
+                      title={
+                        s.state === 'WORKING'
+                          ? 'Queue training to start right after this cut'
+                          : 'Train (+1 skill, +1 speed)'
+                      }
                     >
                       Train
                     </button>

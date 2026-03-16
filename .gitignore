@@ -19,6 +19,7 @@ node_modules/
 .env.*
 !.env.example
 gemini_hosted_hair_salon.js
+gemini_hosted_hair_salon
 
 # Firebase
 firebaseconnection.js
