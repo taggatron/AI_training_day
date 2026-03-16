@@ -1839,12 +1839,33 @@ export default function LuxeSalonGame() {
 
       {aiModal.open && (
         <div className="fixed inset-0 z-[200] bg-black/80 flex items-center justify-center p-4">
-          <div className="bg-zinc-900 border border-zinc-700 p-6 rounded-2xl max-w-md w-full shadow-2xl">
+          <div className="bg-zinc-900 border border-zinc-700 p-6 rounded-2xl max-w-md w-full max-h-[85dvh] overflow-y-auto scroll-y shadow-2xl">
             <div className="flex justify-between items-center mb-4">
               <h3 className="font-bold flex gap-2 text-xl"><Sparkles className="text-yellow-400" /> Message</h3>
-              <button onClick={() => setAiModal({ open: false })}><X /></button>
+              <button
+                onClick={() => setAiModal({ open: false })}
+                className="p-1 rounded hover:bg-zinc-800"
+                aria-label="Close coach message"
+                title="Close"
+              >
+                <X />
+              </button>
             </div>
-            <p className="text-zinc-300 italic leading-relaxed">{aiModal.loading ? "Thinking..." : aiModal.content}</p>
+
+            <div className="max-h-[60dvh] overflow-y-auto scroll-y pr-1">
+              <p className="text-zinc-300 italic leading-relaxed whitespace-pre-wrap break-words">
+                {aiModal.loading ? "Thinking..." : aiModal.content}
+              </p>
+            </div>
+
+            <div className="mt-5 flex justify-end">
+              <button
+                onClick={() => setAiModal({ open: false })}
+                className="px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg hover:bg-zinc-700 text-sm font-semibold"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}

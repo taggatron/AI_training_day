@@ -1077,18 +1077,18 @@
             <div className="mt-8 rounded-3xl border border-slate-200 bg-white/80 backdrop-blur-md p-6 md:p-8 shadow-2xl shadow-purple-900/10 flex-1 min-h-0">
               <div className="flex items-center gap-3">
                 <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Microsoft_Office_Teams_%282018%E2%80%93present%29.svg"
+                  src="teamslogo.png"
                   alt="Microsoft Teams logo"
                   className="h-9 w-9 md:h-10 md:w-10 object-contain"
                 />
                 <p className="text-base md:text-lg font-extrabold text-slate-900">Tool: Microsoft Teams Copilot</p>
               </div>
 
-              <p className="mt-5 text-base md:text-lg font-medium text-slate-800">Participants introduce themselves:</p>
+              <p className="mt-5 text-base md:text-lg font-medium text-slate-800">Task - Please introduce yourself and include:</p>
               <ul className="mt-2 text-base md:text-lg font-medium text-slate-700 list-disc pl-6 space-y-1">
-                <li>name</li>
-                <li>business/role</li>
-                <li>What they would like to gain from today</li>
+                <li>Your name</li>
+                <li>Business/role</li>
+                <li>What you would like to gain from today</li>
               </ul>
 
               <p className="mt-6 text-base md:text-lg font-extrabold text-slate-900">Recording and transcription enabled.</p>
@@ -1142,8 +1142,8 @@
           {sectionBg()}
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
-              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">Morning Block: AI Skill Check and Productivity Challenge</h2>
-              <p className="mt-3 text-slate-700 font-medium">09:00-10:10 | Welcome, task sprint, and practical AI writing activities.</p>
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">AI Skill Check</h2>
+              <p className="mt-3 text-slate-700 font-medium">09:30-10:10 | Welcome, task sprint, and practical AI writing activities.</p>
             </header>
 
             <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -1172,17 +1172,6 @@
                 links={[
                   { label: 'Claude', url: 'https://claude.ai' },
                   { label: 'ChatGPT', url: 'https://chatgpt.com' }
-                ]}
-              />
-            </div>
-
-            <div className="mt-4">
-              <FacilitatorPanel
-                title="Run as a fast challenge"
-                points={[
-                  'Ask each pair to complete all three tasks in under 20 minutes.',
-                  'Collect one AI output and one human-edited output for discussion.',
-                  'Debrief what changed after human review.'
                 ]}
               />
             </div>
