@@ -1375,80 +1375,188 @@
     }
 
     function TimelineSortingSlide() {
-      const shuffled = () => [...TIMELINE_SORT_EVENTS].sort(() => Math.random() - 0.5);
-      const [items, setItems] = useState(shuffled);
-      const [dragging, setDragging] = useState(null);
-      const correctOrder = TIMELINE_SORT_EVENTS;
-      const solved = items.every((item, idx) => item === correctOrder[idx]);
+      const [activeConcept, setActiveConcept] = useState('neural');
 
-      const moveItem = (from, to) => {
-        if (from == null || to == null || from === to) return;
-        setItems((curr) => {
-          const next = [...curr];
-          const [pick] = next.splice(from, 1);
-          next.splice(to, 0, pick);
-          return next;
-        });
+      const embeddingNodes = [
+        { id: 'dog', x: 22, y: 34, z: 0.78, tone: 'from-emerald-400 to-emerald-600' },
+        { id: 'cat', x: 34, y: 40, z: 0.72, tone: 'from-emerald-300 to-emerald-500' },
+        { id: 'king', x: 58, y: 28, z: 0.84, tone: 'from-indigo-400 to-indigo-600' },
+        { id: 'queen', x: 70, y: 34, z: 0.77, tone: 'from-indigo-300 to-indigo-500' },
+        { id: 'car', x: 36, y: 68, z: 0.68, tone: 'from-amber-300 to-amber-500' },
+        { id: 'truck', x: 50, y: 74, z: 0.62, tone: 'from-amber-400 to-amber-600' },
+        { id: 'vehicle', x: 44, y: 60, z: 0.52, tone: 'from-slate-400 to-slate-600' }
+      ];
+
+      const embeddingEdges = [
+        ['dog', 'cat'],
+        ['king', 'queen'],
+        ['car', 'truck'],
+        ['car', 'vehicle'],
+        ['truck', 'vehicle']
+      ];
+
+      const nodeById = Object.fromEntries(embeddingNodes.map((n) => [n.id, n]));
+
+      const conceptContent = {
+        neural: {
+          title: 'Neural Networks',
+          subtitle: 'Pattern detectors trained with many examples.',
+          explanation: 'Neural networks learn by adjusting internal weights from many labeled examples. Over time, they get better at recognizing useful patterns in data like images, text, and customer behavior.',
+          business: 'Business example: classify customer support tickets into billing, delivery, or product issues.',
+          takeaway: 'Best when you have consistent historical examples and a clear prediction target.'
+        },
+        transformers: {
+          title: 'Transformers',
+          subtitle: 'Attention helps models keep track of context.',
+          explanation: 'Transformers use attention to decide which earlier words and ideas matter most when generating the next output. This lets them handle longer context and produce coherent responses.',
+          business: 'Business example: draft tailored email responses using a customer conversation thread.',
+          takeaway: 'Best when context, sequence, and language understanding are critical.'
+        },
+        embeddings: {
+          title: 'Embeddings',
+          subtitle: 'Vectors that represent meaning and similarity.',
+          explanation: 'Embeddings convert text, images, or other inputs into numeric vectors. Words exist in a vector space of meaning, where similar words appear close together. This enables smart search and semantic matching.',
+          business: 'Business example: find related past proposals by meaning, not exact keywords.',
+          takeaway: 'Best for retrieval, recommendations, clustering, and semantic search.'
+        }
       };
+
+      const conceptButtons = [
+        { key: 'neural', label: 'Neural Networks', desc: 'Pattern detectors trained with many examples.' },
+        { key: 'transformers', label: 'Transformers', desc: 'Attention helps models keep track of context.' },
+        { key: 'embeddings', label: 'Embeddings', desc: 'Vectors that represent meaning and similarity.' }
+      ];
+
+      const active = conceptContent[activeConcept];
 
       return (
         <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
           {sectionBg()}
           <div className="relative z-10 max-w-6xl mx-auto">
             <header className="text-center">
-              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">How AI Works + Timeline Sorting Activity</h2>
-              <p className="mt-3 text-slate-700 font-medium">12:45-13:25 | Quick concept explainer followed by card sorting.</p>
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">How AI Works Interactive Activity</h2>
+              <p className="mt-3 text-slate-700 font-medium">12:45-13:25 | Click each concept to explore how it works and where to apply it.</p>
             </header>
 
             <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
               <SectionTimer label="Section Timebox" minutes={40} />
               <div className="lg:col-span-2 space-y-4">
                 <div className="rounded-xl border border-slate-200 bg-white/80 p-4 grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <div className="rounded-lg border border-slate-200 bg-white p-3">
-                    <p className="text-xs font-extrabold tracking-widest uppercase text-slate-700">Neural Networks</p>
-                    <p className="mt-1 text-sm text-slate-700 font-medium">Pattern detectors trained with many examples.</p>
-                  </div>
-                  <div className="rounded-lg border border-slate-200 bg-white p-3">
-                    <p className="text-xs font-extrabold tracking-widest uppercase text-slate-700">Transformers</p>
-                    <p className="mt-1 text-sm text-slate-700 font-medium">Attention helps models keep track of context.</p>
-                  </div>
-                  <div className="rounded-lg border border-slate-200 bg-white p-3">
-                    <p className="text-xs font-extrabold tracking-widest uppercase text-slate-700">Embeddings</p>
-                    <p className="mt-1 text-sm text-slate-700 font-medium">Vectors that represent meaning and similarity.</p>
-                  </div>
+                  {conceptButtons.map((button) => {
+                    const isActive = activeConcept === button.key;
+                    return (
+                      <button
+                        key={button.key}
+                        type="button"
+                        onClick={() => setActiveConcept(button.key)}
+                        className={`rounded-lg border p-3 text-left transition-colors ${
+                          isActive
+                            ? 'border-slate-900 bg-slate-900 text-white shadow-sm'
+                            : 'border-slate-200 bg-white hover:bg-slate-100 text-slate-700'
+                        }`}
+                      >
+                        <p className={`text-xs font-extrabold tracking-widest uppercase ${isActive ? 'text-white' : 'text-slate-700'}`}>{button.label}</p>
+                        <p className={`mt-1 text-sm font-medium ${isActive ? 'text-slate-100' : 'text-slate-700'}`}>{button.desc}</p>
+                      </button>
+                    );
+                  })}
                 </div>
 
                 <div className="rounded-xl border border-slate-200 bg-white/80 p-4">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-sm font-medium text-slate-700">Use drag-and-drop or retry shuffle.</p>
-                  <button
-                    type="button"
-                    onClick={() => setItems(shuffled())}
-                    className="px-3 py-2 rounded-lg border border-slate-200 bg-white text-xs font-extrabold tracking-widest uppercase text-slate-900 hover:bg-slate-100"
-                  >
-                    Shuffle
-                  </button>
-                </div>
-                <div className="mt-3 space-y-2">
-                  {items.map((item, idx) => (
-                    <div
-                      key={item}
-                      draggable
-                      onDragStart={() => setDragging(idx)}
-                      onDragOver={(e) => e.preventDefault()}
-                      onDrop={() => {
-                        moveItem(dragging, idx);
-                        setDragging(null);
-                      }}
-                      className="cursor-move rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800"
-                    >
-                      {idx + 1}. {item}
+                  <div className="rounded-lg border border-slate-200 bg-white p-4 md:p-5">
+                    <p className="text-xs font-extrabold tracking-widest uppercase text-slate-500">Selected Concept</p>
+                    <h3 className="mt-2 text-xl md:text-2xl font-extrabold text-slate-950">{active.title}</h3>
+                    <p className="mt-1 text-sm md:text-base font-medium text-slate-700">{active.subtitle}</p>
+
+                    <div className="mt-4 space-y-3 text-sm md:text-base text-slate-700">
+                      <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+                        <p className="font-semibold text-slate-900">How it works</p>
+                        <p className="mt-1">{active.explanation}</p>
+                      </div>
+
+                      <div className="rounded-lg border border-cyan-200 bg-cyan-50 p-3">
+                        <p className="font-semibold text-cyan-900">Business use</p>
+                        <p className="mt-1 text-cyan-900/90">{active.business}</p>
+                      </div>
+
+                      <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3">
+                        <p className="font-semibold text-emerald-900">Key takeaway</p>
+                        <p className="mt-1 text-emerald-900/90">{active.takeaway}</p>
+                      </div>
+
+                      {activeConcept === 'embeddings' && (
+                        <div className="rounded-lg border border-violet-200 bg-violet-50/70 p-3 md:p-4 overflow-hidden">
+                          <style>{`
+                            @keyframes embed-space-orbit {
+                              0% { transform: rotateX(16deg) rotateZ(0deg); }
+                              50% { transform: rotateX(20deg) rotateZ(4deg); }
+                              100% { transform: rotateX(16deg) rotateZ(0deg); }
+                            }
+                            @keyframes embed-node-float {
+                              0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
+                              50% { transform: translate(-50%, -50%) translateY(-6px); }
+                            }
+                          `}</style>
+
+                          <div className="flex items-center justify-between gap-2">
+                            <p className="text-xs font-extrabold tracking-widest uppercase text-violet-700">Animated Embedding Space</p>
+                            <p className="text-[11px] font-semibold text-violet-700/80">Closer nodes = more similar meaning</p>
+                          </div>
+
+                          <div className="mt-3 relative h-56 rounded-xl border border-violet-200 bg-gradient-to-br from-white via-violet-100/40 to-cyan-100/40" style={{ perspective: '900px' }}>
+                            <div className="absolute inset-0" style={{ transformStyle: 'preserve-3d', animation: 'embed-space-orbit 8s ease-in-out infinite' }}>
+                              <svg className="absolute inset-0 w-full h-full">
+                                {embeddingEdges.map(([a, b], idx) => {
+                                  const n1 = nodeById[a];
+                                  const n2 = nodeById[b];
+                                  if (!n1 || !n2) return null;
+                                  const edgeOpacity = Math.min(0.75, (n1.z + n2.z) / 2);
+                                  return (
+                                    <line
+                                      key={`edge-${idx}`}
+                                      x1={`${n1.x}%`}
+                                      y1={`${n1.y}%`}
+                                      x2={`${n2.x}%`}
+                                      y2={`${n2.y}%`}
+                                      stroke="rgb(99 102 241)"
+                                      strokeOpacity={edgeOpacity}
+                                      strokeWidth="1.5"
+                                    />
+                                  );
+                                })}
+                              </svg>
+
+                              {embeddingNodes.map((node, idx) => {
+                                const size = 11 + (node.z * 10);
+                                const labelSize = 11 + Math.round(node.z * 3);
+                                return (
+                                  <div
+                                    key={node.id}
+                                    className="absolute"
+                                    style={{
+                                      left: `${node.x}%`,
+                                      top: `${node.y}%`,
+                                      zIndex: Math.round(node.z * 100),
+                                      animation: `embed-node-float ${3 + (idx % 3)}s ease-in-out ${idx * 0.12}s infinite`
+                                    }}
+                                  >
+                                    <div className="flex items-center gap-2 rounded-full px-2 py-1 border border-white/70 bg-white/80 shadow-[0_8px_20px_rgba(99,102,241,0.18)]" style={{ transform: `translate(-50%, -50%) scale(${0.78 + node.z * 0.45})` }}>
+                                      <span className={`rounded-full bg-gradient-to-br ${node.tone}`} style={{ width: `${size}px`, height: `${size}px` }} />
+                                      <span className="font-bold text-slate-800" style={{ fontSize: `${labelSize}px` }}>{node.id}</span>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+
+                          <p className="mt-3 text-xs md:text-sm font-medium text-violet-900/90">
+                            Example clusters: <span className="font-extrabold">dog-cat</span>, <span className="font-extrabold">king-queen</span>, <span className="font-extrabold">car-truck</span>.
+                          </p>
+                        </div>
+                      )}
                     </div>
-                  ))}
-                </div>
-                <div className={`mt-3 text-sm font-extrabold ${solved ? 'text-emerald-700' : 'text-slate-600'}`}>
-                  {solved ? 'Correct order complete.' : 'Not in order yet.'}
-                </div>
+                  </div>
                 </div>
               </div>
             </div>
