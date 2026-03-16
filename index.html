@@ -33,6 +33,7 @@
 
   <!-- Babel for JSX -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 
   <!-- Import Map for React & Modules -->
   <script type="importmap">
@@ -1374,28 +1375,185 @@
       );
     }
 
+    function EmbeddingSpace3DGraph() {
+      const plotRef = useRef(null);
+
+      useEffect(() => {
+        if (!plotRef.current || !window.Plotly) return;
+
+        const points = [
+          { word: 'dog', x: 0.82, y: 0.12, z: 0.24, cluster: 'animals' },
+          { word: 'cat', x: 0.9, y: 0.18, z: 0.3, cluster: 'animals' },
+          { word: 'king', x: 0.18, y: 0.94, z: 0.34, cluster: 'royalty' },
+          { word: 'queen', x: 0.26, y: 0.97, z: 0.44, cluster: 'royalty' },
+          { word: 'car', x: -0.76, y: 0.08, z: 0.86, cluster: 'transport' },
+          { word: 'truck', x: -0.9, y: 0.12, z: 0.96, cluster: 'transport' },
+          { word: 'vehicle', x: -0.84, y: 0.1, z: 0.72, cluster: 'transport' }
+        ];
+
+        const edges = [
+          ['dog', 'cat'],
+          ['king', 'queen'],
+          ['car', 'truck'],
+          ['car', 'vehicle'],
+          ['truck', 'vehicle']
+        ];
+
+        const colorByCluster = {
+          animals: '#10b981',
+          royalty: '#6366f1',
+          transport: '#f59e0b'
+        };
+
+        const getPoint = (word) => points.find((p) => p.word === word);
+
+        const edgeTrace = {
+          type: 'scatter3d',
+          mode: 'lines',
+          x: edges.flatMap(([a, b]) => [getPoint(a).x, getPoint(b).x, null]),
+          y: edges.flatMap(([a, b]) => [getPoint(a).y, getPoint(b).y, null]),
+          z: edges.flatMap(([a, b]) => [getPoint(a).z, getPoint(b).z, null]),
+          line: { color: 'rgba(71,85,105,0.55)', width: 5 },
+          hoverinfo: 'skip',
+          showlegend: false
+        };
+
+        const nodeTrace = {
+          type: 'scatter3d',
+          mode: 'markers+text',
+          x: points.map((p) => p.x),
+          y: points.map((p) => p.y),
+          z: points.map((p) => p.z),
+          text: points.map((p) => p.word),
+          textposition: 'top center',
+          textfont: { size: 12, color: '#0f172a' },
+          marker: {
+            size: points.map((p) => (p.cluster === 'royalty' ? 8 : 7)),
+            color: points.map((p) => colorByCluster[p.cluster]),
+            opacity: 0.95,
+            line: { width: 1, color: '#ffffff' }
+          },
+          hovertemplate: '%{text}<extra></extra>',
+          showlegend: false
+        };
+
+        const axisVectors = {
+          type: 'cone',
+          x: [0, 0, 0],
+          y: [0, 0, 0],
+          z: [0, 0, 0],
+          u: [1.05, 0.0, 0.0],
+          v: [0.0, 1.05, 0.0],
+          w: [0.0, 0.0, 1.05],
+          colorscale: [
+            [0, '#7dd3fc'],
+            [0.5, '#a78bfa'],
+            [1, '#f9a8d4']
+          ],
+          sizemode: 'absolute',
+          sizeref: 0.23,
+          opacity: 0.85,
+          hoverinfo: 'skip',
+          showscale: false,
+          anchor: 'tail'
+        };
+
+        const axisLabelTrace = {
+          type: 'scatter3d',
+          mode: 'text',
+          x: [1.18, 0.02, 0.02],
+          y: [0.02, 1.18, 0.02],
+          z: [0.02, 0.02, 1.18],
+          text: ['Animality', 'Royalty', 'Mobility'],
+          textfont: { size: 12, color: '#334155' },
+          hoverinfo: 'skip',
+          showlegend: false
+        };
+
+        const layout = {
+          margin: { l: 0, r: 0, b: 0, t: 0 },
+          paper_bgcolor: 'rgba(0,0,0,0)',
+          plot_bgcolor: 'rgba(0,0,0,0)',
+          scene: {
+            camera: { eye: { x: 1.5, y: 1.2, z: 1.05 } },
+            xaxis: {
+              title: 'Animality',
+              range: [-1.2, 1.2],
+              gridcolor: 'rgba(148,163,184,0.2)',
+              zerolinecolor: 'rgba(148,163,184,0.3)',
+              backgroundcolor: 'rgba(255,255,255,0)'
+            },
+            yaxis: {
+              title: 'Royalty',
+              range: [-0.2, 1.2],
+              gridcolor: 'rgba(148,163,184,0.2)',
+              zerolinecolor: 'rgba(148,163,184,0.3)',
+              backgroundcolor: 'rgba(255,255,255,0)'
+            },
+            zaxis: {
+              title: 'Mobility',
+              range: [-0.1, 1.2],
+              gridcolor: 'rgba(148,163,184,0.2)',
+              zerolinecolor: 'rgba(148,163,184,0.3)',
+              backgroundcolor: 'rgba(255,255,255,0)'
+            }
+          }
+        };
+
+        window.Plotly.newPlot(plotRef.current, [edgeTrace, nodeTrace, axisVectors, axisLabelTrace], layout, {
+          displayModeBar: false,
+          responsive: true
+        });
+
+        let angle = 0;
+        const timer = setInterval(() => {
+          angle += 0.045;
+          const pulse = 1 + (Math.sin(angle * 2.2) * 0.08);
+          window.Plotly.update(
+            plotRef.current,
+            {
+              u: [[1.05 * pulse, 0, 0]],
+              v: [[0, 1.05 * pulse, 0]],
+              w: [[0, 0, 1.05 * pulse]]
+            },
+            {
+              'scene.camera.eye': {
+                x: 1.45 + Math.cos(angle) * 0.2,
+                y: 1.15 + Math.sin(angle) * 0.2,
+                z: 1.0 + Math.sin(angle * 0.7) * 0.08
+              }
+            },
+            [2]
+          );
+        }, 60);
+
+        return () => {
+          clearInterval(timer);
+          if (plotRef.current) {
+            window.Plotly.purge(plotRef.current);
+          }
+        };
+      }, []);
+
+      return (
+        <div className="rounded-lg border border-violet-200 bg-violet-50/70 p-3 md:p-4 overflow-hidden">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-xs font-extrabold tracking-widest uppercase text-violet-700">Animated Embedding Space</p>
+            <p className="text-[11px] font-semibold text-violet-700/80">3D vectors and axes show semantic direction</p>
+          </div>
+          <div className="mt-3 h-64 rounded-xl border border-violet-200 bg-gradient-to-br from-white via-violet-100/40 to-cyan-100/40">
+            <div ref={plotRef} className="w-full h-full" />
+          </div>
+          <p className="mt-3 text-xs md:text-sm font-medium text-violet-900/90">
+            Example clusters: <span className="font-extrabold">dog-cat</span>, <span className="font-extrabold">king-queen</span>, <span className="font-extrabold">car-truck</span>.
+          </p>
+        </div>
+      );
+    }
+
     function TimelineSortingSlide() {
       const [activeConcept, setActiveConcept] = useState('neural');
-
-      const embeddingNodes = [
-        { id: 'dog', x: 22, y: 34, z: 0.78, tone: 'from-emerald-400 to-emerald-600' },
-        { id: 'cat', x: 34, y: 40, z: 0.72, tone: 'from-emerald-300 to-emerald-500' },
-        { id: 'king', x: 58, y: 28, z: 0.84, tone: 'from-indigo-400 to-indigo-600' },
-        { id: 'queen', x: 70, y: 34, z: 0.77, tone: 'from-indigo-300 to-indigo-500' },
-        { id: 'car', x: 36, y: 68, z: 0.68, tone: 'from-amber-300 to-amber-500' },
-        { id: 'truck', x: 50, y: 74, z: 0.62, tone: 'from-amber-400 to-amber-600' },
-        { id: 'vehicle', x: 44, y: 60, z: 0.52, tone: 'from-slate-400 to-slate-600' }
-      ];
-
-      const embeddingEdges = [
-        ['dog', 'cat'],
-        ['king', 'queen'],
-        ['car', 'truck'],
-        ['car', 'vehicle'],
-        ['truck', 'vehicle']
-      ];
-
-      const nodeById = Object.fromEntries(embeddingNodes.map((n) => [n.id, n]));
+      const [showEmbeddingsGraph, setShowEmbeddingsGraph] = useState(false);
 
       const conceptContent = {
         neural: {
@@ -1448,7 +1606,10 @@
                       <button
                         key={button.key}
                         type="button"
-                        onClick={() => setActiveConcept(button.key)}
+                        onClick={() => {
+                          setActiveConcept(button.key);
+                          if (button.key !== 'embeddings') setShowEmbeddingsGraph(false);
+                        }}
                         className={`rounded-lg border p-3 text-left transition-colors ${
                           isActive
                             ? 'border-slate-900 bg-slate-900 text-white shadow-sm'
@@ -1468,94 +1629,48 @@
                     <h3 className="mt-2 text-xl md:text-2xl font-extrabold text-slate-950">{active.title}</h3>
                     <p className="mt-1 text-sm md:text-base font-medium text-slate-700">{active.subtitle}</p>
 
-                    <div className="mt-4 space-y-3 text-sm md:text-base text-slate-700">
-                      <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
-                        <p className="font-semibold text-slate-900">How it works</p>
-                        <p className="mt-1">{active.explanation}</p>
+                    {activeConcept === 'embeddings' && (
+                      <button
+                        type="button"
+                        onClick={() => setShowEmbeddingsGraph(true)}
+                        className="mt-3 inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-violet-200 bg-violet-100 text-violet-900 text-xs font-extrabold tracking-widest uppercase hover:bg-violet-200"
+                      >
+                        Animated Embedding Space
+                      </button>
+                    )}
+
+                    {activeConcept === 'embeddings' && showEmbeddingsGraph && (
+                      <button
+                        type="button"
+                        onClick={() => setShowEmbeddingsGraph(false)}
+                        className="mt-3 ml-2 inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 bg-white text-slate-700 text-xs font-extrabold tracking-widest uppercase hover:bg-slate-100"
+                      >
+                        Back To Text View
+                      </button>
+                    )}
+
+                    {activeConcept === 'embeddings' && showEmbeddingsGraph ? (
+                      <div className="mt-4">
+                        <EmbeddingSpace3DGraph />
                       </div>
-
-                      <div className="rounded-lg border border-cyan-200 bg-cyan-50 p-3">
-                        <p className="font-semibold text-cyan-900">Business use</p>
-                        <p className="mt-1 text-cyan-900/90">{active.business}</p>
-                      </div>
-
-                      <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3">
-                        <p className="font-semibold text-emerald-900">Key takeaway</p>
-                        <p className="mt-1 text-emerald-900/90">{active.takeaway}</p>
-                      </div>
-
-                      {activeConcept === 'embeddings' && (
-                        <div className="rounded-lg border border-violet-200 bg-violet-50/70 p-3 md:p-4 overflow-hidden">
-                          <style>{`
-                            @keyframes embed-space-orbit {
-                              0% { transform: rotateX(16deg) rotateZ(0deg); }
-                              50% { transform: rotateX(20deg) rotateZ(4deg); }
-                              100% { transform: rotateX(16deg) rotateZ(0deg); }
-                            }
-                            @keyframes embed-node-float {
-                              0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
-                              50% { transform: translate(-50%, -50%) translateY(-6px); }
-                            }
-                          `}</style>
-
-                          <div className="flex items-center justify-between gap-2">
-                            <p className="text-xs font-extrabold tracking-widest uppercase text-violet-700">Animated Embedding Space</p>
-                            <p className="text-[11px] font-semibold text-violet-700/80">Closer nodes = more similar meaning</p>
-                          </div>
-
-                          <div className="mt-3 relative h-56 rounded-xl border border-violet-200 bg-gradient-to-br from-white via-violet-100/40 to-cyan-100/40" style={{ perspective: '900px' }}>
-                            <div className="absolute inset-0" style={{ transformStyle: 'preserve-3d', animation: 'embed-space-orbit 8s ease-in-out infinite' }}>
-                              <svg className="absolute inset-0 w-full h-full">
-                                {embeddingEdges.map(([a, b], idx) => {
-                                  const n1 = nodeById[a];
-                                  const n2 = nodeById[b];
-                                  if (!n1 || !n2) return null;
-                                  const edgeOpacity = Math.min(0.75, (n1.z + n2.z) / 2);
-                                  return (
-                                    <line
-                                      key={`edge-${idx}`}
-                                      x1={`${n1.x}%`}
-                                      y1={`${n1.y}%`}
-                                      x2={`${n2.x}%`}
-                                      y2={`${n2.y}%`}
-                                      stroke="rgb(99 102 241)"
-                                      strokeOpacity={edgeOpacity}
-                                      strokeWidth="1.5"
-                                    />
-                                  );
-                                })}
-                              </svg>
-
-                              {embeddingNodes.map((node, idx) => {
-                                const size = 11 + (node.z * 10);
-                                const labelSize = 11 + Math.round(node.z * 3);
-                                return (
-                                  <div
-                                    key={node.id}
-                                    className="absolute"
-                                    style={{
-                                      left: `${node.x}%`,
-                                      top: `${node.y}%`,
-                                      zIndex: Math.round(node.z * 100),
-                                      animation: `embed-node-float ${3 + (idx % 3)}s ease-in-out ${idx * 0.12}s infinite`
-                                    }}
-                                  >
-                                    <div className="flex items-center gap-2 rounded-full px-2 py-1 border border-white/70 bg-white/80 shadow-[0_8px_20px_rgba(99,102,241,0.18)]" style={{ transform: `translate(-50%, -50%) scale(${0.78 + node.z * 0.45})` }}>
-                                      <span className={`rounded-full bg-gradient-to-br ${node.tone}`} style={{ width: `${size}px`, height: `${size}px` }} />
-                                      <span className="font-bold text-slate-800" style={{ fontSize: `${labelSize}px` }}>{node.id}</span>
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
-
-                          <p className="mt-3 text-xs md:text-sm font-medium text-violet-900/90">
-                            Example clusters: <span className="font-extrabold">dog-cat</span>, <span className="font-extrabold">king-queen</span>, <span className="font-extrabold">car-truck</span>.
-                          </p>
+                    ) : (
+                      <div className="mt-4 space-y-3 text-sm md:text-base text-slate-700">
+                        <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+                          <p className="font-semibold text-slate-900">How it works</p>
+                          <p className="mt-1">{active.explanation}</p>
                         </div>
-                      )}
-                    </div>
+
+                        <div className="rounded-lg border border-cyan-200 bg-cyan-50 p-3">
+                          <p className="font-semibold text-cyan-900">Business use</p>
+                          <p className="mt-1 text-cyan-900/90">{active.business}</p>
+                        </div>
+
+                        <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3">
+                          <p className="font-semibold text-emerald-900">Key takeaway</p>
+                          <p className="mt-1 text-emerald-900/90">{active.takeaway}</p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -2031,9 +2146,6 @@
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-800 via-fuchsia-700 to-cyan-600 animate-gradient-x">economically valuable tasks</span>
             </h2>
 
-            <p className="max-w-4xl mx-auto text-base md:text-lg text-slate-700 leading-relaxed mt-4 font-medium">
-              GDPval is a blind-evaluation approach that compares model outputs against expert work on business-relevant tasks.
-            </p>
           </header>
 
           <div className="relative z-10 mt-6 max-w-5xl mx-auto w-full flex-1 min-h-0">
@@ -2065,18 +2177,18 @@
                 </div>
               </div>
 
-              <div className="mt-5 overflow-hidden rounded-xl border border-slate-200 bg-white">
-                <img
-                  src={GDPVAL_CHART_SRC}
-                  alt="GDPval win rate performance on economically valuable tasks"
-                  className="w-full h-auto object-contain"
-                  loading="lazy"
-                />
-              </div>
+              <div className={`mt-5 grid grid-cols-1 ${showResearch ? 'lg:grid-cols-3' : 'lg:grid-cols-1'} gap-4 items-start`}>
+                <div className={`${showResearch ? 'lg:col-span-2' : 'max-w-3xl mx-auto w-full'} overflow-hidden rounded-xl border border-slate-200 bg-white`}>
+                  <img
+                    src={GDPVAL_CHART_SRC}
+                    alt="GDPval win rate performance on economically valuable tasks"
+                    className="w-full h-auto max-h-[560px] object-contain"
+                    loading="lazy"
+                  />
+                </div>
 
-              {showResearch && (
-                <div className="mt-5 grid gap-3">
-                  <div className="rounded-xl border border-slate-200 bg-white/70 p-4">
+                {showResearch && (
+                  <div className="rounded-xl border border-slate-200 bg-white/70 p-4 h-fit">
                     <p className="text-slate-950 font-extrabold">What this means for business</p>
                     <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
                       <li>Higher output quality reduces rework and review time.</li>
@@ -2084,15 +2196,17 @@
                       <li>Teams that measure impact (time saved, quality, cost) can scale the wins.</li>
                     </ul>
                   </div>
+                )}
+              </div>
 
-                  <div className="rounded-xl border border-slate-200 bg-white/70 p-4">
-                    <p className="text-slate-950 font-extrabold">How GDPval is measured</p>
-                    <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
-                      <li>Blind comparisons: judges don’t know which output is AI vs expert.</li>
-                      <li>Business-relevant tasks (writing, analysis, planning, communication).</li>
-                      <li>Reported as wins / ties / losses to reduce bias.</li>
-                    </ul>
-                  </div>
+              {showResearch && (
+                <div className="mt-4 rounded-xl border border-slate-200 bg-white/70 p-4">
+                  <p className="text-slate-950 font-extrabold">How GDPval is measured</p>
+                  <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
+                    <li>Blind comparisons: judges don’t know which output is AI vs expert.</li>
+                    <li>Business-relevant tasks (writing, analysis, planning, communication).</li>
+                    <li>Reported as wins / ties / losses to reduce bias.</li>
+                  </ul>
                 </div>
               )}
             </div>
@@ -2241,6 +2355,10 @@
           render: () => <FrontierFirmsSlide />
         },
         {
+          key: 'optional-evidence-enrichment',
+          render: () => <OptionalEvidenceEnrichmentSlide />
+        },
+        {
           key: 'model-comparison',
           render: () => <ModelComparisonSlide />
         },
@@ -2275,10 +2393,6 @@
         {
           key: 'summary',
           render: () => <SummarySlide />
-        },
-        {
-          key: 'optional-evidence-enrichment',
-          render: () => <OptionalEvidenceEnrichmentSlide />
         }
       ];
       const total = slideDefs.length;
