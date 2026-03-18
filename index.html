@@ -265,17 +265,18 @@
     ];
 
     const COURSE_SCHEDULE = [
-      ["09:00-09:20", "Welcome + AI-assisted introductions", "Demo + Discussion"],
-      ["09:20-09:50", "AI productivity challenge (emails, posts, copy)", "Hands-on"],
-      ["09:50-10:10", "AI vs Not AI voting", "Interactive"],
-      ["10:10-10:35", "Frontier Firms: Where AI fits in business", "Slide + Activity"],
-      ["10:35-11:20", "Comparing AI tools: ChatGPT, Gemini, Claude", "Prompting + Group Work"],
-      ["11:20-12:05", "AI for productivity: summary, rewrite, extract", "Demo + Tasks"],
-      ["12:05-12:45", "Lunch Break", "-"],
-      ["12:45-13:25", "How AI works + Timeline sorting activity", "Slides + Sorting Cards"],
-      ["13:25-14:00", "Exploring AI Agents (AgentGPT)", "Live demo + Task"],
-      ["14:00-14:40", "Human vs AI Hair Salon Business Simulator", "Group Game"],
-      ["14:40-15:10", "Networking & AI support session", "Free exploration + Support"],
+      ["09:00-09:30", "Arrival at SDC Java cafe", "Arrival"],
+      ["09:30-10:20", "Welcome + AI-assisted introductions", "Demo + Hands-on"],
+      ["10:20-10:30", "Break", "Short break"],
+      ["10:30-10:55", "Frontier Firms: Where AI fits in business", "Slide + Activity"],
+      ["10:55-11:35", "Comparing AI tools: ChatGPT, Gemini, Claude", "Prompting + Group Work"],
+      ["11:35-12:15", "AI for productivity: summary, rewrite, extract", "Demo + Tasks"],
+      ["12:15-12:45", "Lunch Break", "-"],
+      ["12:45-13:05", "AI vs Not AI voting", "Interactive"],
+      ["13:05-13:40", "How AI works + Timeline sorting activity", "Slides + Sorting Cards"],
+      ["13:40-14:10", "Exploring AI Agents (AgentGPT)", "Live demo + Task"],
+      ["14:10-14:45", "Human vs AI Hair Salon Business Simulator", "Group Game"],
+      ["14:45-15:10", "Networking & AI support session", "Free exploration + Support"],
       ["15:10-15:30", "Reflections + Close", "Discussion"]
     ];
 
@@ -1144,11 +1145,11 @@
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">AI Skill Check</h2>
-              <p className="mt-3 text-slate-700 font-medium">09:30-10:10 | Welcome, task sprint, and practical AI writing activities.</p>
+              <p className="mt-3 text-slate-700 font-medium">09:30-10:20 | Welcome, task sprint, and practical AI writing activities.</p>
             </header>
 
             <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
-              <SectionTimer label="Section Timebox" minutes={70} />
+              <SectionTimer label="Section Timebox" minutes={50} />
               <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4">
                 <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Participant Tasks</p>
                 <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
@@ -1197,7 +1198,7 @@
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2 md:gap-3">
               <div className="text-center lg:text-left">
                 <h2 className="text-3xl md:text-4xl lg:text-[2.6rem] font-extrabold tracking-tight text-slate-950 leading-tight">AI or Not AI: Live Vision Slideshow</h2>
-                <p className="mt-2 text-slate-700 font-medium">Hands-up voting with live joint mapping and real-time people counting.</p>
+                <p className="mt-2 text-slate-700 font-medium">12:45-13:05 | Hands-up voting with live joint mapping and real-time people counting.</p>
               </div>
 
               <div className="self-center lg:self-auto rounded-xl bg-cyan-500/90 text-slate-950 px-4 py-3 min-w-[148px] text-center shadow-lg shadow-cyan-900/30 border border-cyan-600/40">
@@ -1223,7 +1224,7 @@
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">Frontier Firms: Where AI Fits in Business</h2>
-              <p className="mt-3 text-slate-700 font-medium">10:10-10:35 | Identify high-value, low-risk starting points.</p>
+              <p className="mt-3 text-slate-700 font-medium">10:30-10:55 | Identify high-value, low-risk starting points.</p>
             </header>
 
             <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0">
@@ -1256,11 +1257,11 @@
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">Model Comparison Activity</h2>
-              <p className="mt-3 text-slate-700 font-medium">10:35-11:20 | Compare ChatGPT, Gemini, and Claude outputs.</p>
+              <p className="mt-3 text-slate-700 font-medium">10:55-11:35 | Compare ChatGPT, Gemini, and Claude outputs.</p>
             </header>
 
             <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0">
-              <SectionTimer label="Section Timebox" minutes={45} />
+              <SectionTimer label="Section Timebox" minutes={40} />
               <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4">
                 <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Required Prompt</p>
                 <p className="mt-2 text-base font-extrabold text-slate-950">{corePrompt}</p>
@@ -1290,11 +1291,11 @@
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">AI for Productivity Workflows</h2>
-              <p className="mt-3 text-slate-700 font-medium">11:20-12:05 | Summarise, rewrite, and extract actions from messy inputs.</p>
+              <p className="mt-3 text-slate-700 font-medium">11:35-12:15 | Summarise, rewrite, and extract actions from messy inputs.</p>
             </header>
 
             <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0">
-              <SectionTimer label="Section Timebox" minutes={45} />
+              <SectionTimer label="Section Timebox" minutes={40} />
               <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4 grid grid-cols-1 md:grid-cols-3 gap-3">
                 <div className="rounded-lg border border-fuchsia-200 bg-fuchsia-50 p-3">
                   <p className="text-xs font-extrabold uppercase tracking-widest text-fuchsia-800">Summarise</p>
@@ -1322,14 +1323,14 @@
           <div className="relative z-10 max-w-5xl mx-auto text-center w-full flex-1 min-h-0 flex flex-col">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-white/60 backdrop-blur-md mb-6 shadow-lg shadow-purple-900/10">
               <Clock3 className="w-4 h-4 text-fuchsia-700" />
-              <span className="text-xs font-extrabold tracking-widest uppercase text-slate-700">12:05-12:45</span>
+              <span className="text-xs font-extrabold tracking-widest uppercase text-slate-700">12:15-12:45</span>
             </div>
 
             <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-950">Lunch Break</h2>
-            <p className="mt-3 text-slate-700 font-medium">Take 40 minutes. Return ready for "How AI works" and the timeline sorting activity.</p>
+            <p className="mt-3 text-slate-700 font-medium">Take 30 minutes. Return ready for AI vs Not AI voting.</p>
 
             <div className="mt-6 max-w-md mx-auto w-full">
-              <SectionTimer label="Lunch Countdown" minutes={40} />
+              <SectionTimer label="Lunch Countdown" minutes={30} />
             </div>
 
             <div className="mt-6 rounded-xl border border-slate-200 bg-white/80 p-4 text-left">
@@ -1351,7 +1352,7 @@
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">How AI Works (Without the Math Overload)</h2>
-              <p className="mt-3 text-slate-700 font-medium">12:45-13:05 | Neural networks, transformers, and embeddings in plain language.</p>
+              <p className="mt-3 text-slate-700 font-medium">13:05-13:25 | Neural networks, transformers, and embeddings in plain language.</p>
             </header>
             <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0">
               <SectionTimer label="Section Timebox" minutes={20} />
@@ -1593,11 +1594,11 @@
           <div className="relative z-10 max-w-6xl mx-auto">
             <header className="text-center">
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">How AI Works Interactive Activity</h2>
-              <p className="mt-3 text-slate-700 font-medium">12:45-13:25 | Click each concept to explore how it works and where to apply it.</p>
+              <p className="mt-3 text-slate-700 font-medium">13:05-13:40 | Click each concept to explore how it works and where to apply it.</p>
             </header>
 
             <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
-              <SectionTimer label="Section Timebox" minutes={40} />
+              <SectionTimer label="Section Timebox" minutes={35} />
               <div className="lg:col-span-2 space-y-4">
                 <div className="rounded-xl border border-slate-200 bg-white/80 p-4 grid grid-cols-1 md:grid-cols-3 gap-3">
                   {conceptButtons.map((button) => {
@@ -1687,11 +1688,11 @@
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">Exploring AI Agents</h2>
-              <p className="mt-3 text-slate-700 font-medium">13:25-14:00 | AgentGPT demo and practical task.</p>
+              <p className="mt-3 text-slate-700 font-medium">13:40-14:10 | AgentGPT demo and practical task.</p>
             </header>
 
             <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0">
-              <SectionTimer label="Section Timebox" minutes={35} />
+              <SectionTimer label="Section Timebox" minutes={30} />
               <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4">
                 <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Task</p>
                 <p className="mt-2 text-sm font-medium text-slate-700">Build a simple agent workflow for: "Create a 7-day promotion plan, then convert it into a checklist and email draft."</p>
@@ -1713,10 +1714,10 @@
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">Networking and AI Support Session</h2>
-              <p className="mt-3 text-slate-700 font-medium">14:40-15:10 | Open support, troubleshooting, and guided exploration.</p>
+              <p className="mt-3 text-slate-700 font-medium">14:45-15:10 | Open support, troubleshooting, and guided exploration.</p>
             </header>
             <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0">
-              <SectionTimer label="Section Timebox" minutes={30} />
+              <SectionTimer label="Section Timebox" minutes={25} />
               <div className="lg:col-span-2 space-y-4">
                 <div className="rounded-xl border border-slate-200 bg-white/80 p-4">
                   <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Support Stations</p>
@@ -1749,13 +1750,30 @@
       );
     }
 
+    function ShortBreakSlide() {
+      return (
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
+          {sectionBg()}
+          <div className="relative z-10 max-w-5xl mx-auto text-center w-full flex-1 min-h-0 flex flex-col">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-white/60 backdrop-blur-md mb-6 shadow-lg shadow-purple-900/10">
+              <Clock3 className="w-4 h-4 text-fuchsia-700" />
+              <span className="text-xs font-extrabold tracking-widest uppercase text-slate-700">10:20-10:30</span>
+            </div>
+
+            <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-950">Short Break</h2>
+            <p className="mt-3 text-slate-700 font-medium">Take 10 minutes, then return for Frontier Firms.</p>
+
+            <div className="mt-6 max-w-md mx-auto w-full">
+              <SectionTimer label="Break Countdown" minutes={10} />
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     function OptionalEvidenceEnrichmentSlide() {
       return (
         <div className="relative min-h-screen w-full overflow-hidden">
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-950/80 border border-slate-700 backdrop-blur-md">
-            <span className="text-xs font-extrabold tracking-widest uppercase text-slate-300">Optional Enrichment</span>
-            <span className="text-xs font-extrabold tracking-widest uppercase text-cyan-300">Evidence Visual Recap</span>
-          </div>
           <EvidenceSlide />
         </div>
       );
@@ -1997,12 +2015,12 @@
             </h2>
 
             <p className="max-w-4xl mx-auto text-base md:text-lg text-slate-700 leading-relaxed mt-4 font-medium">
-              14:00-14:40 | Two teams compete using either AI-assisted decisions or human-only judgement.
+              14:10-14:45 | Two teams compete using either AI-assisted decisions or human-only judgement.
             </p>
           </header>
 
           <div className="relative z-10 mt-6 max-w-5xl mx-auto w-full flex-1 min-h-0 flex flex-col">
-            <SectionTimer label="Section Timebox" minutes={40} />
+            <SectionTimer label="Section Timebox" minutes={35} />
 
             <div className="rounded-2xl border border-slate-200 bg-white/70 backdrop-blur-md p-5 md:p-6">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
@@ -2188,27 +2206,27 @@
                 </div>
 
                 {showResearch && (
-                  <div className="rounded-xl border border-slate-200 bg-white/70 p-4 h-fit">
-                    <p className="text-slate-950 font-extrabold">What this means for business</p>
-                    <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
-                      <li>Higher output quality reduces rework and review time.</li>
-                      <li>More tasks become “AI-assisted” instead of “manual”.</li>
-                      <li>Teams that measure impact (time saved, quality, cost) can scale the wins.</li>
-                    </ul>
+                  <div className="space-y-4">
+                    <div className="rounded-xl border border-slate-200 bg-white/70 p-4 h-fit">
+                      <p className="text-slate-950 font-extrabold">What this means for business</p>
+                      <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
+                        <li>Higher output quality reduces rework and review time.</li>
+                        <li>More tasks become “AI-assisted” instead of “manual”.</li>
+                        <li>Teams that measure impact (time saved, quality, cost) can scale the wins.</li>
+                      </ul>
+                    </div>
+
+                    <div className="rounded-xl border border-slate-200 bg-white/70 p-4">
+                      <p className="text-slate-950 font-extrabold">How GDPval is measured</p>
+                      <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
+                        <li>Blind comparisons: judges don’t know which output is AI vs expert.</li>
+                        <li>Business-relevant tasks (writing, analysis, planning, communication).</li>
+                        <li>Reported as wins / ties / losses to reduce bias.</li>
+                      </ul>
+                    </div>
                   </div>
                 )}
               </div>
-
-              {showResearch && (
-                <div className="mt-4 rounded-xl border border-slate-200 bg-white/70 p-4">
-                  <p className="text-slate-950 font-extrabold">How GDPval is measured</p>
-                  <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
-                    <li>Blind comparisons: judges don’t know which output is AI vs expert.</li>
-                    <li>Business-relevant tasks (writing, analysis, planning, communication).</li>
-                    <li>Reported as wins / ties / losses to reduce bias.</li>
-                  </ul>
-                </div>
-              )}
             </div>
           </div>
         </div>
@@ -2343,12 +2361,12 @@
           render: () => <ScheduleSlide />
         },
         {
-          key: 'ai-not-ai-live',
-          render: () => <AINotAILiveSlide />
-        },
-        {
           key: 'productivity-challenge',
           render: () => <ProductivityChallengeSlide />
+        },
+        {
+          key: 'short-break',
+          render: () => <ShortBreakSlide />
         },
         {
           key: 'frontier-firms',
@@ -2369,6 +2387,10 @@
         {
           key: 'lunch-break',
           render: () => <LunchBreakSlide />
+        },
+        {
+          key: 'ai-not-ai-live',
+          render: () => <AINotAILiveSlide />
         },
         {
           key: 'optional-timeline-enrichment',
