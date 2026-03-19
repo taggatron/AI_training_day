@@ -1316,17 +1316,27 @@
               <p className="mt-3 text-slate-700 font-medium">10:30-10:55 | Identify high-value, low-risk starting points.</p>
             </header>
 
-            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0">
-              <SectionTimer label="Section Timebox" minutes={25} />
-              <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4 space-y-3">
+            <div className="mt-6 grid grid-cols-1 gap-4 flex-1 min-h-0">
+              <div className="rounded-xl border border-slate-200 bg-white/80 p-4 space-y-3">
                 <div className="rounded-lg border border-fuchsia-200 bg-fuchsia-50 p-4">
                   <p className="text-xs font-extrabold uppercase tracking-widest text-fuchsia-800">What Is A Frontier Firm?</p>
                   <p className="text-sm font-medium text-slate-800 mt-2">
-                    A frontier firm is a company that adopts new technology early, learns faster than competitors,
-                    and turns those tools into better productivity, quality, and customer outcomes.
+                    A company that systematically integrates AI, data, and automation across its operations to operate at the technological and productivity frontier of its industry.
                   </p>
                   <p className="text-sm font-medium text-slate-800 mt-2">
                     In practice: frontier firms do not just use AI once, they build repeatable workflows around it.
+                  </p>
+                </div>
+
+                <div className="rounded-2xl border border-slate-200 bg-white/75 p-6 md:p-8 shadow-lg shadow-slate-900/5 text-center">
+                  <p className="text-slate-700 text-xs font-extrabold tracking-widest uppercase">To what extent do you agree with:</p>
+                  <h3 className="mt-3 text-2xl md:text-4xl font-extrabold tracking-tight text-slate-950 leading-tight">
+                    "AI won't take your future job,
+                    <br />
+                    but someone using AI might."
+                  </h3>
+                  <p className="mt-4 text-slate-700 text-base md:text-lg font-medium">
+                    The advantage goes to teams who learn, adapt, and build with AI.
                   </p>
                 </div>
               </div>
@@ -2371,8 +2381,20 @@
     }
 
     function EvidenceSlide() {
-      const GDPVAL_CHART_SRC = encodeURI("./GDPval win rate_ performance on economically valuable tasks.png");
+      const GDPVAL_CHART_SRC = encodeURI("./GDPval_ OpenAI frontier model performance over time.png");
       const [showResearch, setShowResearch] = useState(true);
+      const [showSourceModal, setShowSourceModal] = useState(false);
+
+      useEffect(() => {
+        if (!showSourceModal) return;
+        const onKeyDown = (e) => {
+          if (e.key === 'Escape') {
+            setShowSourceModal(false);
+          }
+        };
+        window.addEventListener('keydown', onKeyDown);
+        return () => window.removeEventListener('keydown', onKeyDown);
+      }, [showSourceModal]);
 
       return (
         <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 flex flex-col overflow-x-hidden">
@@ -2414,14 +2436,15 @@
                   >
                     {showResearch ? "Hide details" : "Show details"}
                   </button>
-                  <a
-                    href="https://openai.com/index/gdpval/"
-                    target="_blank"
-                    rel="noreferrer"
+                  <button
+                    type="button"
+                    onClick={() => setShowSourceModal(true)}
                     className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-slate-200 bg-white/70 text-slate-950 font-extrabold tracking-widest uppercase text-xs hover:bg-white"
+                    aria-haspopup="dialog"
+                    aria-expanded={showSourceModal}
                   >
                     Read source <ArrowRight className="w-4 h-4" />
-                  </a>
+                  </button>
                 </div>
               </div>
 
@@ -2429,7 +2452,7 @@
                 <div className={`${showResearch ? 'lg:col-span-2' : 'max-w-3xl mx-auto w-full'} overflow-hidden rounded-xl border border-slate-200 bg-white`}>
                   <img
                     src={GDPVAL_CHART_SRC}
-                    alt="GDPval win rate performance on economically valuable tasks"
+                    alt="GDPval OpenAI frontier model performance over time"
                     className="w-full h-auto max-h-[560px] object-contain"
                     loading="lazy"
                   />
@@ -2459,6 +2482,50 @@
               </div>
             </div>
           </div>
+
+          {showSourceModal && (
+            <div
+              className="fixed inset-0 z-[70] bg-slate-950/70 backdrop-blur-sm grid place-items-center p-4"
+              role="dialog"
+              aria-modal="true"
+              aria-label="GDPval source"
+              onClick={(e) => { if (e.target === e.currentTarget) setShowSourceModal(false); }}
+            >
+              <div className="w-full max-w-5xl rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/30 overflow-hidden">
+                <div className="h-12 border-b border-slate-200 bg-white/90 flex items-center justify-between px-4">
+                  <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-700">OpenAI GDPval Source</p>
+                  <button
+                    type="button"
+                    onClick={() => setShowSourceModal(false)}
+                    className="inline-flex items-center justify-center px-3 py-1 rounded-lg border border-slate-200 bg-white text-slate-700 text-xs font-extrabold tracking-widest uppercase hover:bg-slate-50"
+                  >
+                    Close
+                  </button>
+                </div>
+
+                <div className="h-[68vh] min-h-[420px] bg-slate-100">
+                  <iframe
+                    title="GDPval source page"
+                    src="https://openai.com/index/gdpval/"
+                    className="w-full h-full border-0"
+                    loading="lazy"
+                  />
+                </div>
+
+                <div className="px-4 py-3 border-t border-slate-200 bg-white/90 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <p className="text-xs font-medium text-slate-600">If the site does not render in the modal, open it in a new tab.</p>
+                  <a
+                    href="https://openai.com/index/gdpval/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-slate-200 bg-white text-slate-900 text-xs font-extrabold tracking-widest uppercase hover:bg-slate-50"
+                  >
+                    Open in new tab <ArrowRight className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       );
     }
@@ -2480,14 +2547,8 @@
               <div className="rounded-3xl border border-slate-200 bg-white/75 backdrop-blur-md p-8 md:p-12 shadow-2xl shadow-purple-900/10">
                 <div className="text-center">
                   <p className="text-slate-700 text-xs font-extrabold tracking-widest uppercase">Final Thought</p>
-                  <h2 className="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950 leading-tight">
-                    “AI won’t take your future job,
-                    <br />
-                    but someone using AI might.”
-                  </h2>
-                  <p className="mt-6 text-slate-700 text-base md:text-lg font-medium">
-                    The advantage goes to teams who learn, adapt, and build with AI.
-                  </p>
+                  <h2 className="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950 leading-tight">Apply one workflow this week.</h2>
+                  <p className="mt-6 text-slate-700 text-base md:text-lg font-medium">Start small, measure the result, and scale what works.</p>
                 </div>
               </div>
 
