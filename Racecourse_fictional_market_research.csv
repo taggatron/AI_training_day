@@ -1,0 +1,501 @@
+﻿response_id,age,gender,home_region,tourist_or_local,timestamp,interest_horse_racing,past_visits,satisfaction,ticket_pricing,transport_parking,family_friendly,events_appeal,awareness,suggestions,likelihood_to_attend_2026
+1,52,Female,Teignmouth,Local,12/25/25 17:40,3,1,3,5,2,3,2,3,Organize food festivals or themed event days.,Maybe
+2,42,Male,Somerset,Tourist,9/5/25 12:38,3,0,,3,4,3,1,3,I'd consider going if there were events that interested me.,Maybe
+3,54,Male,Plymouth,Local,10/20/25 18:43,1,0,,3,2,5,2,1,"I'm not interested in horse racing. They don't advertise events well, so I didn't know about them.",Unlikely
+4,67,Female,Scotland,Tourist,10/11/25 9:37,1,0,,2,3,2,2,1,"I have no interest in horse racing. They don't advertise events well, so I never hear about them.",Unlikely
+5,41,Male,Newton Abbot,Local,1/12/26 7:13,2,1,1,4,2,4,3,3,Provide better public transport options.,Maybe
+6,41,Female,Newton Abbot,Local,1/1/26 11:34,4,3,4,3,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+7,68,Male,Paignton,Local,2/9/26 11:37,3,0,,5,2,4,5,1,I'm not aware of upcoming events.,Unlikely
+8,56,Male,Torquay,Local,9/16/25 17:39,2,2,3,3,4,3,4,2,More non-racing events (like concerts or festivals) would attract me.,Maybe
+9,37,Male,London,Tourist,11/16/25 8:49,5,0,,5,5,4,3,1,Increase marketing so people know what's on.,Likely
+10,53,Male,Exeter,Local,9/6/25 9:26,3,1,4,3,4,4,3,3,"No suggestions, everything was great.",Likely
+11,31,Male,London,Tourist,11/3/25 13:17,3,0,,3,3,3,4,3,Advertise upcoming events more.,Maybe
+12,19,Female,Newton Abbot,Local,9/3/25 16:39,4,2,5,4,3,5,4,4,No suggestions - I was satisfied with my experience.,Likely
+13,47,Male,Exeter,Local,12/19/25 20:15,4,1,4,4,3,4,4,5,"No suggestions, keep up the good work!",Likely
+14,35,Male,Torquay,Local,11/29/25 10:32,2,0,,1,3,3,2,2,"If there were more for kids, I'd bring my family.",Unlikely
+15,38,Female,London,Tourist,12/2/25 22:25,2,0,,3,3,3,2,3,"If there were more concerts or different events, I might attend.",Maybe
+16,74,Female,Newton Abbot,Local,12/31/25 17:41,5,4,5,4,4,5,5,5,No suggestions - I was satisfied with my experience.,Likely
+17,24,Male,Midlands,Tourist,11/7/25 11:32,1,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+18,46,Male,Midlands,Tourist,2/17/26 11:08,3,0,,3,3,2,3,3,Not much for kids to do there.,Unlikely
+19,62,Female,Cornwall,Tourist,9/15/25 5:13,1,0,,2,3,3,2,1,Not really a fan of horse racing.,Unlikely
+20,30,Male,Midlands,Tourist,12/9/25 3:11,3,0,,2,3,3,3,1,I never hear about what's happening there.,Unlikely
+21,59,Male,Plymouth,Local,11/8/25 13:33,4,7,4,4,4,4,4,5,Maybe offer more discounts on tickets.,Likely
+22,57,Male,Newton Abbot,Local,9/4/25 3:35,4,1,4,4,4,4,5,5,"No suggestions, keep up the good work!",Likely
+23,51,Male,Torquay,Local,12/5/25 8:18,4,2,4,4,4,3,4,5,No suggestions - I was satisfied with my experience.,Likely
+24,35,Female,Midlands,Tourist,12/29/25 17:25,3,0,,4,3,4,2,2,"If I knew about events earlier, I might go.",Maybe
+25,27,Female,Midlands,Tourist,10/28/25 8:45,1,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+26,24,Male,Torquay,Local,10/7/25 20:24,4,1,4,3,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+27,66,Male,Paignton,Local,11/17/25 5:04,3,1,3,3,4,3,4,3,"No suggestions, everything was great.",Maybe
+28,69,Male,Newton Abbot,Local,2/24/26 7:57,5,2,5,4,4,5,5,5,No suggestions - I was satisfied with my experience.,Likely
+29,72,Male,Midlands,Tourist,12/20/25 7:00,2,0,,2,3,3,3,1,I'm not interested in horse racing.,Unlikely
+30,63,Female,Somerset,Tourist,10/26/25 0:46,3,0,,4,3,3,3,4,Better public transport options would make me more likely to attend.,Maybe
+31,73,Female,London,Tourist,10/9/25 4:20,1,0,,3,3,3,3,1,No interest in horse racing.,Unlikely
+32,47,Female,Cornwall,Tourist,9/4/25 13:20,1,0,,2,3,3,3,1,I'm not interested in horse racing.,Unlikely
+33,28,Male,International,Tourist,9/22/25 19:52,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+34,69,Female,Plymouth,Local,10/18/25 21:12,2,0,,3,3,3,2,3,"If there were more concerts or different events, I might attend.",Maybe
+35,39,Female,North West,Tourist,11/30/25 9:56,1,0,,2,3,3,2,1,Not really a fan of horse racing.,Unlikely
+36,49,Male,North West,Tourist,9/8/25 16:27,3,0,,3,3,3,3,3,More special promotions might convince me.,Maybe
+37,66,Female,Newton Abbot,Local,9/19/25 14:16,5,5,5,4,4,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+38,50,Female,London,Tourist,9/2/25 12:28,2,0,,2,3,3,2,1,Not really a fan of horse racing.,Unlikely
+39,61,Female,Midlands,Tourist,12/24/25 19:07,1,0,,3,3,3,2,1,I have no interest in horse racing.,Unlikely
+40,49,Male,Somerset,Tourist,9/15/25 11:28,2,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+41,37,Male,Paignton,Local,9/16/25 16:05,4,0,,4,3,3,5,4,No suggestions - I was satisfied with my experience.,Likely
+42,59,Male,Scotland,Tourist,12/2/25 18:15,1,0,,3,3,3,3,1,I'm not interested in horse racing.,Unlikely
+43,57,Female,Midlands,Tourist,11/23/25 4:14,2,0,,3,3,3,3,3,I'd be more likely to go if parking and transport were better.,Maybe
+44,33,Male,Cornwall,Tourist,10/5/25 14:10,1,0,,2,3,3,2,1,Not really a fan of horse racing.,Unlikely
+45,58,Male,Plymouth,Local,9/9/25 22:08,3,1,3,4,3,3,4,3,"No suggestions, everything was fine.",Maybe
+46,40,Female,Somerset,Tourist,10/6/25 11:11,2,0,,3,3,3,2,3,"If there were more concerts or different events, I might attend.",Maybe
+47,75,Male,Teignmouth,Local,12/1/25 10:50,4,2,4,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+48,49,Male,Midlands,Tourist,11/3/25 18:36,1,0,,2,3,3,2,1,Not a fan of horse racing.,Unlikely
+49,45,Female,North West,Tourist,10/15/25 15:36,2,0,,3,3,3,3,3,I'd be more likely to attend if it was more family-friendly.,Maybe
+50,64,Female,Scotland,Tourist,2/24/26 4:45,3,0,,4,3,3,3,4,Better advertising of events.,Maybe
+51,35,Male,North West,Tourist,11/17/25 20:56,1,0,,3,3,3,3,1,Not interested in horse racing.,Unlikely
+52,53,Female,London,Tourist,11/4/25 15:30,1,0,,3,3,3,2,1,Not really my thing.,Unlikely
+53,52,Female,London,Tourist,12/15/25 5:55,2,0,,3,3,3,3,3,I’d be more likely to go if I heard about events in advance.,Maybe
+54,18,Female,North East,Tourist,9/4/25 0:05,1,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+55,55,Male,Somerset,Tourist,12/19/25 5:10,3,0,,4,4,3,3,4,"If I knew about events earlier, I might go.",Maybe
+56,69,Male,Newton Abbot,Local,12/12/25 23:24,5,8,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+57,32,Male,North East,Tourist,11/13/25 12:43,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+58,22,Male,International,Tourist,10/13/25 5:06,1,0,,3,3,3,2,1,I have no interest in horse racing.,Unlikely
+59,71,Female,Plymouth,Local,9/5/25 6:27,4,3,4,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+60,60,Male,Paignton,Local,12/17/25 11:40,4,5,4,4,4,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+61,45,Female,Exeter,Local,9/20/25 15:09,3,1,4,3,3,4,3,3,"No suggestions, everything was fine.",Maybe
+62,33,Female,Midlands,Tourist,9/29/25 18:50,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+63,63,Male,Cornwall,Tourist,11/10/25 9:12,1,0,,3,3,3,3,1,Not interested in horse racing.,Unlikely
+64,74,Male,International,Tourist,12/2/25 13:51,1,0,,3,3,3,3,1,No interest in horse racing.,Unlikely
+65,18,Male,London,Tourist,11/19/25 21:31,2,0,,3,3,3,3,3,Add more activities for children.,Maybe
+66,33,Male,North East,Tourist,9/30/25 14:38,4,0,,4,3,3,4,5,No suggestions - I was satisfied with my experience.,Likely
+67,37,Male,Torquay,Local,10/6/25 5:00,3,1,3,3,3,3,4,3,"No suggestions, everything was fine.",Maybe
+68,73,Female,Newton Abbot,Local,12/26/25 1:24,5,10,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+69,70,Male,Newton Abbot,Local,9/6/25 7:52,5,9,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+70,30,Female,Wales,Tourist,11/9/25 12:37,2,0,,3,3,2,2,1,I'm not interested in horse racing.,Unlikely
+71,36,Male,Newton Abbot,Local,10/8/25 19:59,5,2,5,4,4,4,5,4,No suggestions - I was satisfied with my experience.,Likely
+72,49,Female,Paignton,Local,9/6/25 23:43,5,2,4,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+73,29,Female,International,Tourist,11/17/25 0:15,1,0,,2,3,3,2,1,Not interested in horse racing.,Unlikely
+74,55,Female,Midlands,Tourist,9/20/25 13:21,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+75,44,Female,International,Tourist,12/25/25 16:01,1,0,,3,3,3,2,1,Not really my thing.,Unlikely
+76,67,Male,Newton Abbot,Local,9/2/25 21:50,4,6,4,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+77,60,Male,Bristol,Tourist,12/24/25 6:02,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+78,25,Female,London,Tourist,10/15/25 7:11,3,0,,4,4,3,4,4,"No major issues, just not sure yet.",Maybe
+79,58,Female,Newton Abbot,Local,12/6/25 4:07,5,4,5,4,4,5,5,5,No suggestions - I was satisfied with my experience.,Likely
+80,63,Male,Midlands,Tourist,9/19/25 2:17,1,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+81,70,Male,Plymouth,Local,9/18/25 15:50,5,5,5,5,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+82,35,Female,Torquay,Local,9/18/25 3:36,4,2,4,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+83,61,Male,Midlands,Tourist,12/16/25 22:17,2,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+84,56,Female,Midlands,Tourist,12/27/25 9:40,2,0,,4,3,3,2,2,"If it were easier to get there, I would attend.",Maybe
+85,67,Male,Plymouth,Local,12/6/25 16:54,3,2,4,3,4,3,4,3,"No suggestions, everything was fine.",Maybe
+86,55,Male,Teignmouth,Local,9/22/25 8:54,3,1,3,3,3,3,4,3,"No suggestions, everything was fine.",Maybe
+87,28,Female,Somerset,Tourist,12/19/25 19:17,2,0,,3,3,3,3,1,I'm not interested in horse racing.,Unlikely
+88,31,Female,London,Tourist,2/8/26 17:09,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+89,66,Male,Newton Abbot,Local,9/19/25 20:36,5,7,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+90,43,Male,North West,Tourist,2/21/26 12:04,1,0,,3,3,3,2,1,No interest in horse racing.,Unlikely
+91,64,Male,Paignton,Local,11/30/25 22:01,4,5,4,4,4,4,4,4,No suggestions - I was satisfied with my experience.,Likely
+92,40,Male,Cornwall,Tourist,2/25/26 2:54,3,0,,3,3,3,3,2,Maybe offer more discounts on tickets.,Maybe
+93,73,Male,Teignmouth,Local,10/17/25 16:20,5,10,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+94,50,Female,Midlands,Tourist,12/21/25 4:54,2,0,,4,3,3,2,2,I'd attend if there were more events that interested me.,Maybe
+95,44,Male,London,Tourist,12/7/25 7:39,1,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+96,21,Female,International,Tourist,2/14/26 22:42,1,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+97,20,Female,London,Tourist,9/22/25 21:43,2,0,,3,3,3,2,2,"If there were more for kids, I'd bring my family.",Maybe
+98,57,Female,Cornwall,Tourist,12/11/25 1:59,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+99,62,Female,Exeter,Local,10/15/25 22:32,4,0,,4,4,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+100,42,Male,North West,Tourist,9/10/25 18:05,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+101,26,Female,North West,Tourist,9/12/25 21:44,1,0,,3,3,3,2,1,No interest in horse racing.,Unlikely
+102,27,Male,Torquay,Local,10/13/25 15:30,4,2,5,4,4,4,5,4,No suggestions - I was satisfied with my experience.,Likely
+103,58,Male,Exeter,Local,9/17/25 9:53,4,1,4,4,4,4,5,5,"No suggestions, keep up the good work!",Likely
+104,33,Male,Midlands,Tourist,10/11/25 21:34,2,0,,4,3,3,3,3,Better advertising of events.,Maybe
+105,66,Female,Plymouth,Local,12/16/25 5:19,4,1,4,4,4,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+106,63,Male,Newton Abbot,Local,11/1/25 12:06,5,3,5,5,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+107,34,Female,Wales,Tourist,9/9/25 8:51,3,0,,3,3,3,3,3,"No major issues, just not sure yet.",Maybe
+108,58,Female,North West,Tourist,9/5/25 18:22,2,0,,3,3,3,2,1,None of the events appeal to me.,Unlikely
+109,19,Male,Cornwall,Tourist,10/4/25 1:30,2,0,,3,3,3,3,1,Not interested in horse racing.,Unlikely
+110,59,Male,Newton Abbot,Local,9/7/25 23:57,5,6,5,4,4,5,5,5,No suggestions - I was satisfied with my experience.,Likely
+111,22,Male,Midlands,Tourist,9/24/25 12:29,2,0,,3,3,3,3,1,Not interested in horse racing.,Unlikely
+112,54,Female,Midlands,Tourist,9/25/25 12:05,2,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+113,74,Male,Newton Abbot,Local,10/21/25 6:22,5,8,5,5,4,4,4,4,No suggestions - I was satisfied with my experience.,Likely
+114,49,Male,Somerset,Tourist,12/26/25 19:27,3,0,,3,3,3,4,3,Advertise upcoming events more.,Maybe
+115,47,Female,London,Tourist,10/29/25 13:25,2,0,,3,3,3,2,2,I'd attend if there were more events that interested me.,Maybe
+116,21,Male,London,Tourist,11/21/25 3:42,1,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+117,65,Male,Midlands,Tourist,10/7/25 16:44,2,0,,3,3,3,3,3,"If it were easier to get there, I would attend.",Maybe
+118,39,Male,Somerset,Tourist,9/25/25 20:17,3,0,,3,3,3,3,2,More special promotions might convince me.,Maybe
+119,59,Male,Exeter,Local,12/28/25 5:17,5,4,5,4,4,5,5,5,No suggestions - I was satisfied with my experience.,Likely
+120,50,Female,Wales,Tourist,10/8/25 12:09,2,0,,3,3,3,3,1,I never hear about what's happening there.,Unlikely
+121,19,Female,North West,Tourist,10/5/25 1:13,2,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+122,26,Male,Midlands,Tourist,12/20/25 22:48,1,0,,3,3,3,3,1,Not a fan of horse racing.,Unlikely
+123,36,Male,Bristol,Tourist,9/21/25 8:00,2,0,,3,3,3,2,1,No interest in horse racing.,Unlikely
+124,49,Male,Paignton,Local,10/11/25 4:34,4,1,4,4,4,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+125,70,Male,Newton Abbot,Local,9/2/25 5:30,5,9,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+126,34,Female,Teignmouth,Local,10/30/25 11:22,4,2,4,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+127,64,Male,Torquay,Local,11/11/25 2:37,5,4,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+128,45,Female,Midlands,Tourist,9/28/25 19:56,2,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+129,64,Male,Devon,Local,11/27/25 0:21,4,1,4,3,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+130,22,Female,Cornwall,Tourist,10/12/25 3:42,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+131,55,Male,International,Tourist,9/30/25 2:27,1,0,,3,3,3,2,1,Not really my thing.,Unlikely
+132,53,Female,North West,Tourist,10/6/25 21:33,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+133,60,Male,Devon,Local,9/12/25 6:06,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+134,50,Male,Somerset,Tourist,9/7/25 5:55,2,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+135,24,Female,North West,Tourist,9/14/25 17:12,3,0,,3,3,3,4,3,Advertise upcoming events more.,Maybe
+136,36,Male,Paignton,Local,11/19/25 16:18,4,1,4,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+137,50,Male,Midlands,Tourist,9/15/25 1:58,1,0,,3,3,3,2,1,I have no interest in horse racing.,Unlikely
+138,31,Male,International,Tourist,9/7/25 16:50,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+139,33,Male,Exeter,Local,9/27/25 2:46,4,2,4,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+140,55,Female,North East,Tourist,12/30/25 8:29,2,0,,3,3,3,3,1,I never hear about what's happening there.,Unlikely
+141,52,Male,Devon,Local,10/16/25 17:05,5,3,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+142,35,Female,Cornwall,Tourist,9/19/25 19:52,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+143,65,Female,Midlands,Tourist,2/8/26 7:55,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+144,49,Female,Torquay,Local,10/22/25 13:06,4,2,4,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+145,30,Female,Devon,Local,10/26/25 23:59,5,1,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+146,48,Male,Bristol,Tourist,12/8/25 2:13,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+147,74,Female,Devon,Local,11/27/25 16:12,5,6,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+148,70,Male,Devon,Local,10/30/25 3:20,5,5,5,4,4,4,4,4,No suggestions - I was satisfied with my experience.,Likely
+149,46,Male,Devon,Local,10/14/25 23:17,4,2,4,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+150,61,Female,North West,Tourist,2/6/26 4:00,3,0,,3,3,3,4,3,Better advertising of events.,Maybe
+151,23,Male,Bristol,Tourist,10/9/25 12:44,1,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+152,72,Male,Devon,Local,12/13/25 12:29,5,7,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+153,70,Male,Devon,Local,9/15/25 19:58,5,8,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+154,27,Female,London,Tourist,12/10/25 4:23,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+155,39,Male,London,Tourist,9/11/25 12:30,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+156,62,Female,Wales,Tourist,9/18/25 0:40,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+157,71,Male,Devon,Local,9/6/25 19:23,5,9,5,4,4,5,5,5,No suggestions - I was satisfied with my experience.,Likely
+158,44,Male,North West,Tourist,9/13/25 19:12,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+159,36,Female,Devon,Local,9/1/25 8:28,4,1,4,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+160,55,Male,Devon,Local,11/22/25 12:21,4,2,4,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+161,20,Male,Midlands,Tourist,12/24/25 12:32,3,0,,3,3,3,3,3,"No major issues, just not sure yet.",Maybe
+162,57,Female,Devon,Local,9/28/25 14:57,4,1,4,4,4,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+163,71,Male,Devon,Local,10/23/25 7:04,5,6,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+164,48,Female,Cornwall,Tourist,9/28/25 3:45,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+165,64,Male,Devon,Local,12/19/25 9:16,4,1,4,4,4,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+166,57,Male,Cornwall,Tourist,12/25/25 10:48,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+167,50,Female,Devon,Local,9/2/25 17:24,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+168,65,Male,Devon,Local,2/3/26 15:05,5,8,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+169,69,Female,Devon,Local,12/31/25 0:57,5,7,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+170,58,Male,Devon,Local,9/5/25 17:38,5,6,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+171,47,Female,Devon,Local,10/29/25 9:07,4,3,4,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+172,23,Male,Wales,Tourist,10/22/25 4:55,3,0,,3,3,3,3,4,More special promotions might convince me.,Maybe
+173,34,Male,Devon,Local,10/1/25 14:02,4,2,4,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+174,68,Female,Devon,Local,9/7/25 1:14,5,7,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+175,69,Female,Devon,Local,10/27/25 17:24,5,5,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+176,41,Female,Devon,Local,9/2/25 1:12,4,2,4,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+177,45,Female,Devon,Local,12/3/25 4:28,5,4,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+178,53,Male,Devon,Local,1/22/26 0:03,5,5,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+179,20,Female,Bristol,Tourist,2/20/26 3:10,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+180,26,Male,Devon,Local,12/7/25 8:42,4,1,4,4,4,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+181,52,Male,Devon,Local,9/21/25 22:20,5,4,5,4,4,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+182,73,Male,Devon,Local,9/11/25 17:38,5,9,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+183,46,Male,Devon,Local,10/28/25 17:58,5,1,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+184,33,Male,Devon,Local,9/13/25 0:44,5,2,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+185,36,Female,Devon,Local,9/13/25 16:30,5,3,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+186,21,Male,Devon,Local,9/28/25 0:16,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+187,74,Female,Devon,Local,10/12/25 10:19,5,8,5,4,4,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+188,72,Female,Devon,Local,10/20/25 16:19,5,7,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+189,29,Male,Devon,Local,9/1/25 15:21,4,1,4,4,4,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+190,59,Male,Devon,Local,2/5/26 11:44,5,5,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+191,31,Male,Wales,Tourist,9/22/25 2:01,3,0,,3,3,3,4,2,Offer more discounts on tickets.,Maybe
+192,36,Male,Devon,Local,11/13/25 2:55,5,3,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+193,63,Male,Devon,Local,10/4/25 7:48,5,4,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+194,75,Male,Devon,Local,10/5/25 18:30,5,6,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+195,25,Male,London,Tourist,9/6/25 3:24,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+196,74,Male,Devon,Local,11/28/25 11:56,5,8,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+197,44,Male,Devon,Local,9/2/25 9:38,4,2,4,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+198,62,Male,Devon,Local,9/16/25 13:13,4,1,4,4,4,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+199,64,Female,Devon,Local,9/1/25 4:16,5,7,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+200,70,Male,Devon,Local,9/4/25 22:54,5,6,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+201,49,Female,Devon,Local,10/17/25 1:46,4,1,4,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+202,68,Female,Devon,Local,12/23/25 18:36,5,5,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+203,22,Male,Midlands,Tourist,9/29/25 6:10,2,0,,3,3,3,3,1,Not interested in horse racing.,Unlikely
+204,58,Male,Devon,Local,2/8/26 0:30,4,2,4,4,4,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+205,24,Male,North East,Tourist,10/27/25 4:24,1,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+206,70,Female,Devon,Local,9/23/25 7:54,4,0,,4,3,4,4,4,No suggestions - I was satisfied with my experience.,Likely
+207,69,Male,Devon,Local,9/15/25 15:43,5,8,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+208,56,Female,Devon,Local,9/13/25 10:41,5,2,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+209,18,Female,Devon,Local,9/7/25 11:02,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+210,61,Male,Devon,Local,2/27/26 7:01,5,5,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+211,54,Female,Devon,Local,9/15/25 23:09,5,1,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+212,29,Male,Devon,Local,10/28/25 2:52,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+213,59,Female,Devon,Local,11/12/25 8:30,5,6,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+214,53,Male,Devon,Local,10/7/25 9:22,4,2,4,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+215,51,Male,Devon,Local,11/1/25 4:08,5,4,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+216,51,Male,Devon,Local,9/24/25 22:41,5,5,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+217,68,Male,Devon,Local,9/8/25 11:21,5,6,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+218,22,Male,Devon,Local,9/30/25 6:47,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+219,70,Male,Devon,Local,9/11/25 15:20,5,7,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+220,28,Male,Devon,Local,2/8/26 22:48,5,2,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+221,73,Male,Devon,Local,9/14/25 5:01,5,8,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+222,65,Male,Devon,Local,9/25/25 2:47,5,8,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+223,45,Male,Devon,Local,11/26/25 1:49,4,1,4,4,4,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+224,24,Male,Devon,Local,10/16/25 11:39,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+225,33,Male,Devon,Local,9/13/25 3:46,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+226,67,Male,Devon,Local,9/24/25 18:06,5,6,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+227,71,Female,Devon,Local,9/19/25 7:04,5,7,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+228,73,Female,Devon,Local,9/12/25 5:49,5,7,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+229,54,Female,Devon,Local,9/17/25 5:49,5,3,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+230,67,Male,Devon,Local,12/9/25 21:53,4,2,4,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+231,60,Male,Devon,Local,10/23/25 1:55,5,5,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+232,70,Female,Devon,Local,9/29/25 7:58,5,6,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+233,69,Male,Devon,Local,9/16/25 10:57,5,6,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+234,55,Male,Devon,Local,12/2/25 15:20,4,2,4,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+235,49,Male,Devon,Local,9/17/25 3:04,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+236,39,Male,Devon,Local,11/6/25 11:28,5,4,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+237,37,Male,Devon,Local,11/8/25 6:46,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+238,43,Female,Devon,Local,9/26/25 11:03,5,2,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+239,64,Male,Devon,Local,9/4/25 19:00,4,1,4,4,4,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+240,58,Male,Devon,Local,9/7/25 6:14,5,4,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+241,74,Male,Devon,Local,10/23/25 21:35,5,6,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+242,21,Male,Devon,Local,9/23/25 13:04,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+243,26,Male,Devon,Local,11/26/25 19:42,5,1,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+244,54,Male,Devon,Local,9/15/25 4:36,5,5,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+245,28,Male,Devon,Local,9/23/25 18:21,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+246,23,Female,Devon,Local,9/2/25 7:55,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+247,59,Male,Devon,Local,9/5/25 9:51,5,4,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+248,24,Male,Devon,Local,12/3/25 13:33,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+249,50,Male,Devon,Local,12/14/25 2:32,5,2,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+250,19,Male,Devon,Local,10/3/25 17:37,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+251,47,Female,Devon,Local,11/2/25 23:45,5,4,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+252,27,Male,Devon,Local,10/16/25 2:17,4,1,4,4,4,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+253,71,Male,Devon,Local,2/12/26 21:14,5,6,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+254,64,Male,Devon,Local,9/29/25 15:36,5,6,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+255,67,Male,Devon,Local,9/4/25 11:17,5,8,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+256,62,Male,Devon,Local,9/18/25 10:07,4,1,4,4,4,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+257,36,Female,Devon,Local,12/29/25 22:42,5,3,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+258,23,Female,Devon,Local,9/18/25 8:19,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+259,74,Male,Devon,Local,9/25/25 13:48,5,7,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+260,41,Male,Devon,Local,9/30/25 16:59,5,2,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+261,50,Male,Devon,Local,10/26/25 10:04,5,4,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+262,72,Male,Devon,Local,12/23/25 0:27,5,6,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+263,56,Male,Devon,Local,9/19/25 11:00,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+264,55,Male,Devon,Local,11/21/25 17:31,5,5,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+265,64,Male,Devon,Local,9/14/25 1:42,5,5,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+266,61,Male,Devon,Local,9/2/25 19:51,5,5,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+267,26,Male,Devon,Local,12/22/25 17:30,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+268,22,Male,Devon,Local,10/5/25 5:21,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+269,48,Female,Devon,Local,9/27/25 23:07,5,4,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+270,72,Male,Devon,Local,9/11/25 6:45,5,6,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+271,69,Male,Devon,Local,10/4/25 19:29,5,7,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+272,34,Male,Devon,Local,10/6/25 7:40,5,2,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+273,44,Male,Devon,Local,9/8/25 1:04,5,4,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+274,63,Male,Devon,Local,9/4/25 16:49,5,5,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+275,58,Male,Devon,Local,9/3/25 18:26,5,5,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+276,43,Male,Devon,Local,9/17/25 7:14,4,1,4,4,4,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+277,66,Male,Devon,Local,9/10/25 3:51,5,7,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+278,55,Male,Devon,Local,2/9/26 7:39,5,4,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+279,67,Male,Devon,Local,10/2/25 14:39,5,8,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+280,69,Male,Devon,Local,9/1/25 11:49,5,5,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+281,48,Male,Devon,Local,9/13/25 7:47,4,1,4,4,4,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+282,58,Male,Devon,Local,9/24/25 9:16,5,5,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+283,27,Male,Devon,Local,9/5/25 4:33,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+284,36,Male,Devon,Local,9/23/25 10:51,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+285,47,Male,Devon,Local,9/17/25 19:55,5,4,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+286,58,Male,Devon,Local,9/27/25 12:59,5,4,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+287,29,Female,Devon,Local,9/8/25 21:27,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+288,70,Male,Devon,Local,10/24/25 4:37,5,7,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+289,63,Male,Devon,Local,10/1/25 21:04,5,4,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+290,66,Male,Devon,Local,10/19/25 11:24,5,6,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+291,73,Male,Devon,Local,9/3/25 3:30,5,8,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+292,37,Male,Devon,Local,12/5/25 14:13,4,1,4,4,4,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+293,71,Male,Devon,Local,9/28/25 9:47,5,7,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+294,53,Male,Devon,Local,9/11/25 9:45,5,4,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+295,49,Male,Devon,Local,10/25/25 4:02,5,5,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+296,73,Male,Devon,Local,12/30/25 16:19,5,8,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+297,32,Male,Devon,Local,9/26/25 9:32,5,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+298,24,Male,Devon,Local,11/20/25 20:01,4,0,,4,3,4,4,5,No suggestions - I was satisfied with my experience.,Likely
+299,39,Male,Devon,Local,9/18/25 7:02,5,3,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+300,73,Male,Devon,Local,9/2/25 10:21,5,7,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+301,66,Female,Devon,Local,11/27/25 7:32,5,6,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+302,53,Male,Devon,Local,9/9/25 16:13,5,5,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+303,52,Male,Devon,Local,9/2/25 15:11,4,1,4,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+304,72,Male,Devon,Local,2/13/26 7:26,5,7,5,4,4,4,5,5,No suggestions - I was satisfied with my experience.,Likely
+305,54,Male,Midlands,Tourist,11/7/25 21:59,1,0,,3,3,3,2,1,I have no interest in horse racing.,Unlikely
+306,59,Female,Somerset,Tourist,9/13/25 11:20,1,0,,3,3,3,2,1,Not really my thing.,Unlikely
+307,48,Male,North West,Tourist,12/11/25 15:54,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+308,47,Female,North West,Tourist,10/23/25 18:39,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+309,45,Male,Bristol,Tourist,11/10/25 3:34,1,0,,3,3,3,2,1,No interest in horse racing.,Unlikely
+310,66,Female,North East,Tourist,9/7/25 14:31,2,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+311,43,Male,London,Tourist,11/22/25 22:18,1,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+312,30,Male,Bristol,Tourist,12/1/25 0:11,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+313,32,Female,London,Tourist,10/20/25 12:11,2,0,,3,3,3,2,2,"If it was more family-friendly, I'd bring my kids.",Maybe
+314,29,Male,Scotland,Tourist,9/26/25 14:20,2,0,,3,3,3,3,1,I never hear about what's happening there.,Unlikely
+315,37,Male,Scotland,Tourist,9/8/25 5:43,1,0,,3,3,3,2,1,No interest in horse racing.,Unlikely
+316,62,Male,North East,Tourist,10/22/25 19:18,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+317,70,Female,North West,Tourist,10/31/25 21:50,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+318,59,Male,Somerset,Tourist,9/23/25 6:21,1,0,,3,3,3,3,1,Not interested in horse racing.,Unlikely
+319,23,Male,Scotland,Tourist,9/9/25 1:20,3,0,,3,3,3,3,3,"No major issues, just not sure yet.",Maybe
+320,37,Male,North East,Tourist,9/12/25 0:56,1,0,,3,3,3,2,1,I have no interest in horse racing.,Unlikely
+321,73,Male,Wales,Tourist,10/13/25 11:53,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+322,44,Male,London,Tourist,11/24/25 0:59,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+323,44,Male,North East,Tourist,9/5/25 21:25,1,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+324,21,Female,North East,Tourist,11/20/25 1:14,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+325,48,Female,North West,Tourist,9/16/25 1:49,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+326,22,Female,North West,Tourist,12/7/25 21:29,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+327,47,Male,North East,Tourist,11/23/25 15:17,2,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+328,53,Male,Scotland,Tourist,10/1/25 6:25,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+329,30,Male,North West,Tourist,9/26/25 19:49,1,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+330,34,Female,North East,Tourist,2/4/26 7:59,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+331,58,Male,North West,Tourist,2/15/26 1:33,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+332,32,Male,Wales,Tourist,9/6/25 15:16,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+333,51,Male,London,Tourist,11/25/25 18:59,1,0,,3,3,3,2,1,Not really my thing.,Unlikely
+334,21,Male,Scotland,Tourist,9/3/25 11:42,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+335,73,Male,North West,Tourist,10/18/25 1:00,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+336,49,Male,Wales,Tourist,10/26/25 15:07,1,0,,3,3,3,2,1,No interest in horse racing.,Unlikely
+337,61,Male,Somerset,Tourist,2/11/26 17:53,2,0,,3,3,3,2,1,I have no interest in horse racing.,Unlikely
+338,52,Female,North West,Tourist,10/13/25 9:18,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+339,49,Male,North East,Tourist,12/22/25 15:59,1,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+340,64,Male,North West,Tourist,11/15/25 1:14,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+341,52,Female,North East,Tourist,9/10/25 7:35,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+342,35,Male,Cornwall,Tourist,9/14/25 12:31,1,0,,3,3,3,2,1,No interest in horse racing.,Unlikely
+343,59,Male,Somerset,Tourist,9/21/25 16:52,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+344,31,Male,North East,Tourist,9/14/25 22:32,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+345,55,Male,Cornwall,Tourist,10/31/25 6:28,1,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+346,24,Male,North West,Tourist,10/3/25 8:08,1,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+347,19,Female,North East,Tourist,9/1/25 12:05,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+348,29,Male,Wales,Tourist,12/8/25 10:47,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+349,40,Male,North West,Tourist,9/19/25 17:12,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+350,51,Female,North West,Tourist,9/28/25 5:56,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+351,34,Male,London,Tourist,9/8/25 22:07,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+352,68,Male,North West,Tourist,9/21/25 5:45,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+353,53,Male,Somerset,Tourist,9/17/25 11:05,1,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+354,35,Female,North East,Tourist,9/13/25 13:14,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+355,24,Male,North East,Tourist,9/5/25 0:01,1,0,,3,3,3,2,1,No interest in horse racing.,Unlikely
+356,56,Male,North East,Tourist,9/11/25 1:59,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+357,68,Male,Somerset,Tourist,9/23/25 17:50,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+358,57,Male,Somerset,Tourist,9/2/25 9:16,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+359,39,Male,Cornwall,Tourist,10/1/25 19:17,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+360,24,Male,North East,Tourist,9/15/25 9:47,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+361,63,Male,North West,Tourist,9/20/25 21:12,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+362,25,Male,Wales,Tourist,9/3/25 7:15,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+363,72,Male,North West,Tourist,9/14/25 9:35,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+364,73,Male,Somerset,Tourist,9/22/25 16:10,1,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+365,37,Male,Scotland,Tourist,9/29/25 12:28,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+366,72,Male,North East,Tourist,11/14/25 7:56,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+367,55,Male,North East,Tourist,10/28/25 21:57,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+368,67,Male,Somerset,Tourist,9/8/25 19:38,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+369,52,Male,North East,Tourist,9/18/25 7:39,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+370,58,Male,Scotland,Tourist,9/20/25 5:37,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+371,45,Female,North East,Tourist,9/6/25 11:40,1,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+372,42,Male,Wales,Tourist,9/17/25 13:39,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+373,26,Male,North East,Tourist,10/31/25 11:32,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+374,70,Male,North West,Tourist,12/4/25 4:44,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+375,27,Male,North West,Tourist,11/6/25 17:06,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+376,54,Male,North West,Tourist,12/13/25 16:34,1,0,,3,3,3,2,1,I have no interest in horse racing.,Unlikely
+377,51,Male,London,Tourist,9/7/25 8:15,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+378,48,Male,London,Tourist,9/21/25 14:01,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+379,61,Male,North East,Tourist,11/19/25 1:43,1,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+380,34,Male,North East,Tourist,9/17/25 0:03,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+381,69,Male,North West,Tourist,9/28/25 21:15,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+382,32,Male,London,Tourist,9/21/25 2:15,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+383,43,Male,North West,Tourist,9/1/25 19:16,1,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+384,64,Male,North West,Tourist,9/30/25 23:30,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+385,60,Male,North West,Tourist,9/10/25 21:18,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+386,50,Male,London,Tourist,9/23/25 15:02,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+387,73,Male,North East,Tourist,9/27/25 16:15,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+388,41,Male,London,Tourist,10/19/25 6:55,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+389,66,Male,Scotland,Tourist,11/30/25 13:25,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+390,57,Male,Cornwall,Tourist,9/30/25 10:46,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+391,64,Male,Somerset,Tourist,9/27/25 6:23,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+392,70,Male,Scotland,Tourist,9/7/25 18:58,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+393,31,Male,Scotland,Tourist,9/2/25 23:48,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+394,68,Male,North East,Tourist,9/26/25 16:10,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+395,37,Male,Cornwall,Tourist,9/7/25 6:10,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+396,74,Male,Scotland,Tourist,9/30/25 21:55,1,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+397,51,Male,North East,Tourist,9/24/25 2:34,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+398,20,Male,Cornwall,Tourist,9/28/25 0:53,1,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+399,31,Male,North East,Tourist,11/15/25 20:47,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+400,27,Male,North West,Tourist,9/1/25 0:37,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+401,49,Male,North East,Tourist,9/27/25 10:40,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+402,72,Male,North East,Tourist,9/30/25 1:59,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+403,27,Male,North West,Tourist,10/8/25 15:12,1,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+404,67,Male,Somerset,Tourist,9/25/25 8:56,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+405,75,Male,North East,Tourist,10/2/25 7:59,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+406,55,Male,North East,Tourist,9/22/25 10:06,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+407,74,Male,Wales,Tourist,9/24/25 16:05,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+408,33,Male,North East,Tourist,9/27/25 13:16,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+409,35,Male,Scotland,Tourist,9/2/25 3:53,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+410,64,Male,Somerset,Tourist,9/18/25 13:02,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+411,52,Male,Midlands,Tourist,9/1/25 22:36,3,0,,3,3,3,3,3,I'd be more likely to attend if there were more attractions besides racing.,Maybe
+412,39,Female,International,Tourist,10/25/25 7:25,1,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+413,33,Male,Midlands,Tourist,11/15/25 6:30,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+414,57,Male,North East,Tourist,9/2/25 8:29,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+415,63,Male,North West,Tourist,9/4/25 10:02,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+416,71,Male,North East,Tourist,12/4/25 13:33,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+417,42,Male,Somerset,Tourist,9/16/25 7:19,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+418,24,Male,North West,Tourist,12/22/25 9:49,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+419,63,Male,Scotland,Tourist,9/6/25 1:46,1,0,,3,3,3,2,1,I have no interest in horse racing.,Unlikely
+420,58,Male,North East,Tourist,9/4/25 17:49,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+421,44,Male,Scotland,Tourist,9/10/25 13:56,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+422,38,Female,North West,Tourist,10/19/25 19:38,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+423,21,Male,Somerset,Tourist,9/4/25 2:59,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+424,50,Male,Scotland,Tourist,9/3/25 9:55,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+425,73,Male,North West,Tourist,9/4/25 21:51,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+426,29,Male,North West,Tourist,9/18/25 18:23,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+427,27,Male,Wales,Tourist,9/16/25 22:59,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+428,60,Male,North West,Tourist,9/5/25 5:17,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+429,56,Male,North East,Tourist,9/18/25 21:10,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+430,42,Male,North West,Tourist,9/9/25 10:20,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+431,71,Male,North West,Tourist,9/26/25 0:59,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+432,64,Male,Wales,Tourist,9/22/25 20:45,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+433,31,Male,Cornwall,Tourist,9/18/25 6:14,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+434,72,Male,North West,Tourist,9/29/25 11:05,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+435,46,Male,London,Tourist,9/8/25 17:34,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+436,60,Male,Scotland,Tourist,10/3/25 12:33,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+437,26,Male,Scotland,Tourist,10/1/25 18:09,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+438,29,Male,London,Tourist,9/27/25 4:17,1,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+439,39,Male,Wales,Tourist,9/14/25 19:33,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+440,68,Male,North West,Tourist,9/10/25 16:49,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+441,52,Male,Somerset,Tourist,9/2/25 4:59,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+442,49,Male,London,Tourist,9/9/25 5:13,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+443,65,Male,North East,Tourist,10/24/25 15:08,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+444,31,Male,London,Tourist,9/1/25 21:56,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+445,35,Male,Scotland,Tourist,9/4/25 16:21,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+446,47,Male,Somerset,Tourist,9/19/25 12:05,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+447,26,Male,North East,Tourist,9/7/25 9:23,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+448,60,Male,North West,Tourist,9/8/25 14:05,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+449,46,Male,Cornwall,Tourist,9/11/25 23:30,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+450,65,Male,Scotland,Tourist,9/5/25 7:13,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+451,27,Male,North East,Tourist,9/1/25 16:14,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+452,59,Male,North West,Tourist,9/3/25 5:20,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+453,21,Male,North West,Tourist,9/5/25 16:36,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+454,70,Male,North East,Tourist,9/5/25 1:03,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+455,53,Male,North East,Tourist,9/11/25 10:34,1,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+456,62,Male,Scotland,Tourist,9/30/25 12:41,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+457,58,Male,Scotland,Tourist,9/12/25 4:30,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+458,47,Male,North West,Tourist,9/13/25 5:16,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+459,72,Male,North West,Tourist,9/8/25 10:53,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+460,59,Male,Cornwall,Tourist,9/2/25 18:22,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+461,42,Male,North East,Tourist,9/4/25 9:44,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+462,74,Male,North West,Tourist,9/8/25 6:54,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+463,56,Male,North East,Tourist,9/15/25 0:49,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+464,75,Male,Scotland,Tourist,10/13/25 15:13,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+465,34,Male,International,Tourist,11/18/25 1:53,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+466,31,Male,Wales,Tourist,9/1/25 19:52,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+467,75,Male,North West,Tourist,9/16/25 11:58,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+468,27,Male,Cornwall,Tourist,9/9/25 20:01,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+469,65,Male,North East,Tourist,9/5/25 13:51,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+470,31,Male,Wales,Tourist,9/17/25 5:25,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+471,73,Male,North East,Tourist,9/26/25 8:59,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+472,43,Male,Cornwall,Tourist,9/6/25 8:26,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+473,60,Male,North West,Tourist,9/20/25 19:40,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+474,49,Male,Somerset,Tourist,9/2/25 10:46,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+475,48,Male,North East,Tourist,9/22/25 18:22,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+476,24,Male,Cornwall,Tourist,9/16/25 12:03,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+477,50,Male,North East,Tourist,9/7/25 22:34,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+478,45,Male,North East,Tourist,9/10/25 4:26,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+479,49,Male,International,Tourist,9/8/25 12:41,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+480,74,Male,North East,Tourist,9/19/25 23:56,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+481,20,Male,North East,Tourist,9/12/25 18:02,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+482,52,Male,North East,Tourist,9/21/25 11:03,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+483,29,Male,Wales,Tourist,9/23/25 3:40,1,0,,3,3,3,2,1,I'm not interested in horse racing.,Unlikely
+484,68,Male,Cornwall,Tourist,9/1/25 0:26,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+485,36,Male,North West,Tourist,9/9/25 2:31,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+486,30,Male,International,Tourist,9/19/25 9:33,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+487,55,Male,International,Tourist,9/1/25 2:50,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+488,53,Male,Scotland,Tourist,9/24/25 6:30,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+489,26,Male,North West,Tourist,9/12/25 9:23,2,0,,3,3,3,2,1,Not really a fan of horse racing.,Unlikely
+490,67,Male,North East,Tourist,9/13/25 21:48,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+491,35,Male,Cornwall,Tourist,9/4/25 6:07,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+492,68,Male,North East,Tourist,9/12/25 12:40,1,0,,3,3,3,2,1,I have no interest in horse racing.,Unlikely
+493,48,Male,North East,Tourist,9/6/25 20:35,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+494,36,Male,North East,Tourist,9/6/25 0:40,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+495,59,Male,Scotland,Tourist,9/19/25 0:31,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+496,49,Male,North East,Tourist,9/1/25 23:58,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely
+497,69,Male,North West,Tourist,9/3/25 0:48,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+498,43,Male,Wales,Tourist,9/7/25 3:18,2,0,,3,3,3,2,1,Not a fan of horse racing.,Unlikely
+499,40,Male,North West,Tourist,9/24/25 11:15,2,0,,3,3,3,2,1,Not really my thing.,Unlikely
+500,63,Male,International,Tourist,9/23/25 0:07,2,0,,3,3,3,2,1,Not interested in horse racing.,Unlikely

@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Training Day Resources</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Serif:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-1: #f5efe4;
+      --bg-2: #e8f3ff;
+      --panel: rgba(255, 255, 255, 0.78);
+      --panel-border: rgba(15, 23, 42, 0.1);
+      --text-main: #0f172a;
+      --text-muted: #334155;
+      --accent: #0f766e;
+      --accent-2: #b45309;
+      --shadow: 0 24px 60px rgba(15, 23, 42, 0.14);
+      --card-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Space Grotesk", sans-serif;
+      color: var(--text-main);
+      background:
+        radial-gradient(1200px 600px at 8% -5%, #ffd6a8 0%, rgba(255, 214, 168, 0) 58%),
+        radial-gradient(900px 500px at 92% 10%, #cce8ff 0%, rgba(204, 232, 255, 0) 52%),
+        linear-gradient(130deg, var(--bg-1), var(--bg-2));
+      padding: 28px 18px 48px;
+    }
+
+    .shell {
+      max-width: 1150px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      border: 1px solid var(--panel-border);
+      background: var(--panel);
+      backdrop-filter: blur(8px);
+      border-radius: calc(var(--radius) + 4px);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -70px;
+      top: -70px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: conic-gradient(from 140deg, #f97316, #14b8a6, #3b82f6, #f97316);
+      opacity: 0.2;
+      filter: blur(3px);
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "IBM Plex Serif", serif;
+      font-size: clamp(1.85rem, 4.8vw, 3rem);
+      letter-spacing: 0.01em;
+      line-height: 1.1;
+      max-width: 800px;
+    }
+
+    .subtitle {
+      margin: 10px 0 0;
+      color: var(--text-muted);
+      font-size: clamp(1rem, 2.5vw, 1.18rem);
+      max-width: 720px;
+    }
+
+    .quick-links {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: #073a36;
+      background: #dcfce7;
+      border: 1px solid #7dd3fc;
+      border-radius: 999px;
+      padding: 8px 13px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .pill:hover,
+    .pill:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 7px 18px rgba(14, 116, 144, 0.2);
+      outline: none;
+    }
+
+    .section {
+      margin-top: 24px;
+    }
+
+    .section h2 {
+      margin: 0 0 12px;
+      font-size: 1.08rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #4b5563;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      border: 1px solid var(--panel-border);
+      background: var(--panel);
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      min-height: 170px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover,
+    .card:focus-within {
+      transform: translateY(-3px);
+      box-shadow: 0 22px 30px rgba(15, 23, 42, 0.13);
+    }
+
+    .tag {
+      align-self: flex-start;
+      font-size: 0.73rem;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 5px 10px;
+      background: #fef3c7;
+      color: #7c2d12;
+    }
+
+    .card h3 {
+      margin: 11px 0 8px;
+      font-size: 1.08rem;
+      line-height: 1.35;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.45;
+      flex: 1;
+    }
+
+    .card a {
+      margin-top: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .card a:hover,
+    .card a:focus-visible {
+      color: var(--accent-2);
+      outline: none;
+    }
+
+    footer {
+      margin-top: 24px;
+      color: #475569;
+      font-size: 0.93rem;
+      background: rgba(255, 255, 255, 0.66);
+      border: 1px solid var(--panel-border);
+      border-radius: 16px;
+      padding: 12px 14px;
+    }
+
+    @media (max-width: 720px) {
+      .hero {
+        padding: 20px;
+      }
+
+      .card {
+        min-height: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <h1>AI Training Day Resource Hub</h1>
+      <p class="subtitle">Single place for all links and files used in the presentation, including Padlet, the Hair Salon simulator, and the Racecourse spreadsheet resources.</p>
+      <div class="quick-links" aria-label="Top quick links">
+        <a class="pill" href="./index.html" target="_blank" rel="noopener noreferrer">Open Slide Deck</a>
+        <a class="pill" href="https://padlet.com/embed/1cgehb7kf9w9rti" target="_blank" rel="noopener noreferrer">Open Padlet Board</a>
+        <a class="pill" href="https://gemini.google.com/share/4a2e574d6464" target="_blank" rel="noopener noreferrer">Open Hair Salon Simulator</a>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="activities-heading">
+      <h2 id="activities-heading">Core Activities</h2>
+      <div class="grid">
+        <article class="card">
+          <span class="tag">Workshop</span>
+          <h3>Padlet Activity Board</h3>
+          <p>Participants post their AI task outputs for shared discussion and review.</p>
+          <a href="https://padlet.com/embed/1cgehb7kf9w9rti" target="_blank" rel="noopener noreferrer">Visit Padlet</a>
+        </article>
+
+        <article class="card">
+          <span class="tag">Group Game</span>
+          <h3>Gemini Hair Salon Business Simulator</h3>
+          <p>Human vs AI decision game used in the afternoon simulation activity.</p>
+          <a href="https://gemini.google.com/share/4a2e574d6464" target="_blank" rel="noopener noreferrer">Launch Simulator</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="data-heading">
+      <h2 id="data-heading">Data Files</h2>
+      <div class="grid">
+        <article class="card">
+          <span class="tag">Spreadsheet</span>
+          <h3>Racecourse Market Research (XLSX)</h3>
+          <p>Original workbook used in the productivity workflow exercises.</p>
+          <a href="./Racecourse_fictional_market_research.xlsx" target="_blank" rel="noopener noreferrer">Open XLSX</a>
+        </article>
+
+        <article class="card">
+          <span class="tag">Converted</span>
+          <h3>Racecourse Market Research (CSV)</h3>
+          <p>CSV version exported from the workbook to make sharing and tool import easier.</p>
+          <a href="./Racecourse_fictional_market_research.csv" target="_blank" rel="noopener noreferrer">Open CSV</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="ai-tools-heading">
+      <h2 id="ai-tools-heading">AI Tools Mentioned</h2>
+      <div class="grid">
+        <article class="card">
+          <span class="tag">Tool</span>
+          <h3>ChatGPT</h3>
+          <p>Prompt tests and writing workflow examples in session activities.</p>
+          <a href="https://chatgpt.com" target="_blank" rel="noopener noreferrer">Open ChatGPT</a>
+        </article>
+
+        <article class="card">
+          <span class="tag">Tool</span>
+          <h3>Google Gemini</h3>
+          <p>General prompt testing and Gemini Canvas simulator hosting.</p>
+          <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer">Open Gemini</a>
+        </article>
+
+        <article class="card">
+          <span class="tag">Tool</span>
+          <h3>Claude</h3>
+          <p>Alternative model option referenced for prompt comparison activities.</p>
+          <a href="https://claude.ai" target="_blank" rel="noopener noreferrer">Open Claude</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="references-heading">
+      <h2 id="references-heading">Reference Links</h2>
+      <div class="grid">
+        <article class="card">
+          <span class="tag">Research</span>
+          <h3>OpenAI GDPval</h3>
+          <p>Source page used in the deck to discuss frontier model task performance.</p>
+          <a href="https://openai.com/index/gdpval/" target="_blank" rel="noopener noreferrer">Open GDPval Page</a>
+        </article>
+
+        <article class="card">
+          <span class="tag">Video</span>
+          <h3>Embedded YouTube Clip</h3>
+          <p>YouTube resource embedded directly inside one of the presentation slides.</p>
+          <a href="https://www.youtube.com/watch?v=mAI5GueDdM0" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+        </article>
+      </div>
+    </section>
+
+    <footer>
+      This page is saved as a standalone file so you can share one link list quickly during or after the workshop.
+    </footer>
+  </main>
+</body>
+</html>
