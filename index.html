@@ -3329,6 +3329,51 @@
       ];
       const total = slideDefs.length;
 
+      // ── Figma-style viewport scaling ──────────────────────────
+      const DESIGN_WIDTH = 1440;
+      const DESIGN_HEIGHT = 900;
+      const DISTANCE_MODES = [
+        { name: 'laptop',  factor: 1.0 },
+        { name: 'desktop', factor: 0.9 },
+        { name: 'tv',      factor: 0.7 },
+      ];
+      const [distanceModeIdx, setDistanceModeIdx] = useState(0);
+      const distanceMode = DISTANCE_MODES[distanceModeIdx];
+      const rootRef = useRef(null);
+      const [viewportScale, setViewportScale] = useState(1);
+
+      useEffect(() => {
+        const recalcScale = () => {
+          const rootEl = rootRef.current;
+          if (!rootEl) return;
+
+          const vw = window.innerWidth;
+          const vh = window.innerHeight;
+          const factor = DISTANCE_MODES[distanceModeIdx]?.factor || 1;
+
+          // Divide design dims by factor so lower factor → bigger content
+          const effectiveW = DESIGN_WIDTH * factor;
+          const effectiveH = DESIGN_HEIGHT * factor;
+
+          let scale = Math.min(vw / effectiveW, vh / effectiveH);
+          scale = Math.max(0.7, Math.min(1.5, scale));
+
+          // Center: offset the absolute-positioned root
+          const scaledW = DESIGN_WIDTH * scale;
+          const scaledH = DESIGN_HEIGHT * scale;
+          const offsetX = (vw - scaledW) / 2;
+          const offsetY = (vh - scaledH) / 2;
+
+          rootEl.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+          setViewportScale(scale);
+        };
+
+        recalcScale();
+        window.addEventListener('resize', recalcScale);
+        return () => window.removeEventListener('resize', recalcScale);
+      }, [distanceModeIdx]);
+      // ── end viewport scaling ──────────────────────────────────
+
       const parseSlideFromHash = () => {
         try {
           const hash = String(window.location.hash || '').trim();
@@ -3456,6 +3501,11 @@
             document.body.classList.toggle('presentation-mode');
             return;
           }
+
+          if (e.key === 'd' || e.key === 'D') {
+            setDistanceModeIdx((prev) => (prev + 1) % DISTANCE_MODES.length);
+            return;
+          }
           if (e.key === 'ArrowRight' || e.key === 'PageDown') setSlide((s) => Math.min(total - 1, s + 1));
           if (e.key === 'ArrowLeft' || e.key === 'PageUp') setSlide((s) => Math.max(0, s - 1));
         };
@@ -3469,8 +3519,9 @@
       const timelineTextScale = isTimelineFamily ? 0.9 : null;
 
       return (
-        <div className="bg-slate-950 text-slate-200 font-sans selection:bg-purple-500 selection:text-white">
-          <DeckBackground />
+        <div className="viewport">
+            <div id="presentation-root" ref={rootRef}>
+              <DeckBackground />
 
           <div className="relative z-10">
             {currentSlideDef && (
@@ -3481,6 +3532,15 @@
           </div>
 
           <DeckNav slide={slide} setSlide={setSlide} total={total} />
+            </div>
+
+            {/* Badges outside scaled root — crisp at native resolution */}
+            <div className={`distance-badge ${distanceMode.name !== 'laptop' ? 'visible' : ''}`}>
+              {distanceMode.name.toUpperCase()}
+            </div>
+            <div className="scale-hud">
+              {Math.round(viewportScale * 100)}% · {distanceMode.name}
+            </div>
         </div>
       );
     }

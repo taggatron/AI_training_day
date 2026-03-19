@@ -34,7 +34,7 @@
 html, body, * { box-sizing: border-box; }
 body, html {
     margin: 0; padding: 0; width: 100%;
-    font-family: Arial, sans-serif; background: #111; color: #fff; overflow-x: hidden; overflow-y: auto;
+    font-family: Arial, sans-serif; background: #111; color: #fff; overflow-x: hidden; overflow-y: hidden;
     min-height: 100vh;
     font-size: calc(clamp(14px, 0.25vw + 13px, 19px) * var(--scale-factor));
 }
@@ -944,4 +944,108 @@ body.presentation-mode::after {
     :root {
         --scale-factor: 1.25;
     }
+}
+
+
+/* ================================================================ */
+/* FIGMA-STYLE VIEWPORT SCALING                                      */
+/* Fixed 1440x900 design canvas, auto-scaled to fit any screen.      */
+/* ================================================================ */
+.viewport {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0b1020;
+    position: relative;
+}
+
+@supports (height: 100dvh) {
+    .viewport { height: 100dvh; }
+}
+
+#presentation-root {
+    width: 1440px;
+    height: 900px;
+    transform-origin: top left;
+    position: absolute;
+    overflow: hidden;
+    background: #0b1020;
+}
+
+/* Inside the fixed frame, override viewport-relative heights
+   so slides fill the 1440x900 canvas instead of the browser viewport. */
+#presentation-root .deck-slide-viewport {
+    height: 900px !important;
+}
+#presentation-root .slide {
+    min-height: 900px;
+}
+/* Override dynamic viewport height inside fixed frame */
+@supports (height: 100dvh) {
+    #presentation-root .deck-slide-viewport {
+        height: 900px !important;
+    }
+}
+
+
+/* DeckBackground uses position:fixed — inside a transformed parent
+   this becomes relative to the 1440x900 frame. Ensure it fills. */
+#presentation-root .fixed.inset-0 {
+    position: absolute;
+}
+
+/* Distance-mode badge (rendered outside the scaled root so it
+   stays crisp at native resolution). */
+.distance-badge {
+    position: fixed;
+    top: 12px;
+    left: 16px;
+    z-index: 9999;
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    color: #0b1020;
+    background: #6a67ce;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+.distance-badge.visible {
+    opacity: 0.65;
+}
+
+/* Scale-info HUD (bottom-right, for debugging — hidden by default) */
+.scale-hud {
+    position: fixed;
+    bottom: 12px;
+    right: 16px;
+    z-index: 9999;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    color: rgba(255,255,255,0.5);
+    background: rgba(11,16,32,0.7);
+    border: 1px solid rgba(255,255,255,0.08);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+body.show-scale-hud .scale-hud {
+    opacity: 1;
+}
+
+/* Presentation mode: extra spacing */
+body.presentation-mode #presentation-root {
+    --space-xs: clamp(0.35rem, 0.28rem + 0.35vw, 0.7rem);
+    --space-s:  clamp(0.65rem, 0.52rem + 0.65vw, 1.3rem);
+    --space-m:  clamp(1.2rem,  0.96rem + 1.2vw,  2.4rem);
+    --space-l:  clamp(1.8rem,  1.44rem + 1.8vw,  3.6rem);
 }
