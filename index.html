@@ -1595,13 +1595,13 @@
               </div>
             </header>
 
-            <div className="mt-6 grid grid-cols-1 gap-4">
-              <div className="rounded-xl border border-slate-200 bg-white/80 p-4">
-                <p className="text-lg font-extrabold tracking-widest uppercase text-slate-600">Participant Tasks</p>
-                <ul className="mt-3 text-base font-medium text-slate-700 list-disc pl-5 space-y-2">
+            <div className="mt-6 grid grid-cols-1 gap-4 flex-1 min-h-0">
+              <div className="rounded-xl border border-slate-200 bg-white/80 p-5 md:p-6 h-full min-h-[52vh] flex flex-col">
+                <p className="text-xl md:text-2xl font-extrabold tracking-widest uppercase text-slate-600">Participant Tasks</p>
+                <ul className="mt-4 text-lg md:text-xl font-medium text-slate-700 list-disc pl-6 space-y-4 leading-relaxed">
                   <li>Please demonstrate how you currently use AI tools in your work.</li>
                   <li>If you do not currently use AI then choose from the following tasks:
-                    <ul className="mt-1 list-disc pl-6 space-y-1">
+                    <ul className="mt-2 list-disc pl-6 space-y-2 text-base md:text-lg">
                       <li>Create a marketing post for a weekend promotion.</li>
                       <li>Generate a homepage Hero Image for a local business.</li>
                     </ul>
@@ -1609,33 +1609,16 @@
                   <li>Post your response on Padlet so everyone can review and discuss.</li>
                 </ul>
 
-                <div className="mt-4">
+                <div className="mt-auto pt-6">
                   <button
                     type="button"
                     onClick={() => setPadletOpen(true)}
-                    className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-slate-200 bg-white/80 text-slate-950 font-extrabold tracking-widest uppercase text-xs hover:bg-white focus:outline-none focus:ring-4 focus:ring-purple-300/50"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-slate-200 bg-white/80 text-slate-950 font-extrabold tracking-widest uppercase text-sm hover:bg-white focus:outline-none focus:ring-4 focus:ring-purple-300/50"
                   >
                     Open Padlet
                   </button>
                 </div>
               </div>
-            </div>
-
-            <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <PromptActionButtons
-                prompt="Write a polite email to a customer explaining a 2-day delay, apologising clearly, and offering a discount code."
-                links={[
-                  { label: 'ChatGPT', url: 'https://chatgpt.com' },
-                  { label: 'Gemini', url: 'https://gemini.google.com' }
-                ]}
-              />
-              <PromptActionButtons
-                prompt="Create a short social media post promoting a student discount at a hair salon this Friday."
-                links={[
-                  { label: 'Claude', url: 'https://claude.ai' },
-                  { label: 'ChatGPT', url: 'https://chatgpt.com' }
-                ]}
-              />
             </div>
 
             {padletOpen && (
@@ -1952,6 +1935,8 @@
       instructionText = 'Take the fictional Racecourse market research and apply the Killer Thought / Prompt flow to generate unique insights.',
       subtitle = '11:35-12:15 | Summarise, rewrite, and extract actions from messy inputs.',
       showWorkflowCards = true,
+      showInstructionBullets = true,
+      showResearchPreviewButton = true,
       showDataTypeSummary = false,
       dataTypeSummaryItems = [],
       tryItPrompt = null
@@ -2043,24 +2028,28 @@
                   </>
                 )}
 
-                <div className={`rounded-lg border border-indigo-200 bg-indigo-50 p-3 ${showWorkflowCards ? 'md:col-span-3' : ''}`}>
-                  <p className="text-xs font-extrabold uppercase tracking-widest text-indigo-800">{instructionTitle}</p>
-                  <p className="mt-1 text-sm text-slate-700 font-medium">{instructionText}</p>
-                  <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
-                    <li>How would an expert in X do Y?</li>
-                    <li>Explain to me process Z.</li>
-                    <li>Build me an app to do alpha task.</li>
-                  </ul>
+                <div className={`rounded-lg border border-indigo-200 bg-indigo-50 p-4 md:p-5 ${showWorkflowCards ? 'md:col-span-3' : ''}`}>
+                  <p className={`font-extrabold uppercase tracking-widest text-indigo-800 ${showInstructionBullets ? 'text-xs' : 'text-sm md:text-base'}`}>{instructionTitle}</p>
+                  <p className={`mt-2 text-slate-700 font-medium leading-relaxed ${showInstructionBullets ? 'text-sm' : 'text-lg md:text-xl'}`}>{instructionText}</p>
+                  {showInstructionBullets && (
+                    <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
+                      <li>How would an expert in X do Y?</li>
+                      <li>Explain to me process Z.</li>
+                      <li>Build me an app to do alpha task.</li>
+                    </ul>
+                  )}
 
-                  <div className="mt-3">
-                    <button
-                      type="button"
-                      onClick={openResearchPreview}
-                      className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-indigo-200 bg-white/80 text-slate-950 font-extrabold tracking-widest uppercase text-xs hover:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-300/50"
-                    >
-                      Preview market research file
-                    </button>
-                  </div>
+                  {showResearchPreviewButton && (
+                    <div className="mt-3">
+                      <button
+                        type="button"
+                        onClick={openResearchPreview}
+                        className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-indigo-200 bg-white/80 text-slate-950 font-extrabold tracking-widest uppercase text-xs hover:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-300/50"
+                      >
+                        Preview market research file
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 {showDataTypeSummary && dataTypeSummaryItems.length > 0 && (
@@ -3073,9 +3062,6 @@
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                 <div>
                   <p className="text-slate-950 font-extrabold mt-1">GDPval (early results)</p>
-                  <p className="text-slate-700 text-sm mt-1 font-medium">
-                    Use this as the “why now” slide: quality is rising fast, so learning to work with AI creates an advantage.
-                  </p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
                   <button
@@ -3296,6 +3282,8 @@
               instructionText="Ask AI LLMs to improve your prompt first, then run the improved prompt instead to generate stronger insights."
               subtitle="09:30-10:20 | Improve your prompt with a killer meta-prompt, then apply it."
               showWorkflowCards={false}
+              showInstructionBullets={false}
+              showResearchPreviewButton={false}
               tryItPrompt="Ask AI to improve your prompt first: 'Improve the following prompt so it will give me a better response: [your prompt here]' — then run the improved version."
             />  
           )
