@@ -1314,6 +1314,8 @@
     }
 
     function FrontierFirmsSlide() {
+      const [revealedStep, setRevealedStep] = useState(0);
+
       return (
         <div className="relative min-h-screen w-full px-4 md:px-6 py-6 md:py-8 overflow-hidden flex flex-col">
           {sectionBg()}
@@ -1321,50 +1323,78 @@
             <header className="text-center">
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">Frontier Firms: Where AI Fits in Business</h2>
               <p className="mt-3 text-slate-700 font-medium">10:30-10:55 | Identify high-value, low-risk starting points.</p>
+              <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/75 border border-white/70 backdrop-blur-md shadow-lg shadow-purple-900/10">
+                <Sparkles className="w-4 h-4 text-purple-700" />
+                <span className="text-xs font-extrabold tracking-widest uppercase text-slate-700">Click each container to reveal the next</span>
+              </div>
             </header>
 
             <div className="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-3 flex-1 min-h-0 overflow-hidden">
               <div className="rounded-xl border border-slate-200 bg-white/85 p-4 space-y-3">
-                <div className="rounded-lg border border-fuchsia-200 bg-fuchsia-50 p-4 max-w-xl">
+                <button
+                  type="button"
+                  onClick={() => setRevealedStep((s) => Math.max(s, 1))}
+                  className="w-full text-left rounded-lg border border-fuchsia-200 bg-fuchsia-50 p-4 max-w-xl hover:brightness-95 transition"
+                >
                   <p className="text-xs font-extrabold uppercase tracking-widest text-fuchsia-800">What Is A Frontier Firm?</p>
                   <p className="mt-2 text-sm md:text-base font-medium text-slate-800 leading-snug">
                     A company that integrates AI, data, and automation across its operations to operate at the technological and productivity frontier of its industry.
                   </p>
-                </div>
+                </button>
 
-                <div className="rounded-lg border border-slate-200 bg-white p-4 max-w-xl">
-                  <p className="text-xs font-extrabold uppercase tracking-widest text-slate-700">In Practice:</p>
-                  <ul className="mt-2 list-disc pl-5 space-y-1 text-sm font-medium text-slate-700 leading-snug">
-                    <li>AI is embedded into repeatable workflows (not one-off use)</li>
-                    <li>Decisions are data-driven and increasingly automated</li>
-                    <li>Employees are augmented by AI tools</li>
-                    <li>Continuous experimentation and rapid iteration</li>
-                  </ul>
-                </div>
+                {revealedStep >= 1 && (
+                  <button
+                    type="button"
+                    onClick={() => setRevealedStep((s) => Math.max(s, 2))}
+                    className="w-full text-left rounded-lg border border-slate-200 bg-white p-4 max-w-xl hover:brightness-95 transition animate-[fadeIn_.25s_ease-out]"
+                  >
+                    <p className="text-xs font-extrabold uppercase tracking-widest text-slate-700">In Practice:</p>
+                    <ul className="mt-2 list-disc pl-5 space-y-1 text-sm font-medium text-slate-700 leading-snug">
+                      <li>AI is embedded into repeatable workflows (not one-off use)</li>
+                      <li>Decisions are data-driven and increasingly automated</li>
+                      <li>Employees are augmented by AI tools</li>
+                      <li>Continuous experimentation and rapid iteration</li>
+                    </ul>
+                  </button>
+                )}
               </div>
 
               <div className="rounded-xl border border-slate-200 bg-white/85 p-4 space-y-3">
-                <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-slate-100 max-w-xl">
-                  <p className="text-xs font-extrabold uppercase tracking-widest text-cyan-200">OECD Insight (Productivity Gap):</p>
-                  <p className="mt-2 text-sm font-medium leading-snug">Frontier firms grow ~3-5% annually vs ~0-1% for average firms (OECD).</p>
-                </div>
+                {revealedStep >= 2 && (
+                  <button
+                    type="button"
+                    onClick={() => setRevealedStep((s) => Math.max(s, 3))}
+                    className="w-full text-left rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-slate-100 max-w-xl hover:brightness-110 transition animate-[fadeIn_.25s_ease-out]"
+                  >
+                    <p className="text-xs font-extrabold uppercase tracking-widest text-cyan-200">OECD Insight (Productivity Gap):</p>
+                    <p className="mt-2 text-sm font-medium leading-snug">Frontier firms grow ~3-5% annually vs ~0-1% for average firms (OECD).</p>
+                  </button>
+                )}
 
-                <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 max-w-xl">
-                  <p className="text-xs font-extrabold uppercase tracking-widest text-amber-800">Why It Matters (Productivity Paradox):</p>
-                  <p className="mt-2 text-sm font-medium text-slate-700 leading-snug">Technology is advancing rapidly, but most firms are not benefiting.</p>
+                {revealedStep >= 3 && (
+                  <button
+                    type="button"
+                    onClick={() => setRevealedStep((s) => Math.max(s, 4))}
+                    className="w-full text-left rounded-lg border border-amber-200 bg-amber-50 p-4 max-w-xl hover:brightness-95 transition animate-[fadeIn_.25s_ease-out]"
+                  >
+                    <p className="text-xs font-extrabold uppercase tracking-widest text-amber-800">Why It Matters (Productivity Paradox):</p>
+                    <p className="mt-2 text-sm font-medium text-slate-700 leading-snug">Technology is advancing rapidly, but most firms are not benefiting.</p>
 
-                  <p className="mt-3 text-xs font-extrabold uppercase tracking-widest text-slate-700">Bottlenecks:</p>
-                  <ul className="mt-2 list-disc pl-5 space-y-1 text-sm font-medium text-slate-700 leading-snug">
-                    <li>Organisational change</li>
-                    <li>Data infrastructure</li>
-                    <li>Skills</li>
-                    <li>Capital investment</li>
-                  </ul>
-                </div>
+                    <p className="mt-3 text-xs font-extrabold uppercase tracking-widest text-slate-700">Bottlenecks:</p>
+                    <ul className="mt-2 list-disc pl-5 space-y-1 text-sm font-medium text-slate-700 leading-snug">
+                      <li>Organisational change</li>
+                      <li>Data infrastructure</li>
+                      <li>Skills</li>
+                      <li>Capital investment</li>
+                    </ul>
+                  </button>
+                )}
 
-                <div className="rounded-lg border border-emerald-300 bg-emerald-50 p-4 max-w-xl">
-                  <p className="text-sm md:text-base font-extrabold text-emerald-900 leading-snug">KEY TRAIT: Frontier firms build scalable, repeatable AI-powered systems, not one-off solutions.</p>
-                </div>
+                {revealedStep >= 4 && (
+                  <div className="rounded-lg border border-emerald-300 bg-emerald-50 p-4 max-w-xl animate-[fadeIn_.25s_ease-out]">
+                    <p className="text-sm md:text-base font-extrabold text-emerald-900 leading-snug">KEY TRAIT: Frontier firms build scalable, repeatable AI-powered systems, not one-off solutions.</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -1373,6 +1403,8 @@
     }
 
     function AIInnovationNeedSlide() {
+      const [showElonCover, setShowElonCover] = useState(true);
+
       return (
         <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
           {sectionBg()}
@@ -1384,16 +1416,37 @@
 
             <div className="mt-6 grid grid-cols-1 gap-4 flex-1 min-h-0">
               <div className="rounded-xl border border-slate-200 bg-white/80 p-4">
-                <div className="rounded-2xl border border-slate-200 bg-white/75 p-6 md:p-8 shadow-lg shadow-slate-900/5 text-center">
+                <div className="rounded-xl border border-slate-200 bg-white p-3 md:p-4 shadow-sm mb-4">
+                  <p className="text-xs font-extrabold tracking-widest uppercase text-slate-600">Video Clip</p>
+                  <div className="mt-2 aspect-video w-full overflow-hidden rounded-lg border border-slate-200 bg-slate-100">
+                    <iframe
+                      className="h-full w-full"
+                      src="https://www.youtube.com/embed/mAI5GueDdM0"
+                      title="AI Innovation Video"
+                      loading="lazy"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+
+                <div className="relative rounded-2xl border border-slate-200 bg-white/75 p-6 md:p-8 shadow-lg shadow-slate-900/5 text-center overflow-hidden">
+                  {showElonCover && (
+                    <button
+                      type="button"
+                      onClick={() => setShowElonCover(false)}
+                      className="absolute inset-0 z-20 flex items-center justify-center bg-slate-950/95 text-white px-6 text-center"
+                      aria-label="Reveal quote"
+                    >
+                      <span className="text-xl md:text-3xl font-extrabold tracking-tight">Do we agree with Elon?</span>
+                    </button>
+                  )}
                   <p className="text-slate-700 text-xs font-extrabold tracking-widest uppercase">To what extent do you agree with:</p>
                   <h3 className="mt-3 text-2xl md:text-4xl font-extrabold tracking-tight text-slate-950 leading-tight">
                     "AI won't take your future job,
                     <br />
                     but someone using AI might."
                   </h3>
-                  <p className="mt-4 text-slate-700 text-base md:text-lg font-medium">
-                    The advantage goes to teams who learn, adapt, and build with AI.
-                  </p>
                 </div>
               </div>
             </div>
@@ -1417,7 +1470,7 @@
               <SectionTimer label="Section Timebox" minutes={40} />
               <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4">
                 <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Killer Thought</p>
-                <p className="mt-2 text-base font-extrabold text-slate-950">Prompt like an expert, then narrow to process, then ask for a concrete build.</p>
+                <p className="mt-2 text-base font-extrabold text-slate-950">Prompt to become an expert, then narrow to process, then ask for a concrete build.</p>
 
                 <div className="mt-3 rounded-lg border border-cyan-200 bg-cyan-50 p-4">
                   <p className="text-xs font-extrabold uppercase tracking-widest text-cyan-800">Prompt Flow</p>
@@ -2021,18 +2074,57 @@
           {sectionBg()}
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
-              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">Exploring AI Agents</h2>
-              <p className="mt-3 text-slate-700 font-medium">13:40-14:10 | AgentGPT demo and practical task.</p>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-white/60 backdrop-blur-md mb-6 shadow-lg shadow-purple-900/10">
+                <Layers className="w-4 h-4 text-purple-700" />
+                <span className="text-xs font-extrabold tracking-widest uppercase text-slate-700">Context</span>
+              </div>
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">Understanding AI agents</h2>
+              <p className="mt-3 text-slate-700 font-medium">13:40-14:10 | Autonomy levels from Human in the Loop to Fully Autonomous.</p>
             </header>
 
-            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0">
-              <SectionTimer label="Section Timebox" minutes={30} />
-              <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4">
-                <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Task</p>
-                <p className="mt-2 text-sm font-medium text-slate-700">Build a simple agent workflow for: "Create a 7-day promotion plan, then convert it into a checklist and email draft."</p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  <a href="https://agentgpt.reworkd.ai" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-900 text-white text-xs font-extrabold tracking-widest uppercase hover:bg-slate-800">Open AgentGPT <ExternalLink className="w-3 h-3" /></a>
-                  <a href="https://chatgpt.com" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 bg-white text-xs font-extrabold tracking-widest uppercase text-slate-900 hover:bg-slate-100">Open ChatGPT <ExternalLink className="w-3 h-3" /></a>
+            <div className="mt-6 flex-1 min-h-0">
+              <div className="rounded-xl border border-slate-200 bg-white/80 p-4">
+                <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Animated Flow Chart</p>
+                <p className="mt-2 text-sm font-medium text-slate-700">Different levels of AI agents and how control shifts from humans to autonomous systems.</p>
+
+                <div className="mt-4 rounded-lg border border-slate-200 bg-white p-4">
+                  <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] gap-2 md:gap-3 items-center">
+                    <div className="rounded-lg border border-cyan-200 bg-cyan-50 p-3">
+                      <p className="text-xs font-extrabold uppercase tracking-widest text-cyan-800">Level 1</p>
+                      <p className="mt-1 text-sm font-extrabold text-slate-900">Human in the Loop</p>
+                      <p className="mt-1 text-xs font-medium text-slate-700 leading-snug">AI suggests, human approves every step.</p>
+                    </div>
+
+                    <div className="flex items-center justify-center text-slate-500 animate-pulse">
+                      <ArrowRight className="w-4 h-4 rotate-90 md:rotate-0" />
+                    </div>
+
+                    <div className="rounded-lg border border-indigo-200 bg-indigo-50 p-3">
+                      <p className="text-xs font-extrabold uppercase tracking-widest text-indigo-800">Level 2</p>
+                      <p className="mt-1 text-sm font-extrabold text-slate-900">AI Co-pilot</p>
+                      <p className="mt-1 text-xs font-medium text-slate-700 leading-snug">AI drafts and recommends, human guides decisions.</p>
+                    </div>
+
+                    <div className="flex items-center justify-center text-slate-500 animate-pulse">
+                      <ArrowRight className="w-4 h-4 rotate-90 md:rotate-0" />
+                    </div>
+
+                    <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
+                      <p className="text-xs font-extrabold uppercase tracking-widest text-amber-800">Level 3</p>
+                      <p className="mt-1 text-sm font-extrabold text-slate-900">Semi-Autonomous</p>
+                      <p className="mt-1 text-xs font-medium text-slate-700 leading-snug">AI executes workflows with checkpoint approvals.</p>
+                    </div>
+
+                    <div className="flex items-center justify-center text-slate-500 animate-pulse">
+                      <ArrowRight className="w-4 h-4 rotate-90 md:rotate-0" />
+                    </div>
+
+                    <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3">
+                      <p className="text-xs font-extrabold uppercase tracking-widest text-emerald-800">Level 4</p>
+                      <p className="mt-1 text-sm font-extrabold text-slate-900">Fully Autonomous</p>
+                      <p className="mt-1 text-xs font-medium text-slate-700 leading-snug">AI plans, acts, and optimizes outcomes end-to-end.</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
