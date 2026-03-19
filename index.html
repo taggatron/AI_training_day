@@ -2449,9 +2449,6 @@
                   <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950">How AI Works Interactive Activity</h2>
                   <p className="mt-3 text-slate-700 font-medium">13:05-13:40 | Click each concept to explore how it works and where to apply it.</p>
                 </div>
-                <div className="mt-3 md:mt-0 md:absolute md:right-0 md:top-0 flex justify-center md:justify-end">
-                  <SectionTimer label="Section Timebox" minutes={35} />
-                </div>
               </div>
             </header>
 
@@ -2475,7 +2472,6 @@
                         }`}
                       >
                         <p className={`text-xs font-extrabold tracking-widest uppercase ${isActive ? 'text-white' : 'text-slate-700'}`}>{button.label}</p>
-                        <p className={`mt-1 text-sm font-medium ${isActive ? 'text-slate-100' : 'text-slate-700'}`}>{button.desc}</p>
                       </button>
                     );
                   })}
@@ -2620,23 +2616,16 @@
               </div>
             </header>
             <div className="mt-6 grid grid-cols-1 gap-4 flex-1 min-h-0">
-              <div className="space-y-4">
-                <div className="rounded-xl border border-slate-200 bg-white/80 p-4">
-                  <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Support Stations</p>
-                  <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
-                    <li>Prompt clinic: improve weak prompts into reusable templates.</li>
-                    <li>Workflow clinic: map one process from your business to an AI-assisted flow.</li>
-                    <li>Risk clinic: review accuracy, bias, and approval checkpoints.</li>
-                  </ul>
+              <div className="rounded-xl border border-slate-200 bg-white/85 p-6 md:p-8 flex items-center min-h-[36vh]">
+                <div className="w-full text-center">
+                  <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Slide 18 Activity</p>
+                  <p className="mt-4 text-2xl md:text-4xl font-extrabold tracking-tight text-slate-950 leading-tight">
+                    Build a solution for a current productivity problem in your role.
+                  </p>
+                  <p className="mt-4 text-base md:text-lg font-medium text-slate-700 max-w-4xl mx-auto">
+                    Define the problem clearly, design an AI-assisted workflow, and include one measurable success metric.
+                  </p>
                 </div>
-                <FacilitatorPanel
-                  title="If groups finish early"
-                  points={[
-                    'Ask teams to design one new AI use case for next month.',
-                    'Require a human review step and success metric for each use case.',
-                    'Invite quick peer feedback between groups.'
-                  ]}
-                />
               </div>
             </div>
           </div>
