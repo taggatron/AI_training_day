@@ -77,6 +77,166 @@
       max-height: 80svh;
     }
 
+    .pixel-fly-loop {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      will-change: transform, opacity, filter;
+      animation: pixel-fly-loop 9s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+      transform-origin: center center;
+    }
+
+    .title-video-shell {
+      will-change: transform, opacity, filter;
+      animation: title-video-shell-loop 9s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+      transform-origin: center center;
+    }
+
+    .pixel-fly-loop::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.16) 0 7px, rgba(255,255,255,0) 7px 14px),
+        repeating-linear-gradient(90deg, rgba(125,211,252,0.18) 0 7px, rgba(125,211,252,0) 7px 14px);
+      mix-blend-mode: screen;
+      opacity: 0;
+      animation: pixel-grid-loop 9s steps(8, end) infinite;
+    }
+
+    .pixel-fly-loop::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.02) 28%, rgba(15,23,42,0.08));
+      opacity: 0.75;
+    }
+
+    .pixel-fly-loop video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      image-rendering: pixelated;
+      transform: scale(1.02);
+      animation: pixel-video-jitter 9s steps(10, end) infinite;
+      filter: contrast(1.03) saturate(1.05);
+    }
+
+    @keyframes pixel-fly-loop {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 68px, 0) scale(0.84);
+        filter: blur(18px);
+      }
+
+      10% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+        filter: blur(0);
+      }
+
+      68% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+        filter: blur(0);
+      }
+
+      82% {
+        opacity: 0.92;
+        transform: translate3d(0, -4px, 0) scale(1.03);
+        filter: blur(0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate3d(0, -54px, 0) scale(1.14);
+        filter: blur(18px);
+      }
+    }
+
+    @keyframes pixel-grid-loop {
+      0% {
+        opacity: 0.34;
+        background-position: 0 0, 0 0;
+      }
+
+      12% {
+        opacity: 0.12;
+        background-position: 4px -4px, -4px 4px;
+      }
+
+      68% {
+        opacity: 0.08;
+        background-position: 2px -2px, -2px 2px;
+      }
+
+      84% {
+        opacity: 0.28;
+        background-position: 10px 0, -10px 0;
+      }
+
+      100% {
+        opacity: 0;
+        background-position: 16px -8px, -16px 8px;
+      }
+    }
+
+    @keyframes pixel-video-jitter {
+      0% {
+        transform: scale(1.08) translate3d(0, 0, 0);
+        filter: contrast(1.32) saturate(1.22);
+      }
+
+      10% {
+        transform: scale(1.02) translate3d(0, 0, 0);
+        filter: contrast(1.05) saturate(1.04);
+      }
+
+      40% {
+        transform: scale(1.03) translate3d(-2px, 1px, 0);
+        filter: contrast(1.08) saturate(1.1);
+      }
+
+      70% {
+        transform: scale(1.02) translate3d(1px, -1px, 0);
+        filter: contrast(1.04) saturate(1.08);
+      }
+
+      100% {
+        transform: scale(1.12) translate3d(0, 0, 0);
+        filter: contrast(1.38) saturate(1.28);
+      }
+    }
+
+    @keyframes title-video-shell-loop {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 46px, 0) scale(0.92);
+        filter: blur(12px);
+      }
+
+      12% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+        filter: blur(0);
+      }
+
+      70% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+        filter: blur(0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate3d(0, -32px, 0) scale(1.05);
+        filter: blur(12px);
+      }
+    }
+
     @media (min-width: 1024px) {
       .ai-live-panel-fit {
         height: 95dvh;
@@ -1028,6 +1188,9 @@
     }
 
     function TitleSlide() {
+      const titleVideoSrc = encodeURI("20260319_1619_New Video_simple_compose_01km3eaceee0ebksn00tmnprae.mp4");
+      const collegeLogoSrc = encodeURI("SOUTH-DEVON-COLLEGE-Picture1-800x213.jpg");
+
       return (
         <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 flex flex-col overflow-x-hidden">
           <div className="absolute inset-0 pointer-events-none">
@@ -1037,19 +1200,44 @@
             <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10" />
           </div>
 
+          <div className="relative z-20 flex justify-end">
+            <div className="rounded-2xl border border-white/70 bg-white/75 backdrop-blur-md px-4 py-3 shadow-lg shadow-cyan-900/10">
+              <img
+                src={collegeLogoSrc}
+                alt="South Devon College"
+                className="h-10 md:h-12 w-auto object-contain"
+              />
+            </div>
+          </div>
+
           <div className="relative z-10 flex-1 min-h-0 grid place-items-center text-center">
-            <div className="rounded-3xl border border-slate-200 bg-white/80 backdrop-blur-md p-8 md:p-12 shadow-2xl shadow-purple-900/10 max-w-5xl w-full">
-              <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-slate-950">
-                AI for Businesses - One Day Practical Training
-              </h1>
+            <div className="max-w-5xl w-full space-y-5">
+              <div className="rounded-3xl border border-slate-200 bg-white/80 backdrop-blur-md p-8 md:p-12 shadow-2xl shadow-purple-900/10 w-full">
+                <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-slate-950">
+                  AI for Businesses - One Day Practical Training
+                </h1>
 
-              <p className="mt-6 text-lg md:text-2xl font-medium text-slate-700">
-                Work smarter, save time and feel confident using AI at work
-              </p>
+                <p className="mt-6 text-lg md:text-2xl font-medium text-slate-700">
+                  Work smarter, save time and feel confident using AI at work
+                </p>
 
-              <p className="mt-8 text-sm md:text-base font-extrabold tracking-widest uppercase text-slate-600">
-                Daniel Tagg - Quality Improvement Partner
-              </p>
+                <p className="mt-8 text-sm md:text-base font-extrabold tracking-widest uppercase text-slate-600">
+                  Daniel Tagg - Quality Improvement Partner
+                </p>
+              </div>
+
+              <div className="title-video-shell mx-auto w-full max-w-2xl rounded-[1.45rem] border border-slate-200/80 bg-white/70 backdrop-blur-md p-2 md:p-2.5 shadow-2xl shadow-cyan-900/10">
+                <div className="pixel-fly-loop rounded-[1rem] border border-cyan-100 bg-slate-950 aspect-[16/7.4] shadow-[0_20px_52px_-34px_rgba(14,116,144,0.55)]">
+                  <video
+                    src={titleVideoSrc}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="auto"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
