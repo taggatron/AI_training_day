@@ -50,6 +50,7 @@
   <style>
     .deck-slide-viewport {
       height: 100vh;
+      font-size: clamp(16px, 0.34vw + 14px, 24px);
     }
 
     @supports (height: 100dvh) {
@@ -66,6 +67,85 @@
       height: 100% !important;
     }
 
+    .deck-slide-viewport h1 {
+      font-size: clamp(2.2rem, 1.2rem + 3.9vw, 4.6rem) !important;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+    }
+
+    .deck-slide-viewport h2 {
+      font-size: clamp(1.9rem, 1rem + 3.1vw, 3.8rem) !important;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+    }
+
+    .deck-slide-viewport h3 {
+      font-size: clamp(1.45rem, 0.8rem + 2.1vw, 2.55rem) !important;
+      line-height: 1.16;
+      letter-spacing: -0.01em;
+    }
+
+    .deck-slide-viewport p,
+    .deck-slide-viewport li,
+    .deck-slide-viewport td,
+    .deck-slide-viewport th,
+    .deck-slide-viewport label,
+    .deck-slide-viewport button,
+    .deck-slide-viewport a,
+    .deck-slide-viewport span {
+      font-size: max(1em, inherit);
+    }
+
+    .deck-slide-viewport .text-xs {
+      font-size: clamp(0.95rem, 0.7rem + 0.7vw, 1.2rem) !important;
+      line-height: 1.35 !important;
+    }
+
+    .deck-slide-viewport .text-sm {
+      font-size: clamp(1.04rem, 0.78rem + 0.8vw, 1.34rem) !important;
+      line-height: 1.42 !important;
+    }
+
+    .deck-slide-viewport .text-base {
+      font-size: clamp(1.16rem, 0.9rem + 0.92vw, 1.52rem) !important;
+      line-height: 1.48 !important;
+    }
+
+    .deck-slide-viewport .text-lg {
+      font-size: clamp(1.3rem, 1.02rem + 1.08vw, 1.74rem) !important;
+      line-height: 1.45 !important;
+    }
+
+    .deck-slide-viewport .text-xl {
+      font-size: clamp(1.44rem, 1.12rem + 1.24vw, 1.96rem) !important;
+      line-height: 1.4 !important;
+    }
+
+    .deck-slide-viewport .text-2xl {
+      font-size: clamp(1.72rem, 1.3rem + 1.54vw, 2.34rem) !important;
+      line-height: 1.28 !important;
+    }
+
+    .deck-slide-viewport .text-3xl {
+      font-size: clamp(2rem, 1.52rem + 1.9vw, 2.86rem) !important;
+      line-height: 1.2 !important;
+    }
+
+    .deck-slide-viewport .text-4xl {
+      font-size: clamp(2.32rem, 1.78rem + 2.25vw, 3.35rem) !important;
+      line-height: 1.16 !important;
+    }
+
+    .deck-slide-viewport .text-5xl {
+      font-size: clamp(2.74rem, 2.08rem + 2.65vw, 3.95rem) !important;
+      line-height: 1.12 !important;
+    }
+
+    .deck-slide-viewport .text-6xl {
+      font-size: clamp(3.1rem, 2.35rem + 3.05vw, 4.6rem) !important;
+      line-height: 1.07 !important;
+    }
+
     .deck-light-bg {
       background: linear-gradient(135deg, #f8fbff 0%, #dff3ff 52%, #f7fbff 100%);
     }
@@ -74,7 +154,53 @@
     .non-timeline-slide > .relative > .relative.z-10,
     .non-timeline-slide .relative.z-10.max-w-6xl,
     .non-timeline-slide .relative.z-10.max-w-5xl {
-      max-height: 80svh;
+      min-height: 100%;
+      height: 100%;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .deck-slide-viewport .max-w-6xl,
+    .deck-slide-viewport .max-w-5xl,
+    .deck-slide-viewport .max-w-4xl {
+      max-width: 100% !important;
+    }
+
+    .deck-fit-stage {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: clamp(8px, 1.2vh, 14px) clamp(10px, 1.4vw, 22px);
+    }
+
+    .deck-fit-content {
+      transform-origin: top center;
+      width: calc(100% / var(--deck-content-scale, 1));
+      min-height: calc(100% / var(--deck-content-scale, 1));
+      transform: scale(var(--deck-content-scale, 1));
+      will-change: transform;
+    }
+
+    .timeline-slide-host .deck-fit-stage {
+      overflow-y: auto;
+      overflow-x: hidden;
+      align-items: flex-start;
+    }
+
+    .non-timeline-slide,
+    .timeline-slide-host {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .non-timeline-slide::-webkit-scrollbar,
+    .timeline-slide-host::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
     }
 
     .pixel-fly-loop {
@@ -574,9 +700,98 @@
     }
 
     function SlideFrame({ children, allowScroll = false, useLightGradient = true }) {
+      const viewportRef = useRef(null);
+      const contentRef = useRef(null);
+      const [fitScale, setFitScale] = useState(1);
+      const fitScaleRef = useRef(1);
+
+      useEffect(() => {
+        fitScaleRef.current = fitScale;
+      }, [fitScale]);
+
+      useEffect(() => {
+        let rafId = null;
+
+        const recalc = () => {
+          const viewportEl = viewportRef.current;
+          const contentEl = contentRef.current;
+          if (!viewportEl || !contentEl) return;
+
+          // Keep a small gutter so content does not touch slide edges.
+          const navReserve = 18;
+          const viewportRect = viewportEl.getBoundingClientRect();
+          const availWidth = Math.max(1, viewportRect.width - 14);
+          const availHeight = Math.max(1, viewportRect.height - navReserve);
+
+          // Measure rendered dimensions and normalize by current scale so the next
+          // scale calculation is based on true unscaled content size.
+          const currentScale = Math.max(0.01, fitScaleRef.current || 1);
+          const renderedRect = contentEl.getBoundingClientRect();
+          const contentWidth = Math.max(renderedRect.width / currentScale, 1);
+          const contentHeight = Math.max(renderedRect.height / currentScale, 1);
+
+          const widthRatio = availWidth / contentWidth;
+          const heightRatio = availHeight / contentHeight;
+
+          // Timeline slide can scroll vertically, so fill width first.
+          const candidate = allowScroll
+            ? widthRatio
+            : Math.min(widthRatio, heightRatio);
+
+          const next = Math.max(0.62, Math.min(2.05, Number.isFinite(candidate) ? candidate : 1));
+          setFitScale((prev) => (Math.abs(prev - next) > 0.01 ? next : prev));
+        };
+
+        const scheduleRecalc = () => {
+          if (rafId) window.cancelAnimationFrame(rafId);
+          rafId = window.requestAnimationFrame(recalc);
+        };
+
+        scheduleRecalc();
+        window.addEventListener('resize', scheduleRecalc);
+
+        const resizeObserver = typeof ResizeObserver !== 'undefined'
+          ? new ResizeObserver(scheduleRecalc)
+          : null;
+
+        if (resizeObserver) {
+          if (viewportRef.current) resizeObserver.observe(viewportRef.current);
+          if (contentRef.current) resizeObserver.observe(contentRef.current);
+        }
+
+        const mediaNodes = contentRef.current
+          ? Array.from(contentRef.current.querySelectorAll('img, video, iframe, canvas, svg'))
+          : [];
+
+        mediaNodes.forEach((node) => {
+          node.addEventListener('load', scheduleRecalc);
+          node.addEventListener('loadedmetadata', scheduleRecalc);
+        });
+
+        return () => {
+          window.removeEventListener('resize', scheduleRecalc);
+          if (rafId) window.cancelAnimationFrame(rafId);
+          if (resizeObserver) resizeObserver.disconnect();
+          mediaNodes.forEach((node) => {
+            node.removeEventListener('load', scheduleRecalc);
+            node.removeEventListener('loadedmetadata', scheduleRecalc);
+          });
+        };
+      }, [children, allowScroll]);
+
       return (
-        <section className={`deck-slide-viewport relative z-10 w-full overflow-hidden ${useLightGradient ? 'deck-light-bg' : ''}`}>
-          <div className={`h-full w-full ${allowScroll ? 'timeline-slide-host overflow-y-auto' : 'non-timeline-slide overflow-y-auto lg:overflow-hidden'}`}>{children}</div>
+        <section
+          ref={viewportRef}
+          style={{ '--deck-content-scale': fitScale }}
+          className={`deck-slide-viewport relative z-10 w-full overflow-hidden ${useLightGradient ? 'deck-light-bg' : ''}`}
+        >
+          <div className={`h-full w-full ${allowScroll ? 'timeline-slide-host overflow-y-auto' : 'non-timeline-slide overflow-hidden'}`}>
+            <div className="deck-fit-stage">
+              <div ref={contentRef} className="deck-fit-content">
+                {children}
+              </div>
+            </div>
+          </div>
         </section>
       );
     }
@@ -937,7 +1152,7 @@
       const activeSlide = slides[slideIndex];
 
       return (
-        <div className="ai-live-panel-fit mt-0 rounded-xl border border-slate-200 bg-slate-950 p-2 md:p-3 text-slate-100 flex-1 min-h-0 h-full max-h-[75svh] flex flex-col w-full min-w-0 overflow-hidden">
+        <div className="ai-live-panel-fit mt-0 rounded-xl border border-slate-200 bg-slate-950 p-2 md:p-3 text-slate-100 flex-1 min-h-0 h-full flex flex-col w-full min-w-0 overflow-hidden">
           <video ref={videoRef} className="hidden" muted playsInline aria-hidden="true" />
 
           <div className="flex flex-wrap items-center justify-between gap-2 md:gap-3 min-w-0">
@@ -963,7 +1178,7 @@
 
           <div className={`mt-2 grid grid-cols-1 ${showTrackingPanel ? 'xl:grid-cols-2' : ''} gap-2 md:gap-3 flex-1 min-h-0 w-full min-w-0`}>
             <div className="rounded-xl border border-slate-700 bg-slate-900/80 overflow-hidden flex flex-col min-h-0 w-full min-w-0">
-              <div className="ai-live-media relative w-full bg-black flex-1 min-h-[120px] md:min-h-[150px] max-h-[50svh] overflow-hidden">
+              <div className="ai-live-media relative w-full bg-black flex-1 min-h-[120px] md:min-h-[150px] overflow-hidden">
                 {activeSlide.type === 'webcam' ? (
                   <>
                     <video ref={previewVideoRef} className="h-full w-full object-contain" muted playsInline />
@@ -1192,7 +1407,7 @@
       const collegeLogoSrc = encodeURI("SOUTH-DEVON-COLLEGE-Picture1-800x213.jpg");
 
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 flex flex-col overflow-x-hidden">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 flex flex-col overflow-hidden">
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute -top-24 right-8 w-[540px] h-[540px] rounded-full bg-amber-300/45 blur-[120px]" />
             <div className="absolute -bottom-28 left-10 w-[620px] h-[620px] rounded-full bg-purple-400/45 blur-[120px]" />
@@ -1246,7 +1461,7 @@
 
     function LearningOutcomesSlide() {
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-hidden flex flex-col">
           {sectionBg()}
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col overflow-hidden">
             <header className="text-center">
@@ -1283,7 +1498,7 @@
 
     function ScheduleSlide() {
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col max-h-[75svh]">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-hidden flex flex-col">
           {sectionBg()}
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col overflow-hidden">
             <header className="text-center">
@@ -1323,7 +1538,7 @@
       const [padletOpen, setPadletOpen] = useState(false);
 
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-hidden flex flex-col">
           {sectionBg()}
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
@@ -1481,7 +1696,7 @@
               </div>
             </header>
 
-            <div className="mt-4 overflow-hidden rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-md flex-1 min-h-0 max-h-[75svh]">
+            <div className="mt-4 overflow-hidden rounded-2xl border border-slate-200 bg-white/80 backdrop-blur-md flex-1 min-h-0">
               <AIVisionHandsUpPanel onCountsChange={setLiveCounts} />
             </div>
           </div>
@@ -1582,7 +1797,7 @@
       const [showElonCover, setShowElonCover] = useState(true);
 
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-hidden flex flex-col">
           {sectionBg()}
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
@@ -1634,7 +1849,7 @@
     function ModelComparisonSlide() {
       const corePrompt = 'How would an expert in X do Y?\nExplain to me process Z.\nBuild me an app to do alpha task.';
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-hidden flex flex-col">
           {sectionBg()}
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
@@ -1744,7 +1959,7 @@
       };
 
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-hidden flex flex-col">
           {sectionBg()}
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
@@ -1893,7 +2108,7 @@
 
     function LunchBreakSlide() {
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-hidden flex flex-col">
           {sectionBg()}
           <div className="relative z-10 max-w-5xl mx-auto text-center w-full flex-1 min-h-0 flex flex-col">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-white/60 backdrop-blur-md mb-6 shadow-lg shadow-purple-900/10">
@@ -1922,7 +2137,7 @@
 
     function HowAIWorksSlide() {
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-hidden flex flex-col">
           {sectionBg()}
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
@@ -2152,7 +2367,7 @@
       const active = conceptContent[activeConcept];
 
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-hidden">
           {sectionBg()}
           <div className="relative z-10 max-w-6xl mx-auto">
             <header className="text-center">
@@ -2246,7 +2461,7 @@
 
     function AgentsSlide() {
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-hidden flex flex-col">
           {sectionBg()}
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
@@ -2311,7 +2526,7 @@
 
     function NetworkingSupportSlide() {
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-hidden flex flex-col">
           {sectionBg()}
           <div className="relative z-10 max-w-6xl mx-auto w-full flex-1 min-h-0 flex flex-col">
             <header className="text-center">
@@ -2354,7 +2569,7 @@
 
     function ShortBreakSlide() {
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-x-hidden flex flex-col">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 overflow-hidden flex flex-col">
           {sectionBg()}
           <div className="relative z-10 max-w-5xl mx-auto text-center w-full flex-1 min-h-0 flex flex-col">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border border-white/60 backdrop-blur-md mb-6 shadow-lg shadow-purple-900/10">
@@ -2385,7 +2600,7 @@
       const [activeId, setActiveId] = useState(null);
 
       return (
-        <div className="min-h-screen text-slate-200 font-sans selection:bg-purple-500 selection:text-white pb-24 overflow-x-hidden">
+        <div className="min-h-screen text-slate-200 font-sans selection:bg-purple-500 selection:text-white pb-24 overflow-hidden">
           <header className="pt-16 pb-10 px-6 text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/80 border border-slate-700/50 backdrop-blur-md mb-6 shadow-lg shadow-purple-900/10">
               <MonitorPlay className="w-4 h-4 text-purple-400" />
@@ -2597,7 +2812,7 @@
       };
 
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 flex flex-col overflow-x-hidden">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 flex flex-col overflow-hidden">
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute -top-24 right-8 w-[540px] h-[540px] rounded-full bg-amber-300/45 blur-[120px]" />
             <div className="absolute -bottom-28 left-10 w-[620px] h-[620px] rounded-full bg-purple-400/45 blur-[120px]" />
@@ -2759,7 +2974,7 @@
       }, [showSourceModal]);
 
       return (
-        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 flex flex-col overflow-x-hidden">
+        <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 flex flex-col overflow-hidden">
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute -top-24 right-8 w-[540px] h-[540px] rounded-full bg-amber-300/45 blur-[120px]" />
             <div className="absolute -bottom-28 left-10 w-[620px] h-[620px] rounded-full bg-purple-400/45 blur-[120px]" />
@@ -2781,7 +2996,7 @@
           </header>
 
           <div className="relative z-10 mt-6 max-w-5xl mx-auto w-full flex-1 min-h-0">
-            <div className="rounded-2xl border border-slate-200 bg-white/70 backdrop-blur-md p-5 md:p-6 h-full overflow-auto">
+            <div className="rounded-2xl border border-slate-200 bg-white/70 backdrop-blur-md p-5 md:p-6 h-full overflow-hidden">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                 <div>
                   <p className="text-slate-950 font-extrabold mt-1">GDPval (early results)</p>
@@ -2815,7 +3030,7 @@
                   <img
                     src={GDPVAL_CHART_SRC}
                     alt="GDPval OpenAI frontier model performance over time"
-                    className="w-full h-auto max-h-[560px] object-contain"
+                    className="w-full h-auto object-contain"
                     loading="lazy"
                   />
                 </div>
