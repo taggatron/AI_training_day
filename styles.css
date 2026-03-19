@@ -1,14 +1,37 @@
 :root {
-    --deck-max-width: min(94vw, 1400px);
-    --panel-max-height: min(95vh, 1100px);
-    --fluid-h2: clamp(1.35rem, 0.9rem + 2vw, 3rem);
-    --fluid-body: clamp(0.95rem, 0.82rem + 0.55vw, 1.2rem);
+    /* ── Fluid type scale (minor-third, base 1rem @ 1440px) ── */
+    --step--2: clamp(0.69rem, 0.63rem + 0.32vw, 0.85rem);
+    --step--1: clamp(0.83rem, 0.76rem + 0.4vw,  1.04rem);
+    --step-0:  clamp(1rem,    0.9rem  + 0.52vw, 1.25rem);
+    --step-1:  clamp(1.2rem,  1.06rem + 0.68vw, 1.56rem);
+    --step-2:  clamp(1.44rem, 1.24rem + 0.88vw, 1.95rem);
+    --step-3:  clamp(1.73rem, 1.46rem + 1.12vw, 2.44rem);
+    --step-4:  clamp(2.07rem, 1.72rem + 1.44vw, 3.05rem);
+    --step-5:  clamp(2.49rem, 2.02rem + 1.84vw, 3.82rem);
+
+    /* ── Layout ── */
+    --deck-max-width: min(96vw, 1600px);
+    --panel-max-height: min(92vh, 1100px);
+
+    /* Legacy aliases — existing components still reference these */
+    --fluid-h2: var(--step-3);
+    --fluid-body: var(--step-0);
+
+    /* ── Fluid spacing ── */
+    --space-xs: clamp(0.25rem, 0.2rem  + 0.25vw, 0.5rem);
+    --space-s:  clamp(0.5rem,  0.4rem  + 0.5vw,  1rem);
+    --space-m:  clamp(1rem,    0.8rem  + 1vw,    2rem);
+    --space-l:  clamp(1.5rem,  1.2rem  + 1.5vw,  3rem);
+    --space-xl: clamp(2rem,    1.5rem  + 2.5vw,  4.5rem);
+
+    /* ── Slide transition timing ── */
+    --slide-transition: 280ms;
 }
 
 html, body, * { box-sizing: border-box; }
 body, html {
     margin: 0; padding: 0; width: 100%;
-    font-family: Arial, sans-serif; background: #111; color: #fff; overflow: hidden;
+    font-family: Arial, sans-serif; background: #111; color: #fff; overflow-x: hidden; overflow-y: auto;
     min-height: 100vh;
     font-size: clamp(14px, 0.25vw + 13px, 19px);
 }
@@ -158,7 +181,7 @@ video, img { max-width: 100%; max-height: clamp(160px, 30vh, 360px); height: aut
 #slide-5-codesign .seq-hidden { opacity: 0; transform: translateY(12px) scale(0.98); pointer-events: none; }
 .pill { display: inline-block; padding: 0.2em 0.6em; border-radius: 999px; font-size: 0.9em; border: 1px solid rgba(255,255,255,0.25); color: #b0e0ff; }
 .code-card { text-align: left; background: rgba(24,28,47,0.7); border: 1px solid #6a67ce; border-radius: 10px; padding: 0.8em; color: #e7f9ff; }
-.aias { width: 100%; max-width: 1100px; margin: 0 auto; }
+.aias { width: 100%; max-width: min(96vw, 1200px); margin: 0 auto; }
 .aias-scale { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; margin-top: 12px; }
 .aias-level { padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 0 12px rgba(0,255,247,0.15) inset; color: #111; font-weight: bold; }
 .aias-level span { display: block; font-size: 0.9em; color: #111; opacity: 0.9; }
@@ -358,7 +381,7 @@ video, img { max-width: 100%; max-height: clamp(160px, 30vh, 360px); height: aut
 
 .course-outcomes {
     margin: 0.5em auto 0;
-    max-width: 1020px;
+    max-width: min(96vw, 1100px);
     text-align: left;
     padding-left: 1.4em;
 }
@@ -658,7 +681,7 @@ video, img { max-width: 100%; max-height: clamp(160px, 30vh, 360px); height: aut
 /* Stylish container for closing slide */
 .closing-container {
     width: 100%;
-    max-width: 920px;
+    max-width: min(96vw, 1060px);
     margin: 1em auto 0;
     padding: clamp(18px, 4vw, 40px) clamp(20px, 4.5vw, 48px);
     background: linear-gradient(180deg, rgba(24,28,47,0.75), rgba(24,28,47,0.5));
@@ -684,7 +707,7 @@ video, img { max-width: 100%; max-height: clamp(160px, 30vh, 360px); height: aut
 /* Contact slide */
 #slide-13-contact .contact-card {
     width: 100%;
-    max-width: 720px;
+    max-width: min(94vw, 820px);
     margin: 0.6em auto 0;
     padding: 1.2em 1.4em;
     background: rgba(24,28,47,0.7);
@@ -739,3 +762,162 @@ video, img { max-width: 100%; max-height: clamp(160px, 30vh, 360px); height: aut
 /* Make the image on slide 7 clearly clickable */
 #slide-7-intro .story-hero { cursor: pointer; }
 
+
+
+/* ================================================================ */
+/* PRESENTATION MODE                                                 */
+/* Toggle with "P" key — boosts typography, dims navigation,         */
+/* and optimises for projection / conference TV.                     */
+/* ================================================================ */
+body.presentation-mode {
+    --step-0:  clamp(1.12rem, 1rem    + 0.6vw,  1.38rem);
+    --step-1:  clamp(1.34rem, 1.18rem + 0.76vw, 1.72rem);
+    --step-2:  clamp(1.61rem, 1.38rem + 0.98vw, 2.15rem);
+    --step-3:  clamp(1.93rem, 1.62rem + 1.25vw, 2.69rem);
+    --step-4:  clamp(2.32rem, 1.92rem + 1.6vw,  3.36rem);
+    --step-5:  clamp(2.78rem, 2.26rem + 2.06vw, 4.2rem);
+    --fluid-h2: var(--step-3);
+    --fluid-body: var(--step-0);
+}
+
+body.presentation-mode .nav,
+body.presentation-mode .deck-nav-bar {
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+}
+body.presentation-mode .nav:hover,
+body.presentation-mode .deck-nav-bar:hover {
+    opacity: 1;
+}
+
+/* Subtle indicator badge */
+body.presentation-mode::after {
+    content: 'PRESENTING';
+    position: fixed;
+    top: 12px;
+    right: 16px;
+    z-index: 9999;
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    color: #0b1020;
+    background: #00fff7;
+    opacity: 0.55;
+    pointer-events: none;
+}
+
+/* ================================================================ */
+/* LARGE SCREEN BREAKPOINT (1800px+)                                 */
+/* Optimised for conference TVs & projectors.                        */
+/* ================================================================ */
+@media (min-width: 1800px) {
+    :root {
+        --deck-max-width: min(94vw, 1800px);
+        --step-0:  clamp(1.1rem,  0.92rem + 0.55vw, 1.38rem);
+        --step-1:  clamp(1.32rem, 1.1rem  + 0.68vw, 1.72rem);
+        --step-2:  clamp(1.58rem, 1.3rem  + 0.88vw, 2.15rem);
+        --step-3:  clamp(1.9rem,  1.54rem + 1.12vw, 2.69rem);
+        --step-4:  clamp(2.28rem, 1.82rem + 1.44vw, 3.36rem);
+        --step-5:  clamp(2.73rem, 2.14rem + 1.84vw, 4.2rem);
+    }
+
+    .activity-section {
+        min-height: 70vh;
+    }
+
+    .story-hero {
+        max-width: min(92vw, 1500px);
+    }
+
+    .content-wrapper {
+        padding: clamp(16px, 2.4vh, 32px) clamp(16px, 4vw, 80px);
+        gap: clamp(14px, 2.4vh, 32px);
+    }
+
+    .closing-container {
+        max-width: min(94vw, 1280px);
+    }
+
+    .shift-bullets li,
+    .closing-list li {
+        font-size: clamp(1.5em, 2.2vw, 2.4em);
+        padding: 0.7em 0.9em 0.7em 3.4em;
+    }
+
+    .timeline-board {
+        gap: clamp(14px, 1.8vw, 24px);
+    }
+}
+
+/* ================================================================ */
+/* TV / ULTRA-WIDE OPTIMISATION (2200px+)                            */
+/* Extra spacing, larger touch targets, bolder text for readability  */
+/* at distance.                                                      */
+/* ================================================================ */
+@media (min-width: 2200px) {
+    :root {
+        --deck-max-width: min(90vw, 2100px);
+    }
+
+    body, html {
+        font-size: clamp(17px, 0.3vw + 15px, 24px);
+    }
+
+    .activity-section {
+        padding: clamp(18px, 3vw, 40px) clamp(18px, 2.5vw, 36px);
+        border-width: 3px;
+    }
+
+    .nav button,
+    .prompt-btn {
+        padding: 0.7em 1em;
+        font-size: clamp(1.1em, 1.8vw, 1.5em);
+    }
+
+    .metric .value {
+        font-size: clamp(2em, 3.5vw, 3.6em);
+    }
+
+    .closing-lead {
+        font-size: clamp(1.6em, 2.4vw, 2.6em);
+    }
+
+    p, li, blockquote {
+        line-height: 1.65;
+    }
+}
+
+/* ================================================================ */
+/* SLIDE-CHANGE ANIMATION                                            */
+/* Subtle zoom + fade for slide entries.                             */
+/* ================================================================ */
+.slide-enter {
+    animation: slideZoomIn var(--slide-transition, 280ms) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes slideZoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.97) translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* ================================================================ */
+/* LINE-LENGTH CAP  (~70ch for comfortable reading)                  */
+/* ================================================================ */
+.activity-section p,
+.activity-section li,
+.shift-bullets li,
+.closing-lead,
+.closing-list li,
+.course-outcomes li,
+.aias-legend .aias-bullets li,
+.bubble {
+    max-width: 70ch;
+}
