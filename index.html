@@ -2545,7 +2545,6 @@
     }
 
     function AIPresentation() {
-      const [slide, setSlide] = useState(0);
       const slideDefs = [
         {
           key: 'title',
@@ -2618,6 +2617,49 @@
       ];
       const total = slideDefs.length;
 
+      const parseSlideFromHash = () => {
+        try {
+          const hash = String(window.location.hash || '').trim();
+          if (!hash) return null;
+
+          // Support both #slide-5 (human-friendly) and #5 (raw index)
+          const slideMatch = hash.match(/^#slide-(\d+)$/i);
+          if (slideMatch) {
+            const oneBased = Number(slideMatch[1]);
+            if (!Number.isFinite(oneBased)) return null;
+            return oneBased - 1;
+          }
+
+          const rawMatch = hash.match(/^#(\d+)$/);
+          if (rawMatch) {
+            const rawIndex = Number(rawMatch[1]);
+            if (!Number.isFinite(rawIndex)) return null;
+            return rawIndex;
+          }
+        } catch {}
+        return null;
+      };
+
+      const clampSlideIndex = (n) => {
+        const parsed = Number.isFinite(Number(n)) ? Math.trunc(Number(n)) : 0;
+        return Math.max(0, Math.min(total - 1, parsed));
+      };
+
+      const [slide, setSlide] = useState(() => {
+        const fromHash = parseSlideFromHash();
+        if (fromHash != null) {
+          return clampSlideIndex(fromHash);
+        }
+
+        try {
+          const raw = sessionStorage.getItem('aiDeckCurrentSlide');
+          if (raw == null) return 0;
+          return clampSlideIndex(raw);
+        } catch {
+          return 0;
+        }
+      });
+
       const clampPercent = (n) => {
         const v = Math.round(Number(n) || 0);
         return Math.max(0, Math.min(100, v));
@@ -2650,6 +2692,32 @@
         try { localStorage.setItem('jobImpactAfter', String(jobImpactAfter)); } catch {}
       }, [jobImpactAfter]);
 
+      useEffect(() => {
+        try { sessionStorage.setItem('aiDeckCurrentSlide', String(slide)); } catch {}
+      }, [slide]);
+
+      useEffect(() => {
+        const hash = `#slide-${slide + 1}`;
+        if (window.location.hash === hash) return;
+        try {
+          window.history.replaceState(null, '', hash);
+        } catch {
+          window.location.hash = hash;
+        }
+      }, [slide]);
+
+      useEffect(() => {
+        const onHashChange = () => {
+          const fromHash = parseSlideFromHash();
+          if (fromHash == null) return;
+          const next = clampSlideIndex(fromHash);
+          setSlide((current) => (current === next ? current : next));
+        };
+
+        window.addEventListener('hashchange', onHashChange);
+        return () => window.removeEventListener('hashchange', onHashChange);
+      }, [total]);
+
       // Bridge values into SummarySlide without rewiring the whole deck structure.
       // (SummarySlide is rendered conditionally; this keeps it simple.)
       window.__JOB_IMPACT_BEFORE__ = jobImpactBefore;
@@ -2658,10 +2726,22 @@
 
       useEffect(() => {
         const onKeyDown = (e) => {
+          if (e.defaultPrevented) return;
+          if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+          const target = e.target;
+          const tagName = target?.tagName ? target.tagName.toUpperCase() : '';
+          const isEditable = target?.isContentEditable
+            || tagName === 'INPUT'
+            || tagName === 'TEXTAREA'
+            || tagName === 'SELECT'
+            || tagName === 'BUTTON';
+
+          // Ignore deck hotkeys while interacting with controls.
+          if (isEditable) return;
+
           if (e.key === 'ArrowRight' || e.key === 'PageDown') setSlide((s) => Math.min(total - 1, s + 1));
           if (e.key === 'ArrowLeft' || e.key === 'PageUp') setSlide((s) => Math.max(0, s - 1));
-          if (e.key === 'Home') setSlide(0);
-          if (e.key === 'End') setSlide(total - 1);
         };
         window.addEventListener('keydown', onKeyDown);
         return () => window.removeEventListener('keydown', onKeyDown);
