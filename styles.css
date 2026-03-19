@@ -997,50 +997,7 @@ body.presentation-mode::after {
     position: absolute;
 }
 
-/* Distance-mode badge (rendered outside the scaled root so it
-   stays crisp at native resolution). */
-.distance-badge {
-    position: fixed;
-    top: 12px;
-    left: 16px;
-    z-index: 9999;
-    padding: 4px 14px;
-    border-radius: 999px;
-    font-size: 0.65rem;
-    font-weight: 800;
-    letter-spacing: 0.14em;
-    color: #0b1020;
-    background: #6a67ce;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-}
-.distance-badge.visible {
-    opacity: 0.65;
-}
 
-/* Scale-info HUD (bottom-right, for debugging — hidden by default) */
-.scale-hud {
-    position: fixed;
-    bottom: 12px;
-    right: 16px;
-    z-index: 9999;
-    padding: 3px 10px;
-    border-radius: 6px;
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    color: rgba(255,255,255,0.5);
-    background: rgba(11,16,32,0.7);
-    border: 1px solid rgba(255,255,255,0.08);
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-body.show-scale-hud .scale-hud {
-    opacity: 1;
-}
 
 /* Presentation mode: extra spacing */
 body.presentation-mode #presentation-root {

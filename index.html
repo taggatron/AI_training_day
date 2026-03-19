@@ -3534,13 +3534,6 @@
           <DeckNav slide={slide} setSlide={setSlide} total={total} />
             </div>
 
-            {/* Badges outside scaled root — crisp at native resolution */}
-            <div className={`distance-badge ${distanceMode.name !== 'laptop' ? 'visible' : ''}`}>
-              {distanceMode.name.toUpperCase()}
-            </div>
-            <div className="scale-hud">
-              {Math.round(viewportScale * 100)}% · {distanceMode.name}
-            </div>
         </div>
       );
     }
