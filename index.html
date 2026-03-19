@@ -1824,14 +1824,14 @@
                     </ul>
                   </button>
                 )}
-
-                {revealedStep >= 4 && (
-                  <div className="rounded-lg border border-emerald-300 bg-emerald-50 p-4 max-w-xl animate-[fadeIn_.25s_ease-out]">
-                    <p className="text-sm md:text-base font-extrabold text-emerald-900 leading-snug">KEY TRAIT: Frontier firms build scalable, repeatable AI-powered systems, not one-off solutions.</p>
-                  </div>
-                )}
               </div>
             </div>
+
+            {revealedStep >= 4 && (
+              <div className="mt-3 rounded-lg border border-emerald-300 bg-emerald-50 p-4 w-full animate-[fadeIn_.25s_ease-out]">
+                <p className="text-sm md:text-base font-extrabold text-emerald-900 leading-snug">KEY TRAIT: Frontier firms build scalable, repeatable AI-powered systems, not one-off solutions.</p>
+              </div>
+            )}
           </div>
         </div>
       );
