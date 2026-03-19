@@ -101,6 +101,7 @@
       BarChart3,
       Bot,
       Brain,
+      Calendar,
       Check,
       ChevronLeft,
       ChevronRight,
@@ -108,11 +109,14 @@
       Clock3,
       Cpu,
       ExternalLink,
+      FileText,
       Globe,
+      Hash,
       Layers,
       MonitorPlay,
       Play,
       Sparkles,
+      Tag,
       Users,
       Zap
     } from 'lucide-react';
@@ -1154,12 +1158,15 @@
             <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
               <SectionTimer label="Section Timebox" minutes={50} />
               <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white/80 p-4">
-                <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-600">Participant Tasks</p>
-                <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
+                <p className="text-lg font-extrabold tracking-widest uppercase text-slate-600">Participant Tasks</p>
+                <ul className="mt-3 text-base font-medium text-slate-700 list-disc pl-5 space-y-2">
                   <li>Please demonstrate how you currently use AI tools in your work.</li>
-                  <li>If you do not currently use AI then choose from the following tasks:</li>
-                  <li>Create a marketing post for a weekend promotion.</li>
-                  <li>Generate a homepage blurb for a local business.</li>
+                  <li>If you do not currently use AI then choose from the following tasks:
+                    <ul className="mt-1 list-disc pl-6 space-y-1">
+                      <li>Create a marketing post for a weekend promotion.</li>
+                      <li>Generate a homepage Hero Image for a local business.</li>
+                    </ul>
+                  </li>
                   <li>Post your response on Padlet so everyone can review and discuss.</li>
                 </ul>
 
@@ -1371,6 +1378,11 @@
                     <li>Build me an app to do alpha task.</li>
                   </ul>
                 </div>
+
+                <div className="mt-3 rounded-lg border border-violet-200 bg-violet-50 p-4">
+                  <p className="text-xs font-extrabold uppercase tracking-widest text-violet-800">Dan&#39;s ML Demo</p>
+                  <p className="mt-1 text-sm font-medium text-slate-700">Live demonstration of machine learning in action.</p>
+                </div>
               </div>
             </div>
 
@@ -1502,13 +1514,23 @@
                 </div>
 
                 {showDataTypeSummary && dataTypeSummaryItems.length > 0 && (
-                  <div className={`rounded-lg border border-emerald-200 bg-emerald-50 p-3 ${showWorkflowCards ? 'md:col-span-3' : ''}`}>
-                    <p className="text-xs font-extrabold uppercase tracking-widest text-emerald-800">Racecourse Data Types (quick guide)</p>
-                    <ul className="mt-2 text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
-                      {dataTypeSummaryItems.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
+                  <div className={`rounded-lg border border-emerald-200 bg-emerald-50 p-4 ${showWorkflowCards ? 'md:col-span-3' : ''}`}>
+                    <p className="text-xs font-extrabold uppercase tracking-widest text-emerald-800 mb-3">Racecourse Data Types (quick guide)</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                      {dataTypeSummaryItems.map((item) => {
+                        const ICON_MAP = { FileText, Tag, BarChart3, Calendar, Hash };
+                        const IconComp = item.icon ? ICON_MAP[item.icon] : null;
+                        return (
+                          <div key={item.label || item} className="flex items-start gap-2 rounded-lg bg-white/70 border border-emerald-100 px-3 py-2">
+                            {IconComp && <IconComp className="w-4 h-4 text-emerald-700 mt-0.5 shrink-0" />}
+                            <span className="text-sm text-slate-700 font-medium">
+                              <span className="font-extrabold text-emerald-900">{item.label || item}</span>
+                              {item.desc && <span className="text-slate-600"> — {item.desc}</span>}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 )}
               </div>
@@ -2676,13 +2698,14 @@
           key: 'productivity-workflows',
           render: () => (
             <ProductivityWorkflowsSlide
+              showWorkflowCards={false}
               showDataTypeSummary={true}
               dataTypeSummaryItems={[
-                'Free-text fields: customer comments, competitor notes, and open feedback.',
-                'Categorical text: segment labels, channel/source names, and location/group tags.',
-                'Numeric values: spend, conversion rates, volume counts, and revenue-style metrics.',
-                'Date/time fields: period, campaign date, or event timing columns for trend analysis.',
-                'Identifier fields: IDs or reference codes you can use for grouping and filtering.'
+                { icon: 'FileText', label: 'Free-text fields', desc: 'Customer comments, competitor notes, and open feedback.' },
+                { icon: 'Tag', label: 'Categorical text', desc: 'Segment labels, channel/source names, and location/group tags.' },
+                { icon: 'BarChart3', label: 'Numeric values', desc: 'Spend, conversion rates, volume counts, and revenue-style metrics.' },
+                { icon: 'Calendar', label: 'Date/time fields', desc: 'Period, campaign date, or event timing columns for trend analysis.' },
+                { icon: 'Hash', label: 'Identifier fields', desc: 'IDs or reference codes you can use for grouping and filtering.' },
               ]}
             />
           )
