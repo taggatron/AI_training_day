@@ -1754,29 +1754,42 @@
             </header>
 
             <div className="mt-5 flex-1 min-h-0 overflow-hidden">
-              <div className="rounded-xl border border-slate-200 bg-white/85 p-5 md:p-6 space-y-4 max-w-4xl mx-auto">
-                <button
-                  type="button"
-                  onClick={() => setRevealedStep((s) => Math.max(s, 1))}
-                  className="w-full text-left rounded-lg border border-fuchsia-200 bg-fuchsia-50 p-5 md:p-6 hover:brightness-95 transition"
-                >
-                  <p className="text-xs font-extrabold uppercase tracking-widest text-fuchsia-800">What Is A Frontier Firm?</p>
-                  <p className="mt-3 text-sm md:text-base font-medium text-slate-800 leading-snug">
-                    A frontier firm is an organisation that treats AI, data, and automation as core operating infrastructure, not side projects. Instead of isolated experiments, it redesigns end-to-end workflows so intelligence is embedded in planning, service delivery, and decision-making.
-                  </p>
-                  <p className="mt-3 text-sm md:text-base font-medium text-slate-800 leading-snug">
-                    The result is faster learning loops, more consistent execution, and compounding productivity gains that move the business toward the performance frontier of its sector.
-                  </p>
-                </button>
+              <div className="rounded-xl border border-slate-200 bg-white/85 p-5 md:p-6 space-y-4 max-w-4xl mx-auto h-full flex flex-col">
+                {revealedStep === 0 ? (
+                  <button
+                    type="button"
+                    onClick={() => setRevealedStep((s) => Math.max(s, 1))}
+                    className="w-full h-full text-left rounded-lg border border-fuchsia-200 bg-fuchsia-50 p-6 md:p-8 hover:brightness-95 transition flex flex-col justify-center"
+                  >
+                    <p className="text-sm md:text-base font-extrabold uppercase tracking-widest text-fuchsia-800">What Is A Frontier Firm?</p>
+                    <p className="mt-5 text-lg md:text-2xl font-semibold text-slate-800 leading-snug">
+                      A frontier firm is an organisation that treats AI, data, and automation as core operating infrastructure, not side projects.
+                    </p>
+                    <p className="mt-4 text-lg md:text-2xl font-semibold text-slate-800 leading-snug">
+                      Instead of isolated experiments, it redesigns end-to-end workflows so intelligence is embedded in planning, service delivery, and decision-making.
+                    </p>
+                    <p className="mt-4 text-lg md:text-2xl font-semibold text-slate-800 leading-snug">
+                      The result is faster learning loops, more consistent execution, and compounding productivity gains that move the business toward the performance frontier of its sector.
+                    </p>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setRevealedStep((s) => Math.max(s, 1))}
+                    className="w-full text-left rounded-lg border border-fuchsia-200 bg-fuchsia-50 px-5 py-4 md:px-6 md:py-5 hover:brightness-95 transition"
+                  >
+                    <p className="text-sm md:text-base font-extrabold uppercase tracking-widest text-fuchsia-800">What Is A Frontier Firm?</p>
+                  </button>
+                )}
 
                 {revealedStep >= 1 && (
                   <button
                     type="button"
                     onClick={() => setRevealedStep((s) => Math.max(s, 2))}
-                    className="w-full text-left rounded-lg border border-slate-200 bg-white p-5 md:p-6 hover:brightness-95 transition animate-[fadeIn_.25s_ease-out]"
+                    className="w-full text-left rounded-lg border border-slate-200 bg-white p-6 md:p-7 hover:brightness-95 transition animate-[fadeIn_.25s_ease-out]"
                   >
-                    <p className="text-xs font-extrabold uppercase tracking-widest text-slate-700">In Practice:</p>
-                    <ul className="mt-3 list-disc pl-5 space-y-2 text-sm md:text-base font-medium text-slate-700 leading-snug">
+                    <p className="text-sm md:text-base font-extrabold uppercase tracking-widest text-slate-700">In Practice:</p>
+                    <ul className="mt-4 list-disc pl-6 space-y-3 text-base md:text-xl font-semibold text-slate-700 leading-snug">
                       <li>AI is embedded into repeatable workflows, not one-off pilots or novelty tasks.</li>
                       <li>Teams standardise prompts, playbooks, and quality checks so outputs are reliable at scale.</li>
                       <li>Operational decisions become increasingly data-driven, with automation handling routine steps.</li>
