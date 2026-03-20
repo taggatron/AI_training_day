@@ -2545,42 +2545,53 @@
                       </button>
                     )}
 
-                    {activeConcept === 'embeddings' && showEmbeddingsGraph && (
-                      <button
-                        type="button"
-                        onClick={() => setShowEmbeddingsGraph(false)}
-                        className="mt-3 ml-2 inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 bg-white text-slate-700 text-xs font-extrabold tracking-widest uppercase hover:bg-slate-100"
-                      >
-                        Back To Text View
-                      </button>
-                    )}
-
-                    {activeConcept === 'embeddings' && showEmbeddingsGraph ? (
-                      <div className="mt-4">
-                        <EmbeddingSpace3DGraph />
+                    <div className="mt-4 space-y-3 text-sm md:text-base text-slate-700">
+                      <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+                        <p className="font-semibold text-slate-900">How it works</p>
+                        <p className="mt-1">{active.explanation}</p>
                       </div>
-                    ) : (
-                      <div className="mt-4 space-y-3 text-sm md:text-base text-slate-700">
-                        <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
-                          <p className="font-semibold text-slate-900">How it works</p>
-                          <p className="mt-1">{active.explanation}</p>
-                        </div>
 
-                        <div className="rounded-lg border border-cyan-200 bg-cyan-50 p-3">
-                          <p className="font-semibold text-cyan-900">Business use</p>
-                          <p className="mt-1 text-cyan-900/90">{active.business}</p>
-                        </div>
-
-                        <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3">
-                          <p className="font-semibold text-emerald-900">Key takeaway</p>
-                          <p className="mt-1 text-emerald-900/90">{active.takeaway}</p>
-                        </div>
+                      <div className="rounded-lg border border-cyan-200 bg-cyan-50 p-3">
+                        <p className="font-semibold text-cyan-900">Business use</p>
+                        <p className="mt-1 text-cyan-900/90">{active.business}</p>
                       </div>
-                    )}
+
+                      <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3">
+                        <p className="font-semibold text-emerald-900">Key takeaway</p>
+                        <p className="mt-1 text-emerald-900/90">{active.takeaway}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+
+            {showEmbeddingsGraph && (
+              <div
+                className="fixed inset-0 z-[90] bg-slate-950/70 backdrop-blur-sm grid place-items-center p-4"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Animated embedding space"
+                onClick={(e) => { if (e.target === e.currentTarget) setShowEmbeddingsGraph(false); }}
+              >
+                <div className="w-full max-w-4xl rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/30 overflow-hidden">
+                  <div className="h-12 border-b border-slate-200 bg-white/90 flex items-center justify-between px-4">
+                    <p className="text-[11px] font-extrabold tracking-widest uppercase text-violet-700">Animated Embedding Space</p>
+                    <button
+                      type="button"
+                      onClick={() => setShowEmbeddingsGraph(false)}
+                      className="inline-flex items-center justify-center px-3 py-1 rounded-lg border border-slate-200 bg-white text-slate-700 text-xs font-extrabold tracking-widest uppercase hover:bg-slate-50"
+                    >
+                      Close
+                    </button>
+                  </div>
+
+                  <div className="p-4 md:p-5 bg-white">
+                    <EmbeddingSpace3DGraph />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       );
@@ -3094,18 +3105,20 @@
       const GDPVAL_CHART_SRC = encodeURI("./GDPval_ OpenAI frontier model performance over time.png");
       const [showResearch, setShowResearch] = useState(false);
       const [showSourceModal, setShowSourceModal] = useState(false);
+      const [showChartModal, setShowChartModal] = useState(false);
       const [showBusinessPanel, setShowBusinessPanel] = useState(true);
 
       useEffect(() => {
-        if (!showSourceModal) return;
+        if (!showSourceModal && !showChartModal) return;
         const onKeyDown = (e) => {
           if (e.key === 'Escape') {
             setShowSourceModal(false);
+            setShowChartModal(false);
           }
         };
         window.addEventListener('keydown', onKeyDown);
         return () => window.removeEventListener('keydown', onKeyDown);
-      }, [showSourceModal]);
+      }, [showSourceModal, showChartModal]);
 
       return (
         <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 flex flex-col overflow-hidden">
@@ -3158,12 +3171,19 @@
 
               <div className={`mt-5 grid grid-cols-1 ${showResearch ? 'lg:grid-cols-3' : 'lg:grid-cols-1'} gap-4 items-stretch`}>
                 <div className={`${showResearch ? 'lg:col-span-2' : 'max-w-3xl mx-auto w-full'} overflow-hidden rounded-xl border border-slate-200 bg-white`}>
-                  <img
-                    src={GDPVAL_CHART_SRC}
-                    alt="GDPval OpenAI frontier model performance over time"
-                    className="w-full h-auto object-contain"
-                    loading="lazy"
-                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowChartModal(true)}
+                    className="w-full text-left focus:outline-none focus:ring-4 focus:ring-cyan-300/40"
+                    aria-label="Open GDPval chart image"
+                  >
+                    <img
+                      src={GDPVAL_CHART_SRC}
+                      alt="GDPval OpenAI frontier model performance over time"
+                      className="w-full h-auto object-contain"
+                      loading="lazy"
+                    />
+                  </button>
                 </div>
 
                 {showResearch && (
@@ -3241,6 +3261,38 @@
                   >
                     Open in new tab <ArrowRight className="w-4 h-4" />
                   </a>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {showChartModal && (
+            <div
+              className="fixed inset-0 z-[75] bg-slate-950/80 backdrop-blur-sm grid place-items-center p-4"
+              role="dialog"
+              aria-modal="true"
+              aria-label="GDPval chart preview"
+              onClick={(e) => { if (e.target === e.currentTarget) setShowChartModal(false); }}
+            >
+              <div className="w-full max-w-6xl rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/30 overflow-hidden">
+                <div className="h-12 border-b border-slate-200 bg-white/90 flex items-center justify-between px-4">
+                  <p className="text-[11px] font-extrabold tracking-widest uppercase text-slate-700">GDPval Chart Preview</p>
+                  <button
+                    type="button"
+                    onClick={() => setShowChartModal(false)}
+                    className="inline-flex items-center justify-center px-3 py-1 rounded-lg border border-slate-200 bg-white text-slate-700 text-xs font-extrabold tracking-widest uppercase hover:bg-slate-50"
+                  >
+                    Close
+                  </button>
+                </div>
+
+                <div className="max-h-[82vh] overflow-auto bg-slate-100 p-3 md:p-4">
+                  <img
+                    src={GDPVAL_CHART_SRC}
+                    alt="GDPval OpenAI frontier model performance over time"
+                    className="w-full h-auto object-contain"
+                    loading="lazy"
+                  />
                 </div>
               </div>
             </div>
