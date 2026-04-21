@@ -217,13 +217,15 @@
       overflow: hidden;
       isolation: isolate;
       will-change: transform, opacity, filter;
-      animation: pixel-fly-loop 9s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+      /* Keep slide-1 video consistently visible. */
+      animation: none;
       transform-origin: center center;
     }
 
     .title-video-shell {
       will-change: transform, opacity, filter;
-      animation: title-video-shell-loop 9s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+      /* Keep slide-1 video consistently visible. */
+      animation: none;
       transform-origin: center center;
     }
 
@@ -596,9 +598,30 @@
       return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
     }
 
+    function parseClockInput(value) {
+      if (typeof value !== 'string') return null;
+      const raw = value.trim();
+      if (!raw) return null;
+
+      if (raw.includes(':')) {
+        const parts = raw.split(':').map((p) => p.trim());
+        if (parts.length !== 2) return null;
+        const mins = Number(parts[0]);
+        const secs = Number(parts[1]);
+        if (!Number.isFinite(mins) || !Number.isFinite(secs)) return null;
+        if (mins < 0 || secs < 0 || secs > 59) return null;
+        return Math.max(1, Math.floor(mins * 60 + secs));
+      }
+
+      const minutesAsNumber = Number(raw);
+      if (!Number.isFinite(minutesAsNumber) || minutesAsNumber <= 0) return null;
+      return Math.max(1, Math.floor(minutesAsNumber * 60));
+    }
+
     function SectionTimer({ label, minutes = 20 }) {
       const startingSeconds = Math.max(60, Math.floor(minutes * 60));
       const [running, setRunning] = useState(false);
+      const [defaultSeconds, setDefaultSeconds] = useState(startingSeconds);
       const [secondsLeft, setSecondsLeft] = useState(startingSeconds);
 
       useEffect(() => {
@@ -615,10 +638,37 @@
         return () => window.clearInterval(id);
       }, [running]);
 
+      const isComplete = secondsLeft === 0;
+
+      const handleTimeEdit = () => {
+        const userInput = window.prompt(
+          `Set ${label} (mm:ss or minutes):`,
+          toClock(secondsLeft)
+        );
+        if (userInput === null) return;
+
+        const parsedSeconds = parseClockInput(userInput);
+        if (!parsedSeconds) {
+          window.alert('Enter a valid time like 25:00 or 25');
+          return;
+        }
+
+        setRunning(false);
+        setDefaultSeconds(parsedSeconds);
+        setSecondsLeft(parsedSeconds);
+      };
+
       return (
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-200 bg-white/80 backdrop-blur-md shadow-sm">
+        <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border bg-white/80 backdrop-blur-md shadow-sm transition-all duration-300 ${isComplete ? 'border-fuchsia-500 bg-fuchsia-100/90 shadow-[0_0_0_1px_rgba(217,70,239,0.45),0_0_20px_rgba(192,38,211,0.65)] animate-[pulse_.75s_ease-in-out_infinite]' : 'border-slate-200'}`}>
           <Clock3 className="w-3.5 h-3.5 text-fuchsia-700 shrink-0" />
-          <span className="text-[11px] font-bold tabular-nums text-slate-950 whitespace-nowrap">{toClock(secondsLeft)}</span>
+          <button
+            type="button"
+            onClick={handleTimeEdit}
+            className="text-[11px] font-bold tabular-nums text-slate-950 whitespace-nowrap rounded px-1 hover:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-500"
+            title={`Edit ${label} time`}
+          >
+            {toClock(secondsLeft)}
+          </button>
           <div className="flex flex-col gap-1">
             <button
               type="button"
@@ -629,7 +679,7 @@
             </button>
             <button
               type="button"
-              onClick={() => { setRunning(false); setSecondsLeft(startingSeconds); }}
+              onClick={() => { setRunning(false); setSecondsLeft(defaultSeconds); }}
               className="px-2 py-0.5 rounded-full border border-slate-200 bg-white text-[10px] font-extrabold tracking-wider uppercase text-slate-700 hover:bg-slate-50"
             >
               Reset
@@ -856,6 +906,7 @@
 
     function AIVisionHandsUpPanel({ onCountsChange }) {
       const slides = [
+        { id: 'ai-0', label: 'AI?', title: 'Epilepsy clip', src: './Epilepsyclip.mov', type: 'video' },
         { id: 'ai-1', label: 'AI', title: 'Turing Tutor', src: './TuringTutor.png' },
         { id: 'ai-2', label: 'Not AI', title: 'Supermarket self checkout', src: './supermarketselfcheckout.png' },
         { id: 'ai-3', label: 'AI', title: 'Sales analytics dashboard', src: './salesdashboard.png' },
@@ -1226,6 +1277,14 @@
                       </div>
                     )}
                   </>
+                ) : activeSlide.type === 'video' ? (
+                  <video
+                    src={activeSlide.src}
+                    className="h-full w-full object-contain"
+                    controls
+                    playsInline
+                    preload="metadata"
+                  />
                 ) : (
                   <img src={activeSlide.src} alt={activeSlide.title} className="h-full w-full object-contain" />
                 )}
@@ -1442,6 +1501,16 @@
     function TitleSlide() {
       const titleVideoSrc = encodeURI("20260319_1619_New Video_simple_compose_01km3eaceee0ebksn00tmnprae.mp4");
       const collegeLogoSrc = encodeURI("SOUTH-DEVON-COLLEGE-Picture1-800x213.jpg");
+      const titleVideoRef = useRef(null);
+
+      useEffect(() => {
+        const video = titleVideoRef.current;
+        if (!video) return;
+        const playPromise = video.play();
+        if (playPromise && typeof playPromise.catch === 'function') {
+          playPromise.catch(() => {});
+        }
+      }, []);
 
       return (
         <div className="relative min-h-screen w-full px-4 md:px-6 py-8 md:py-10 flex flex-col overflow-hidden">
@@ -1488,6 +1557,7 @@
               <div className="title-video-shell mx-auto w-full max-w-2xl rounded-[1.45rem] border border-slate-200/80 bg-white/70 backdrop-blur-md p-2 md:p-2.5 shadow-2xl shadow-cyan-900/10">
                 <div className="pixel-fly-loop rounded-[1rem] border border-cyan-100 bg-slate-950 aspect-[16/7.4] shadow-[0_20px_52px_-34px_rgba(14,116,144,0.55)]">
                   <video
+                    ref={titleVideoRef}
                     src={titleVideoSrc}
                     autoPlay
                     muted
@@ -2453,7 +2523,7 @@
             <p className="text-xs font-extrabold tracking-widest uppercase text-violet-700">Animated Embedding Space</p>
             <p className="text-[11px] font-semibold text-violet-700/80">3D vectors and axes show semantic direction</p>
           </div>
-          <div className="mt-3 h-64 rounded-xl border border-violet-200 bg-gradient-to-br from-white via-violet-100/40 to-cyan-100/40">
+          <div className="mt-3 h-[56vh] min-h-[360px] max-h-[64vh] rounded-xl border border-violet-200 bg-gradient-to-br from-white via-violet-100/40 to-cyan-100/40 overflow-hidden">
             <div ref={plotRef} className="w-full h-full" />
           </div>
           <p className="mt-3 text-xs md:text-sm font-medium text-violet-900/90">
@@ -2574,7 +2644,7 @@
                 aria-label="Animated embedding space"
                 onClick={(e) => { if (e.target === e.currentTarget) setShowEmbeddingsGraph(false); }}
               >
-                <div className="w-full max-w-4xl rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/30 overflow-hidden">
+                <div className="w-full max-w-5xl max-h-[92vh] rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/30 overflow-hidden flex flex-col">
                   <div className="h-12 border-b border-slate-200 bg-white/90 flex items-center justify-between px-4">
                     <p className="text-[11px] font-extrabold tracking-widest uppercase text-violet-700">Animated Embedding Space</p>
                     <button
@@ -2586,7 +2656,7 @@
                     </button>
                   </div>
 
-                  <div className="p-4 md:p-5 bg-white">
+                  <div className="p-3 md:p-4 bg-white overflow-y-auto">
                     <EmbeddingSpace3DGraph />
                   </div>
                 </div>

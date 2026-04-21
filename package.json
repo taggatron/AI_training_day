@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "npx --yes serve -l 8080 ."
+    "start": "npx --yes serve -l 8080 .",
+    "export:slides": "node tools/export-slides.js"
   },
   "dependencies": {
     "firebase": "^12.10.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.59.1"
   }
 }
